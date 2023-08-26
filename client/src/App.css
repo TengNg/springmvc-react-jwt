@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .div--style {
+        @apply border-black border-[4px] m-3 p-3 w-fit shadow-[4px_5px_0_0_black] select-none font-bold bg-white
+    }
+
+    .button--style {
+        @apply border-black border-[4px] w-[100%] h-[100%] shadow-[4px_5px_0_0_black] select-none transition-all font-bold bg-white
+    }
+
+    .button--hover {
+        @apply hover:shadow-none hover:m-[2px_0_0_4px] hover:shadow-gray-600 hover:text-gray-600 hover:border-gray-600
+    }
+
+    .button--clicked {
+        @apply shadow-none m-[2px_0_0_4px] shadow-gray-600 text-gray-600 border-gray-600
+    }
+
+    .button--warn {
+        @apply border-red-700 text-red-700 bg-pink-50 shadow-pink-700 hover:shadow-red-700 hover:text-red-700 hover:border-red-700
+    }
+
+    .flex--center {
+        @apply flex justify-center items-center
+    }
+
+    .section--style {
+        @apply border-black border-[4px] shadow-[6px_8px_0_0_black] bg-gray-200
+    }
+
+    .label--style {
+        @apply font-bold select-none
+    }
+
+    .underline--style {
+        @apply before:content-[''] before:absolute before:w-[50%] before:h-[0.5rem] before:bg-black before:bottom-[-0.75rem] before:mx-auto before:left-0 before:right-0 before:transition-all before:duration-500
+    }
+
+    .underline--hover {
+        @apply before:hover:w-[80%] before:hover:bg-gray-500
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    font-family: 'IBM Plex Sans', Arial, sans-serif, monospace;
+}
+
+a {
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+}
+
+a:hover {
+    color: #535bf2;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+h1 {
+    font-size: 3.5em;
+}
+
