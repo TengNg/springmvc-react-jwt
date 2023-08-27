@@ -2,7 +2,7 @@
 
 - (WIP)
 
-### Setup
+#### Quickstart
 
 1. Clone this repo
 2. Setup client
@@ -11,5 +11,5 @@
    npm install
    npm run dev
    ```
-3. Setup server (See server/CONTRIBUTING.md)
+3. Setup server (See server/ecommerce/CONTRIBUTING.md)
 
