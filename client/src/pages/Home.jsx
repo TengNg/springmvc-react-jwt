@@ -11,14 +11,11 @@ const Home = () => {
 
     useEffect(() => {
         const getProducts = async () => {
-            try {
-                const response = await axios.get("/api/products/");
-                setProducts(response?.data?.products);
-            } catch (err) {
-                console.log(err);
-            }
+            const response = await axios.get("/api/products/");
+            setProducts(response?.data?.products);
         };
         getProducts().catch(err => {
+            navigate('/login');
             console.log(err);
         });
     }, []);
