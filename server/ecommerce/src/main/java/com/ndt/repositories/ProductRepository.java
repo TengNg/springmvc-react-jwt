@@ -20,4 +20,15 @@ public class ProductRepository {
         Query q = s.createQuery("FROM Product");
         return q.getResultList();
     }
+
+    public Product getProductById(int id) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("FROM Product WHERE id=:id");
+		q.setParameter("id", id);
+		List results = q.getResultList();
+		if (results.isEmpty()){
+			return null;
+		}	
+		return (Product) results.get(0);
+    }
 }

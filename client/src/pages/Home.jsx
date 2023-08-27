@@ -1,14 +1,47 @@
-import React from 'react'
-import Title from '../components/Title'
-import NavBar from '../components/NavBar'
+import axios from "../api/axios";
+import { useState, useEffect } from "react";
+import UserAccount from "../components/UserAccount";
+import ProductItem from "../components/ProductItem";
+import { useNavigate } from 'react-router-dom';
 
-export default function Home() {
+const Home = () => {
+    const [products, setProducts] = useState();
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const getProducts = async () => {
+            try {
+                const response = await axios.get("/api/products/");
+                setProducts(response?.data?.products);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        getProducts().catch(err => {
+            console.log(err);
+        });
+    }, []);
+
+    const handleOnClick = (id) => {
+        navigate(`/product/${id}`);
+    };
+
     return (
-        <>
-            <div className="w-[100%] h-[100vh] flex flex-col bg-gray-300">
-                <Title titleName={"Testing"}/>
-                <NavBar />
+        <div className="w-[100%] h-[100%] relative">
+            <UserAccount />
+            <div className="flex flex-wrap justify-center items-center max-w-[60%]">
+                {products &&
+                    products.map(product => {
+                        return <ProductItem
+                            handleOnClick={handleOnClick}
+                            key={product.id} product={product}
+                        />
+                    })
+                }
             </div>
-        </>
+        </div>
     )
 }
+
+export default Home

@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,28 +36,36 @@ import org.springframework.web.bind.annotation.RestController;
 			RequestMethod.PATCH, RequestMethod.OPTIONS,
 			RequestMethod.HEAD, RequestMethod.TRACE}
 )
-public class ProductController {
+public class UserController {
 	@Autowired
-	private ProductService productService;
+	private JwtService jwtService;
 
-    @GetMapping("/products")
-    public ResponseEntity<Map<String, Object>> products() {
+	@Autowired
+	private UserService userService;
+
+    @GetMapping("/account")
+    public ResponseEntity<Map<String, Object>> products(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
+		if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+		}
+		String token = authorizationHeader.substring(7);
+
+		if (token == null || token.isEmpty() || token.length() == 0) {
+			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+		}
+
+		String username = this.jwtService.getUsernameFromToken(token);
+
+		if (username == null) {
+			return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+		}	
+
+		User user = this.userService.getUserByUsername(username);
 		Map<String, Object> data = new HashMap<>();
-		List<Product> products = this.productService.getProducts();
-		data.put("products", products);
+		data.put("user", user);
+		data.put("accessToken", token);
+
 		return new ResponseEntity<>(data, HttpStatus.OK);
     }
-
-	@GetMapping("/products/{id}")
-	public ResponseEntity<Map<String, Object>> product(@PathVariable(value = "id") int id) {
-		Product foundProduct = this.productService.getProductById(id);
-		if (foundProduct == null) {
-			Map<String, Object> data = new HashMap<>();
-			data.put("msg", "no product found");
-			return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
-		}
-		Map<String, Object> data = new HashMap<>();
-		data.put("product", foundProduct);
-		return new ResponseEntity<>(data, HttpStatus.OK);
-	}
 }
+

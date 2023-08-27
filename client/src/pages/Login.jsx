@@ -23,7 +23,7 @@ export default function Login() {
         const isLoggedIn = async () => {
             const response = await axiosPrivate.get('/check-cookies/');
             if (response.status === 200) {
-                navigate('/products/')
+                navigate('/', { replace: true });
             }
         }
         isLoggedIn().catch(_ => {
@@ -41,7 +41,7 @@ export default function Login() {
             setUsername('');
             setPassword('');
             setSuccess(true);
-            navigate('/products/');
+            navigate('/');
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
