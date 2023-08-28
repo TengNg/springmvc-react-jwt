@@ -3,8 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import Test from './pages/Test'
-import Product from './components/Product'
+import Product from './components/product/Product'
 
 function App() {
     return (
@@ -15,10 +14,8 @@ function App() {
                         <Route key={index} path={path} element={<Home />} />
                     )
                 })}
-                <Route path={"/test"} element={<Test />} />
                 <Route path={"/login"} element={<Login />} />
                 <Route path={"/register"} element={<Register />} />
-                <Route path={"/test-page"} element={<Test />} />
                 <Route path={"/product/:productId"} element={<Product />} />
             </Routes>
         </>

@@ -2,7 +2,7 @@ const ProductItem = ({ product, handleOnClick }) => {
     const { id, name, price } = product;
     return (
         <div
-            className='div--style w-[15rem] h-[5rem]'
+            className='div--style div--hover--style w-[15rem] h-[5rem]'
             onClick={() => {
                 handleOnClick(id);
             }}

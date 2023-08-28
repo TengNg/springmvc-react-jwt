@@ -56,8 +56,15 @@ public class UserRepository {
         return u;
     }
 
-    public void save(User u) {
+    public void update(User u) {
         Session s = this.factory.getObject().getCurrentSession();
 		s.update(u);
+    }
+
+    public void delete(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+		Query q = s.createQuery("DELETE FROM User WHERE id=:id");
+		q.setParameter("id", id);
+		q.executeUpdate();
     }
 }

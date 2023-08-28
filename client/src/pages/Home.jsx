@@ -1,7 +1,7 @@
 import axios from "../api/axios";
 import { useState, useEffect } from "react";
 import UserAccount from "../components/UserAccount";
-import ProductItem from "../components/ProductItem";
+import ProductItem from "../components/product/ProductItem";
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
@@ -25,7 +25,7 @@ const Home = () => {
     };
 
     return (
-        <div className="w-[100%] h-[100%] relative">
+        <section className="w-[100%] h-[100%] relative">
             <UserAccount />
             <div className="flex flex-wrap justify-center items-center max-w-[60%]">
                 {products &&
@@ -37,7 +37,7 @@ const Home = () => {
                     })
                 }
             </div>
-        </div>
+        </section>
     )
 }
 

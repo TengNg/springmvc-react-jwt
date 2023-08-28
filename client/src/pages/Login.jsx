@@ -4,6 +4,7 @@ import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { axiosPrivate } from '../api/axios';
 import Title from '../components/Title';
+import { BasicLayout } from '../components/common/BasicLayout';
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -58,14 +59,8 @@ export default function Login() {
 
     return (
         <>
-            <section className='relative w-[100%] h-[100vh] flex flex-col items-center p-5 gap-3 bg-gray-300'>
+            <BasicLayout styles={'relative w-[100%] h-[100vh] flex flex-col items-center p-5 gap-3 bg-gray-300'}>
                 <Title titleName={"Login"} />
-                <div className='w-[100px] h-[3rem] absolute left-[1rem] top-[1rem]'>
-                    <button
-                        className='button--style button--hover'
-                        onClick={() => navigate(from, { replace: true })}
-                    >Back</button>
-                </div>
                 <form onSubmit={handleSubmit} className='flex flex-col section--style p-4'>
                     <label htmlFor="username" className='label--style'>Username:</label>
                     <input
@@ -110,7 +105,7 @@ export default function Login() {
                     </div>
                 </div>
 
-            </section>
+            </BasicLayout>
         </>
     )
 }

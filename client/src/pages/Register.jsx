@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios, { axiosPrivate } from '../api/axios';
 import Title from '../components/Title';
+import { BasicLayout } from '../components/common/BasicLayout';
 
 // const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 // const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -92,13 +93,7 @@ export default function Register() {
 
     return (
         <>
-            <section className='relative w-[100%] h-[100vh] flex flex-col items-center p-5 gap-2 bg-gray-300'>
-                <div className='w-[100px] h-[3rem] absolute left-[1rem] top-[1rem]'>
-                    <button
-                        className='button--style button--hover'
-                        onClick={() => navigate(from, { replace: true })}
-                    >Back</button>
-                </div>
+            <BasicLayout styles={'relative w-[100%] h-[100vh] flex flex-col items-center p-5 gap-2 bg-gray-300'}>
                 <Title titleName={"Register"} />
                 <form onSubmit={handleSubmit} className='flex flex-row section--style p-4'>
                     <div
@@ -165,7 +160,7 @@ export default function Register() {
                         </Link>
                     </div>
                 </div>
-            </section>
+            </BasicLayout>
         </>
     )
 }

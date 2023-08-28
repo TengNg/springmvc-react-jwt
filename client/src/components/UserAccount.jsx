@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
-export default function UserInfo() {
+export default function UserAccount() {
     const { auth, setAuth } = useAuth();
 
     const navigate = useNavigate();
@@ -20,7 +20,6 @@ export default function UserInfo() {
         }
         getUserInformation().catch(err => {
             console.log(err);
-            navigate('/');
         });
     }, []);
 
@@ -32,12 +31,15 @@ export default function UserInfo() {
             setAuth({});
             navigate('/', { replace: true });
         }
-    }
+    };
+
+    const handleOpenUserCart = () => {
+    };
 
     return (
         <>
             {Object.keys(auth).length === 0 || !auth?.accessToken ? (
-                <div className='absolute w-[8rem] h-[3rem] top-[0.75rem] right-[1rem]'>
+                <div className='absolute w-[8rem] h-[3rem] top-[1rem] right-[1rem]'>
                     <button
                         onClick={() => navigate("/login")}
                         className='button--style button--hover'
@@ -49,6 +51,7 @@ export default function UserInfo() {
                         <h3 className="font-bold">Username: {auth?.username}</h3>
                         <h3 className="font-bold">Email: {auth?.email}</h3>
                     </div>
+                    <div className='w-[95%] h-[3rem]'><button onClick={handleOpenUserCart} className='button--style button--hover'>Cart</button></div>
                     <div className='w-[95%] h-[3rem]'><button onClick={handleLogout} className='button--style button--hover'>Logout</button></div>
                 </div>
             )}

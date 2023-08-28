@@ -4,10 +4,11 @@
 
 @layer components {
     .div--style {
-        @apply border-black border-[4px] m-3 p-3 w-fit shadow-[4px_5px_0_0_black] select-none cursor-pointer font-bold bg-white hover:border-gray-600 hover:shadow-gray-600
+        @apply border-black border-[4px] m-3 p-3 w-fit shadow-[4px_5px_0_0_black] select-none font-bold bg-white
     }
 
     .div--hover--style {
+        @apply hover:border-gray-600 hover:shadow-gray-600 cursor-pointer
     }
 
     .button--style {
@@ -69,9 +70,8 @@ a:hover {
 
 body {
     margin: 0;
-    min-width: 320px;
-    min-height: 100vh;
-    overflow: hidden;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 h1 {

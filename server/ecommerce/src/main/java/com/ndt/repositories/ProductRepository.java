@@ -31,4 +31,11 @@ public class ProductRepository {
 		}	
 		return (Product) results.get(0);
     }
+
+	public void deleteProductById(int id) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("DELETE FROM Product WHERE id=:id");
+		q.setParameter("id", id);
+		q.executeUpdate();
+	}
 }

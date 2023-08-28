@@ -18,4 +18,8 @@ public class ProductService {
     public Product getProductById(int id) {
         return this.productRepo.getProductById(id);
     }
+
+	public void deleteProductById(int id) {
+		this.productRepo.deleteProductById(id);
+	}
 }

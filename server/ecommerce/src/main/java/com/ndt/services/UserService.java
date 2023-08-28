@@ -36,6 +36,6 @@ public class UserService {
 
 	public void updateRefreshToken(User user, String refreshToken) {
 		user.setRefreshToken(refreshToken);
-		userRepo.save(user);
+		userRepo.update(user);
 	}
 }
