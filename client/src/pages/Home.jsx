@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const [products, setProducts] = useState();
+    const [error, setError] = useState(false);
 
     const navigate = useNavigate();
 
@@ -15,8 +16,8 @@ const Home = () => {
             setProducts(response?.data?.products);
         };
         getProducts().catch(err => {
-            navigate('/login');
             console.log(err);
+            setError(true);
         });
     }, []);
 
@@ -24,10 +25,15 @@ const Home = () => {
         navigate(`/product/${id}`);
     };
 
+    if (error) {
+        return <section className="w-[100%] grid place-items-center">
+            <h1>Oops, server error :(</h1>
+        </section>
+    }
+
     return (
-        <section className="w-[100%] h-[100%] relative">
-            <UserAccount />
-            <div className="flex flex-wrap justify-center items-center max-w-[60%]">
+        <section className="w-[60%] h-[100%] relative">
+            <div className="flex flex-wrap justify-center items-center w-[100%]">
                 {products &&
                     products.map(product => {
                         return <ProductItem

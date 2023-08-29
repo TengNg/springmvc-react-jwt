@@ -1,5 +1,7 @@
 package com.ndt.configs;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import static org.hibernate.cfg.AvailableSettings.DIALECT;
 import static org.hibernate.cfg.AvailableSettings.SHOW_SQL;
 import org.springframework.core.env.Environment;
@@ -15,6 +17,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 @Configuration
 @PropertySource("classpath:database1.properties")
+@PropertySource("classpath:configs.properties")
 public class HibernateConfig {
     @Autowired
     private Environment env;
@@ -53,4 +56,17 @@ public class HibernateConfig {
         transactionManager.setSessionFactory(getSessionFactory().getObject());
         return transactionManager;
     }
+
+	@Bean
+	public Cloudinary cloudinary() {
+		Cloudinary cloudinary = new Cloudinary(
+				ObjectUtils.asMap(
+						"cloud_name", this.env.getProperty("cloudinary.cloud_name"),
+						"api_key", this.env.getProperty("cloudinary.api_id"),
+						"api_secret", this.env.getProperty("cloudinary.api_secret"),
+						"secure", true
+				)
+		);
+		return cloudinary;
+	}
 }

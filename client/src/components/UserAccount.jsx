@@ -39,7 +39,7 @@ export default function UserAccount() {
     return (
         <>
             {Object.keys(auth).length === 0 || !auth?.accessToken ? (
-                <div className='absolute w-[8rem] h-[3rem] top-[1rem] right-[1rem]'>
+                <div className='absolute w-[8rem] h-[3rem] top-[0.75rem] right-[1rem]'>
                     <button
                         onClick={() => navigate("/login")}
                         className='button--style button--hover'

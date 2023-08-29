@@ -13,10 +13,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -37,6 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
     @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active"),
     @NamedQuery(name = "User.findByUserRole", query = "SELECT u FROM User u WHERE u.userRole = :userRole")})
+@Getter
+@Setter
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -83,6 +89,13 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "refresh_token")
     private String refreshToken;
+
+    @Basic(optional = false)
+    @Column(name = "profile_image")
+    private String profileImage;
+
+	@Transient
+	private MultipartFile file;
 
     public User() {
     }
@@ -215,5 +228,5 @@ public class User implements Serializable {
     public String toString() {
         return "com.dht.pojo.User[ id=" + id + " ]";
     }
-    
+
 }

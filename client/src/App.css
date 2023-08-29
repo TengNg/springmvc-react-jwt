@@ -46,6 +46,14 @@
     .underline--hover {
         @apply before:hover:w-[80%] before:hover:bg-gray-500
     }
+
+    .anchor--style {
+        @apply hover:text-white hover:bg-gray-400 text-black flex justify-center items-center p-2 rounded-md transition-all
+    }
+
+    .anchor--style--selected {
+        @apply hover:text-white text-white bg-gray-500 flex justify-center items-center p-2 rounded-md
+    }
 }
 
 * {
@@ -56,6 +64,7 @@
 
 :root {
     font-family: 'IBM Plex Sans', Arial, sans-serif, monospace;
+    background-color: rgb(209, 213, 219);
 }
 
 a {

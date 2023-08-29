@@ -15,6 +15,8 @@ export const axiosTest = axios.create({
 export const axiosPrivate = axios.create({
     baseURL: `${BASE_URL}`,
     withCredentials: true,
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+        'Content-Type': 'multipart/form-data',
+    },
 });
 

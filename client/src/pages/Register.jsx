@@ -44,6 +44,7 @@ export default function Register() {
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         setImage(file);
+        console.log(file);
 
         if (file) {
             const reader = new FileReader();
@@ -73,8 +74,13 @@ export default function Register() {
             return;
         }
 
+        const formData = new FormData();
+        formData.append('image', image);
+        formData.append('username', username);
+        formData.append('password', password);
+
         try {
-            await axiosPrivate.post('/register', { username, password });
+            await axiosPrivate.post('/register', formData);
             setSuccess(true);
             setUsername('');
             setPassword('');

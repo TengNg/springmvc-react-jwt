@@ -18,6 +18,7 @@ const Product = () => {
         };
         getProductData().catch((err) => {
             console.log(err);
+            navigate("/");
         });
     }, []);
 

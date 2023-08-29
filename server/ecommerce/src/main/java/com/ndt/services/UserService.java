@@ -4,13 +4,20 @@
  */
 package com.ndt.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.ndt.pojo.User;
 import com.ndt.repositories.UserRepository;
+import java.io.IOException;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+    @Autowired
+    private Cloudinary cloudinary;
+
     @Autowired
     private UserRepository userRepo;
     
@@ -30,7 +37,7 @@ public class UserService {
 		this.userRepo.updateRefreshToken(username, refreshToken);
 	}
     
-    public User addUser(User user) {
+    public User addUser(User user) throws IOException {
 		return this.userRepo.addUser(user);
     }
 
