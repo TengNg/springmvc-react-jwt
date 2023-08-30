@@ -4,7 +4,7 @@
 
 @layer components {
     .div--style {
-        @apply border-black border-[4px] m-3 p-3 w-fit shadow-[4px_5px_0_0_black] select-none font-bold bg-white
+        @apply border-black border-[3px] m-3 p-3 w-fit shadow-[4px_5px_0_0_black] select-none font-bold bg-white
     }
 
     .div--hover--style {
@@ -33,6 +33,14 @@
 
     .section--style {
         @apply border-black border-[4px] shadow-[6px_8px_0_0_black] bg-gray-200
+    }
+
+    .section--style--2 {
+        @apply border-black border-[4px] shadow-[4px_8px_0_0_black] bg-gray-50
+    }
+
+    .section--style--3 {
+        @apply border-black border-[3px] shadow-[3px_5px_0_0_black] bg-gray-50
     }
 
     .label--style {
