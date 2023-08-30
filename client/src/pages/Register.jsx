@@ -44,7 +44,6 @@ export default function Register() {
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         setImage(file);
-        console.log(file);
 
         if (file) {
             const reader = new FileReader();
@@ -52,7 +51,6 @@ export default function Register() {
                 setPreviewImage(reader.result);
             };
             reader.readAsDataURL(file);
-            console.log(reader);
         }
     };
 

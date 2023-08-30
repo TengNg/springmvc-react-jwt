@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,36 +47,45 @@ public class RegisterController {
     
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private Cloudinary cloudinary;
     
-	@PostMapping(path = "/register",
+	// @PostMapping(path = "/register",
+	// 		consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
+	// 		produces = {MediaType.APPLICATION_JSON_VALUE})
+    // public ResponseEntity<Map<String, Object>> login(
+	// 		@RequestParam("image") MultipartFile imageFile,
+	// 		@RequestParam("username") String username,
+	// 		@RequestParam("password") String password
+	// ) throws IOException {
+	// 	User foundUser = this.userService.getUserByUsername(username);
+
+	// 	if (foundUser != null) {
+	// 		Map<String, Object> data = new HashMap<>();
+	// 		data.put("msg", "username is already exist");
+	// 		return new ResponseEntity<>(data, HttpStatus.CONFLICT);
+	// 	}
+
+	// 	Map<String, Object> uploadResult= uploadResult = this.cloudinary.uploader().upload(imageFile.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
+	// 	String imageUrl = (String) uploadResult.get("url");
+
+	// 	// User newUser = this.userService.addUser(user);
+
+	// 	Map<String, Object> data = new HashMap<>();
+	// 	data.put("msg", "new user created");
+	// 	data.put("[?]", imageUrl);
+
+	// 	return new ResponseEntity<>(data, HttpStatus.CREATED);
+    // }
+
+	@PostMapping(
+			path = "/register",
 			consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
-			produces = {MediaType.APPLICATION_JSON_VALUE})
-	@CrossOrigin
-    public ResponseEntity<Map<String, Object>> login(
-			@RequestParam("image") MultipartFile imageFile,
-			@RequestParam("username") String username,
-			@RequestParam("password") String password
-	) throws IOException {
-		User foundUser = this.userService.getUserByUsername(username);
-
-		if (foundUser != null) {
-			Map<String, Object> data = new HashMap<>();
-			data.put("msg", "username is already exist");
-			return new ResponseEntity<>(data, HttpStatus.CONFLICT);
-		}
-
-		Map<String, Object> uploadResult= uploadResult = this.cloudinary.uploader().upload(imageFile.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
-		String imageUrl = (String) uploadResult.get("url");
-
-		// User newUser = this.userService.addUser(user);
-
+			produces = {MediaType.APPLICATION_JSON_VALUE}
+	)
+	public ResponseEntity<?> addUser(@RequestParam Map<String, String> params, @RequestPart MultipartFile image) {
+		User newUser = this.userService.addUser(params, image);
 		Map<String, Object> data = new HashMap<>();
 		data.put("msg", "new user created");
-		data.put("[?]", imageUrl);
-
+		data.put("new_user", newUser);
 		return new ResponseEntity<>(data, HttpStatus.CREATED);
-    }
+	}
 }

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserService {
@@ -37,8 +38,27 @@ public class UserService {
 		this.userRepo.updateRefreshToken(username, refreshToken);
 	}
     
-    public User addUser(User user) throws IOException {
+    public User addUser(User user) {
 		return this.userRepo.addUser(user);
+    }
+
+    public User addUser(Map<String, String> params, MultipartFile image) {
+		User u = new User();
+		u.setUsername(params.get("username"));
+		u.setPassword(params.get("password"));
+		u.setUserRole("ROLE_USER");
+		if (!image.isEmpty()) {
+			try {
+				Map res = this.cloudinary.uploader().upload(image.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
+				u.setProfileImage(res.get("secure_url").toString());
+			} catch (IOException ex) {
+				return null;
+			}
+		}
+
+		this.userRepo.addUser(u);
+		return u;
+
     }
 
 	public void updateRefreshToken(User user, String refreshToken) {
