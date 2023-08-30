@@ -55,6 +55,14 @@
         @apply before:hover:w-[80%] before:hover:bg-gray-500
     }
 
+    .underline--style--2 {
+        @apply before:content-[''] before:absolute before:w-[50%] before:h-[0.25rem] before:bg-black before:bottom-[-0.25rem] before:left-[0.15rem] before:right-0 before:transition-all before:duration-500
+    }
+
+    .underline--hover--2 {
+        @apply before:hover:w-[95%] before:hover:bg-gray-500
+    }
+
     .anchor--style {
         @apply hover:text-white hover:bg-gray-400 text-black flex justify-center items-center p-2 rounded-md transition-all
     }

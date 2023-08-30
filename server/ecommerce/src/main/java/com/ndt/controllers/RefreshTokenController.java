@@ -44,7 +44,8 @@ public class RefreshTokenController {
 	@GetMapping("/refresh")
 	public ResponseEntity<Map<String, String>> handleRefreshToken(
 			@CookieValue(name = "token", required = false) Cookie refreshTokenCookie, 
-			HttpServletResponse response) {
+			HttpServletResponse response
+	) {
 		if (refreshTokenCookie == null) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}

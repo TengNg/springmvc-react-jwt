@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import axios, { axiosPrivate } from '../api/axios';
+import { axiosPrivate } from '../api/axios';
 import Title from '../components/Title';
-import { BasicLayout } from '../components/common/BasicLayout';
+import BasicLayout from '../components/layout/BasicLayout';
 
 // const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 // const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -87,6 +87,8 @@ export default function Register() {
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
+            } else if (err.response?.status === 422) {
+                setErrMsg('Missing profile image');
             } else if (err.response?.status === 409) {
                 setErrMsg('Username Taken');
             } else {

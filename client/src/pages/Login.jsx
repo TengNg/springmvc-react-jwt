@@ -4,7 +4,7 @@ import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { axiosPrivate } from '../api/axios';
 import Title from '../components/Title';
-import { BasicLayout } from '../components/common/BasicLayout';
+import BasicLayout from '../components/layout/BasicLayout';
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -104,7 +104,6 @@ export default function Login() {
                         </Link>
                     </div>
                 </div>
-
             </BasicLayout>
         </>
     )

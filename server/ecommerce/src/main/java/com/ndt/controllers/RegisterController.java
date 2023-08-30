@@ -82,6 +82,12 @@ public class RegisterController {
 			produces = {MediaType.APPLICATION_JSON_VALUE}
 	)
 	public ResponseEntity<?> addUser(@RequestParam Map<String, String> params, @RequestPart MultipartFile image) {
+		if (image == null) {
+			Map<String, Object> data = new HashMap<>();
+			data.put("msg", "missing profile image");
+			return new ResponseEntity<>(data, HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+
 		User newUser = this.userService.addUser(params, image);
 		Map<String, Object> data = new HashMap<>();
 		data.put("msg", "new user created");

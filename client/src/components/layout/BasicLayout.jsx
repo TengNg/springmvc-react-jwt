@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 
-export const BasicLayout = ({ children, styles }) => {
+const BasicLayout = ({ children, styles }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
@@ -17,3 +17,5 @@ export const BasicLayout = ({ children, styles }) => {
         </div>
     )
 }
+
+export default BasicLayout;
