@@ -43,39 +43,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class RegisterController {
     @Autowired
-    private JwtService jwtService;
-    
-    @Autowired
     private UserService userService;
     
-	// @PostMapping(path = "/register",
-	// 		consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
-	// 		produces = {MediaType.APPLICATION_JSON_VALUE})
-    // public ResponseEntity<Map<String, Object>> login(
-	// 		@RequestParam("image") MultipartFile imageFile,
-	// 		@RequestParam("username") String username,
-	// 		@RequestParam("password") String password
-	// ) throws IOException {
-	// 	User foundUser = this.userService.getUserByUsername(username);
-
-	// 	if (foundUser != null) {
-	// 		Map<String, Object> data = new HashMap<>();
-	// 		data.put("msg", "username is already exist");
-	// 		return new ResponseEntity<>(data, HttpStatus.CONFLICT);
-	// 	}
-
-	// 	Map<String, Object> uploadResult= uploadResult = this.cloudinary.uploader().upload(imageFile.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
-	// 	String imageUrl = (String) uploadResult.get("url");
-
-	// 	// User newUser = this.userService.addUser(user);
-
-	// 	Map<String, Object> data = new HashMap<>();
-	// 	data.put("msg", "new user created");
-	// 	data.put("[?]", imageUrl);
-
-	// 	return new ResponseEntity<>(data, HttpStatus.CREATED);
-    // }
-
 	@PostMapping(
 			path = "/register",
 			consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},

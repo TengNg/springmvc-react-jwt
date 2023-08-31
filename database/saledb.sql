@@ -202,6 +202,8 @@ CREATE TABLE `user` (
   `active` bit(1) DEFAULT b'1',
   `user_role` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci NOT NULL,
   `avatar` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `refresh_token` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `profile_image` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

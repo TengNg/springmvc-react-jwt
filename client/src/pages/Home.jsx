@@ -17,7 +17,6 @@ const Home = () => {
         const getProducts = async () => {
             const response1 = await axios.get("/api/products/");
             const response2 = await axios.get("/api/categories/");
-            console.log(response2);
             setProducts(response1?.data?.products);
             setCategories(response2?.data?.categories);
         };
