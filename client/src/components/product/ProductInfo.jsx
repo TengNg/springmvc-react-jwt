@@ -36,6 +36,7 @@ const ProductInfo = () => {
         // handle add to cart (using localStorage)
         addToCart({
             id: product.id,
+            image: product.image,
             name: product.name,
             price: product.price
         });

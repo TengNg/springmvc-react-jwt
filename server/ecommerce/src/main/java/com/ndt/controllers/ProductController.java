@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+		// localhost:8080/ecommerce/api
+
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(

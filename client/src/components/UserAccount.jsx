@@ -25,7 +25,6 @@ export default function UserAccount() {
         }
         getUserInformation().catch(err => {
             console.log(err);
-            navigate("/login");
         });
     }, []);
 
@@ -90,10 +89,7 @@ export default function UserAccount() {
                             className='w-7 h-7'
                             onClick={() => setShow(show => !show)}
                         >
-                            {
-                                show ? <FontAwesomeIcon className="w-[100%] h-[100%]" icon={faSquareMinus} />
-                                    : <FontAwesomeIcon className="w-[100%] h-[100%]" icon={faSquarePlus} />
-                            }
+                            {show ? <FontAwesomeIcon className="w-[100%] h-[100%]" icon={faSquareMinus} /> : <FontAwesomeIcon className="w-[100%] h-[100%]" icon={faSquarePlus} />}
                         </button>
 
                     </div>

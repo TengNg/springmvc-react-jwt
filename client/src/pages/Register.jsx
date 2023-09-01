@@ -164,6 +164,15 @@ export default function Register() {
                         </Link>
                     </div>
                 </div>
+
+                <div className='items-start w-[300px] p-4 font-bold select-none'>
+                    Join for sellers
+                    <div className='w-[150px] h-[3rem]'>
+                        <Link className='text-black hover:text-black' to="/sellers/register">
+                            <button className='button--style button--hover'>Get started</button>
+                        </Link>
+                    </div>
+                </div>
             </BasicLayout>
         </>
     )

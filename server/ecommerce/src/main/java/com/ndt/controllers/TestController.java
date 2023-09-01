@@ -59,7 +59,7 @@ public class TestController {
 
 		for (SaleOrder order : orders) {
 			List<OrderDetail> orderDetails = this.testService.orderDetails(order.getId());
-			data.put("order" + order.getId(), orderDetails);
+			data.put("order-" + order.getId(), orderDetails);
 		}
 
 		return new ResponseEntity<>(data, HttpStatus.OK);

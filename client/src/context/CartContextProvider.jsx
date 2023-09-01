@@ -8,8 +8,8 @@ const LOCAL_STORAGE_KEY = "localStorage.USER_SHOPPING_CART";
 export const CartContextProvider = ({ children }) => {
     const [cart, setCart] = useLocalStorage(LOCAL_STORAGE_KEY, []);
 
-    const addToCart = ({ id, name, price }) => {
-        const newCart = [...cart, { id, name, price, quantity: 1 }];
+    const addToCart = ({ id, image, name, price }) => {
+        const newCart = [...cart, { id, name, image, price, quantity: 1 }];
         setCart(newCart);
     };
 

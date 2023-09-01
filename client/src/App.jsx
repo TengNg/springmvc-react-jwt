@@ -29,8 +29,8 @@ function App() {
                 <Route path={"/shop"} element={<Shop />} />
                 <Route path={"/shop/products/:productId"} element={<ProductInfo />} />
                 <Route path={"/cart"} element={<UserShoppingCart />} />
-                <Route path={"/notfound"} element={<NotFound />} />
-                {/* <Route path={"*"} element={<Navigate to="/notfound" />} /> */}
+                {/* <Route path={"/notfound"} element={<NotFound />} /> */}
+                <Route path={"*"} element={<NotFound />} />
             </Routes>
         </>
     )
