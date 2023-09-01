@@ -25,14 +25,12 @@ export default function Register() {
     const [success, setSuccess] = useState(false);
 
     const navigate = useNavigate();
-    const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
 
     useEffect(() => {
         const isLoggedIn = async () => {
             const response = await axiosPrivate.get('/check-cookies/');
             if (response.status === 200) {
-                navigate('/', { replace: true });
+                navigate('/');
             }
         }
         isLoggedIn().catch(_ => {
@@ -83,7 +81,7 @@ export default function Register() {
             setUsername('');
             setPassword('');
             setConfirmedPassword('');
-            navigate('/login', { replace: true });
+            navigate('/login');
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');

@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import Products from "../components/product/Products";
 import Categories from "../components/category/Categories";
 import SearchBar from "../components/SearchBar";
-import Title from "../components/Title";
 
 const Home = () => {
     const [products, setProducts] = useState([]);

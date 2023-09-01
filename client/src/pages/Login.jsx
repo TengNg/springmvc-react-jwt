@@ -17,14 +17,12 @@ export default function Login() {
     const usernameInputEl = useRef();
 
     const navigate = useNavigate();
-    const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
 
     useEffect(() => {
         const isLoggedIn = async () => {
             const response = await axiosPrivate.get('/check-cookies/');
             if (response.status === 200) {
-                navigate('/', { replace: true });
+                navigate('/');
             }
         }
         isLoggedIn().catch(_ => {
@@ -53,7 +51,7 @@ export default function Login() {
                 setErrMsg('Failed to Login');
             }
 
-            navigate('/login/', { replace: true });
+            navigate('/login');
         }
     }
 

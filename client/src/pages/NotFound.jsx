@@ -10,7 +10,7 @@ export default function NotFound() {
                 <div className='w-[17rem] h-[5rem]'>
                     <button
                         className='button--style button--hover'
-                        onClick={() => navigate('/', { replace: true })}
+                        onClick={() => navigate('/')}
                     >
                         Go back to home page
                     </button>

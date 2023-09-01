@@ -1,19 +1,18 @@
 import { useState, useEffect } from "react";
 import axios from "../../api/axios";
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { formatCurrencyVND } from '../../utils/currencyFormatter.js';
-import Popup from "../common/Popup";
 import useAuth from "../../hooks/useAuth";
+import useCart from "../../hooks/useCart";
 
-const Product = () => {
+const ProductInfo = () => {
     const { productId } = useParams();
     const [product, setProduct] = useState(null);
 
     const navigate = useNavigate();
-    const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
 
     const { auth } = useAuth();
+    const { addToCart } = useCart();
 
     useEffect(() => {
         const getProductData = async () => {
@@ -26,21 +25,29 @@ const Product = () => {
     }, []);
 
     const handleBuyNow = () => {
-        // if user is not log in > go to Login page
-        // else > proceed purchase
+        if (!auth?.accessToken) {
+            navigate("/login");
+        }
+
+        console.log("proceed purchase");
     };
 
     const handleAddToCart = () => {
         // handle add to cart (using localStorage)
+        addToCart({
+            id: product.id,
+            name: product.name,
+            price: product.price
+        });
     };
 
     return (
         <>
             <section className="w-[100%]">
-                <div className='w-[100px] h-[3rem] absolute left-[1rem] top-[1rem]'>
+                <div className='w-[100px] h-[3rem] absolute left-[1rem] top-[0.75rem]'>
                     <button
                         className='button--style button--hover'
-                        onClick={() => navigate(from, { replace: true })}
+                        onClick={() => navigate(-1)}
                     >Back</button>
                 </div>
 
@@ -83,4 +90,4 @@ const Product = () => {
     )
 }
 
-export default Product
+export default ProductInfo

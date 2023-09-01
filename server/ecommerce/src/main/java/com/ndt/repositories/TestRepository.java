@@ -15,7 +15,7 @@ public class TestRepository {
     @Autowired
     LocalSessionFactoryBean localSessionFactoryBean;
 
-    public List<?> getSome() {
+    public List<?> getUserOrders() {
 		return null;
     }
 
