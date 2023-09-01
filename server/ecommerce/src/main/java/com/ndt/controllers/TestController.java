@@ -1,17 +1,19 @@
 package com.ndt.controllers;
 
-import com.ndt.components.JwtService;
-import com.ndt.pojo.Category;
-import com.ndt.pojo.Product;
-import com.ndt.services.CategoryService;
-import com.ndt.services.ProductService;
-import com.ndt.services.UserService;
+import com.ndt.pojo.*;
+import com.ndt.services.TestService;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,22 +34,23 @@ import org.springframework.web.bind.annotation.RestController;
 			RequestMethod.PATCH, RequestMethod.OPTIONS,
 			RequestMethod.HEAD, RequestMethod.TRACE}
 )
+
 public class TestController {
 	@Autowired
-	private ProductService productService;
+	private TestService testService;
+	
+	@GetMapping("/orders")
+	public ResponseEntity<?> saleOrders(@RequestBody Map<String, Object> requestBody) { 
+		int userId = (int) requestBody.get("userId");
+		List<SaleOrder> orders = this.testService.userSaleOrders(userId);
 
-	@Autowired
-	private CategoryService categoryService;
+		Map<String, Object> data = new HashMap<>();
 
-	@GetMapping("/products/")
-	public ResponseEntity<List<Product>> products() {
-		List<Product> products = this.productService.getProducts();
-		return new ResponseEntity<>(products, HttpStatus.OK);
-	}
+		for (SaleOrder order : orders) {
+			List<OrderDetail> orderDetails = this.testService.orderDetails(order.getId());
+			data.put("order" + order.getId(), orderDetails);
+		}
 
-	@GetMapping("/categories/")
-	public ResponseEntity<List<Category>> categories() {
-		List<Category> categories = this.categoryService.getCategories();
-		return new ResponseEntity<>(categories, HttpStatus.OK);
+		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 }

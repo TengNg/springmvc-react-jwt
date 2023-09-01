@@ -15,9 +15,18 @@ public class TestRepository {
     @Autowired
     LocalSessionFactoryBean localSessionFactoryBean;
 
-    public List<?> getUserOrders() {
-		return null;
+    public List<SaleOrder> getUserOrders(int id) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("FROM SaleOrder WHERE user_id=:id");
+		q.setParameter("id", id);
+		return q.getResultList();
     }
 
+	public List<OrderDetail> getOrderDetails(int orderId) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("FROM OrderDetail WHERE order_id=:id");
+		q.setParameter("id", orderId);
+		return q.getResultList();
+	}
 }
 
