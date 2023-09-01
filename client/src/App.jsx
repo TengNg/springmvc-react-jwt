@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Shop from './pages/Shop'
 import ProductInfo from './components/product/ProductInfo'
 import NavBar from './components/Navbar'
 import NotFound from './pages/NotFound'
@@ -25,7 +26,8 @@ function App() {
                 })}
                 <Route path={"/login"} element={<Login />} />
                 <Route path={"/register"} element={<Register />} />
-                <Route path={"/product/:productId"} element={<ProductInfo />} />
+                <Route path={"/shop"} element={<Shop />} />
+                <Route path={"/shop/products/:productId"} element={<ProductInfo />} />
                 <Route path={"/cart"} element={<UserShoppingCart />} />
                 <Route path={"/notfound"} element={<NotFound />} />
                 {/* <Route path={"*"} element={<Navigate to="/notfound" />} /> */}

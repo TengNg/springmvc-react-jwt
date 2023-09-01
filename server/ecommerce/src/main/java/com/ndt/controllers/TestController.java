@@ -45,6 +45,17 @@ public class TestController {
 		List<SaleOrder> orders = this.testService.userSaleOrders(userId);
 
 		Map<String, Object> data = new HashMap<>();
+		data.put("orders", orders);
+
+		return new ResponseEntity<>(data, HttpStatus.OK);
+	}
+
+	@GetMapping("/orders/details")
+	public ResponseEntity<?> orderDetails(@RequestBody Map<String, Object> requestBody) { 
+		int userId = (int) requestBody.get("userId");
+		List<SaleOrder> orders = this.testService.userSaleOrders(userId);
+
+		Map<String, Object> data = new HashMap<>();
 
 		for (SaleOrder order : orders) {
 			List<OrderDetail> orderDetails = this.testService.orderDetails(order.getId());

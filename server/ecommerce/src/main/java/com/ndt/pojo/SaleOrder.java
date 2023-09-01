@@ -56,8 +56,10 @@ public class SaleOrder implements Serializable {
     private Date createdDate;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
+	@JsonIgnore
     private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
+	@JsonIgnore
     private Set<OrderDetail> orderDetailSet;
 
     public SaleOrder() {

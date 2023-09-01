@@ -17,18 +17,16 @@ export default function UserAccount() {
     const axiosWithInterceptors = useAxiosPrivate();
 
     useEffect(() => {
-        if (auth?.accessToken) {
-            const getUserInformation = async () => {
-                const response = await axiosWithInterceptors.get('/api/account');
-                const { user, accessToken } = response.data;
-                setAuth({ username: user.username, email: user.email, accessToken });
-                setProfileImage(user.profileImage);
-            }
-            getUserInformation().catch(err => {
-                console.log(err);
-                navigate("/login");
-            });
+        const getUserInformation = async () => {
+            const response = await axiosWithInterceptors.get('/api/account');
+            const { user, accessToken } = response.data;
+            setAuth({ username: user.username, email: user.email, accessToken });
+            setProfileImage(user.profileImage);
         }
+        getUserInformation().catch(err => {
+            console.log(err);
+            navigate("/login");
+        });
     }, []);
 
     const handleLogout = async () => {

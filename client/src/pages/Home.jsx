@@ -1,71 +1,30 @@
-import axios from "../api/axios";
-import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import Products from "../components/product/Products";
-import Categories from "../components/category/Categories";
-import SearchBar from "../components/SearchBar";
 
 const Home = () => {
-    const [products, setProducts] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [error, setError] = useState(false);
-
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const getProducts = async () => {
-            const response1 = await axios.get("/api/products/");
-            const response2 = await axios.get("/api/categories/");
-            setProducts(response1?.data?.products);
-            setCategories(response2?.data?.categories);
-        };
-
-        getProducts().catch(_ => {
-            setError(true);
-        });
-    }, []);
-
-    const handleProductItemOnClick = (id) => {
-        navigate(`/product/${id}`);
-    };
-
-    // handle request params
-    const handleCategoryItemOnClick = (id) => {
-        console.log(id);
-        const requestParams = {};
-        // navigate(`/product/${null}`);
-    };
-
-    if (error) {
-        return <section className="w-[100%] grid place-items-center">
-            <h1>Oops, server error :(</h1>
-        </section>
-    }
-
     return (
-        <section className="w-[100%] h-[100vh] flex flex-col items-center">
-            <SearchBar />
-
-            <div className="flex flex-wrap justify-center items-center w-[80%]">
-                <Categories
-                    categories={categories}
-                    handleCategoryItemOnClick={handleCategoryItemOnClick}
-                />
+        <div className='flex--center flex-col gap-2 mt-7'>
+            <div className='w-[100%] flex select-none ps-[8rem]'>
+                <h1 className="text-[2.5rem] text-gray-700 relative font-bold underline--style--2 underline--hover--2 transition all hover:text-gray-500"
+                >About</h1>
             </div>
-
-            <div className="w-[80%] mt-8">
-                <div className='flex select-none m-[0_0_2rem_0]'>
-                    <h1 className="text-[2rem] text-gray-700 relative text-center font-bold underline--style--2 underline--hover--2 transition all hover:text-gray-500"
-                    >Products</h1>
-                </div>
-                <div className="div--style flex flex-wrap flex--center">
-                    <Products
-                        products={products}
-                        handleProductItemOnClick={handleProductItemOnClick}
-                    />
+            <section className="div--style rounded-lg mx-[7rem] h-[auto] p-9 text-justify flex flex-col justify-center gap-4">
+                <p>
+                    Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
+                </p>
+                <p className='text-sm font-normal'>
+                    Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
+                </p>
+            </section>
+            <div>
+                <div className='w-[10rem] h-[5rem] mt-4'>
+                    <button
+                        onClick={() => navigate("/shop")}
+                        className="button--style button--hover">Explore</button>
                 </div>
             </div>
-        </section>
+        </div>
     )
 }
 

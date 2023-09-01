@@ -14,7 +14,7 @@ const NavBar = () => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/products" className={({ isActive }) => isActive ? 'anchor--style--selected' : 'anchor--style'} >
+                        <NavLink to="/shop" className={({ isActive }) => isActive ? 'anchor--style--selected' : 'anchor--style'} >
                             <FontAwesomeIcon icon={faShop} />
                         </NavLink>
                     </li>

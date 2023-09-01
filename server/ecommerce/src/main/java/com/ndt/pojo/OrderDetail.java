@@ -4,6 +4,7 @@
  */
 package com.ndt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -47,6 +48,7 @@ public class OrderDetail implements Serializable {
     private Product productId;
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+	@JsonIgnore
     private SaleOrder orderId;
 
     public OrderDetail() {
