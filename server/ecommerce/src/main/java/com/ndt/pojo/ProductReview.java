@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.ndt.pojo2;
+package com.ndt.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -27,14 +27,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ASUS
  */
 @Entity
-@Table(name = "product_reviews")
+@Table(name = "product_review")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "ProductReviews.findAll", query = "SELECT p FROM ProductReviews p"),
-	@NamedQuery(name = "ProductReviews.findByReviewId", query = "SELECT p FROM ProductReviews p WHERE p.reviewId = :reviewId"),
-	@NamedQuery(name = "ProductReviews.findByRating", query = "SELECT p FROM ProductReviews p WHERE p.rating = :rating"),
-	@NamedQuery(name = "ProductReviews.findByReviewDate", query = "SELECT p FROM ProductReviews p WHERE p.reviewDate = :reviewDate")})
-public class ProductReviews implements Serializable {
+	@NamedQuery(name = "ProductReview.findAll", query = "SELECT p FROM ProductReview p"),
+	@NamedQuery(name = "ProductReview.findByReviewId", query = "SELECT p FROM ProductReview p WHERE p.reviewId = :reviewId"),
+	@NamedQuery(name = "ProductReview.findByRating", query = "SELECT p FROM ProductReview p WHERE p.rating = :rating"),
+	@NamedQuery(name = "ProductReview.findByReviewDate", query = "SELECT p FROM ProductReview p WHERE p.reviewDate = :reviewDate")})
+public class ProductReview implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -54,15 +54,15 @@ public class ProductReviews implements Serializable {
 	private Date reviewDate;
 	@JoinColumn(name = "product_id", referencedColumnName = "product_id")
     @ManyToOne
-	private Products productId;
+	private Product productId;
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
-	private Users userId;
+	private User userId;
 
-	public ProductReviews() {
+	public ProductReview() {
 	}
 
-	public ProductReviews(String reviewId) {
+	public ProductReview(String reviewId) {
 		this.reviewId = reviewId;
 	}
 
@@ -98,19 +98,19 @@ public class ProductReviews implements Serializable {
 		this.reviewDate = reviewDate;
 	}
 
-	public Products getProductId() {
+	public Product getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Products productId) {
+	public void setProductId(Product productId) {
 		this.productId = productId;
 	}
 
-	public Users getUserId() {
+	public User getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Users userId) {
+	public void setUserId(User userId) {
 		this.userId = userId;
 	}
 
@@ -124,10 +124,10 @@ public class ProductReviews implements Serializable {
 	@Override
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof ProductReviews)) {
+		if (!(object instanceof ProductReview)) {
 			return false;
 		}
-		ProductReviews other = (ProductReviews) object;
+		ProductReview other = (ProductReview) object;
 		if ((this.reviewId == null && other.reviewId != null) || (this.reviewId != null && !this.reviewId.equals(other.reviewId))) {
 			return false;
 		}
@@ -136,7 +136,7 @@ public class ProductReviews implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ndt.pojo2.ProductReviews[ reviewId=" + reviewId + " ]";
+		return "com.ndt.pojo.ProductReview[ reviewId=" + reviewId + " ]";
 	}
 	
 }

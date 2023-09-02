@@ -21,9 +21,9 @@ public class ProductRepository {
         return q.getResultList();
     }
 
-    public Product getProductById(int id) {
+    public Product getProductById(String id) {
 		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
-		Query q = s.createQuery("FROM Product WHERE id=:id");
+		Query q = s.createQuery("FROM Product WHERE product_id=:id");
 		q.setParameter("id", id);
 		List results = q.getResultList();
 		if (results.isEmpty()){
@@ -32,9 +32,9 @@ public class ProductRepository {
 		return (Product) results.get(0);
     }
 
-	public void deleteProductById(int id) {
+	public void deleteProductById(String id) {
 		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
-		Query q = s.createQuery("DELETE FROM Product WHERE id=:id");
+		Query q = s.createQuery("DELETE FROM Product WHERE product_id=:id");
 		q.setParameter("id", id);
 		q.executeUpdate();
 	}

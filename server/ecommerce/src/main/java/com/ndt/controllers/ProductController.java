@@ -52,8 +52,21 @@ public class ProductController {
 		return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
+	// @GetMapping("/products/{id}")
+	// public ResponseEntity<Map<String, Object>> product(@PathVariable(value = "id") String id) {
+	// 	Product foundProduct = this.productService.getProductById(id);
+	// 	if (foundProduct == null) {
+	// 		Map<String, Object> data = new HashMap<>();
+	// 		data.put("msg", "no product found");
+	// 		return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
+	// 	}
+	// 	Map<String, Object> data = new HashMap<>();
+	// 	data.put("product", foundProduct);
+	// 	return new ResponseEntity<>(data, HttpStatus.OK);
+	// }
+
 	@GetMapping("/products/{id}")
-	public ResponseEntity<Map<String, Object>> product(@PathVariable(value = "id") int id) {
+	public ResponseEntity<Map<String, Object>> product(@PathVariable String id) {
 		Product foundProduct = this.productService.getProductById(id);
 		if (foundProduct == null) {
 			Map<String, Object> data = new HashMap<>();
@@ -66,7 +79,7 @@ public class ProductController {
 	}
 
 	@DeleteMapping("/products/{id}")
-	public ResponseEntity<Map<String, Object>> delete(@PathVariable(value = "id") int id) {
+	public ResponseEntity<Map<String, Object>> delete(@PathVariable String id) {
 		Product foundProduct = this.productService.getProductById(id);
 		if (foundProduct == null) {
 			Map<String, Object> data = new HashMap<>();

@@ -16,7 +16,7 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 @Configuration
-@PropertySource("classpath:database1.properties")
+@PropertySource("classpath:testing_database.properties")
 @PropertySource("classpath:configs.properties")
 public class HibernateConfig {
     @Autowired

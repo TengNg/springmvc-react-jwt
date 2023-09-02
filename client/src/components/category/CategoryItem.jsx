@@ -1,14 +1,14 @@
 const CategoryItem = ({ category, handleOnClick }) => {
-    const { id, name } = category;
+    const { categoryId, categoryName } = category;
 
     return (
         <div
             className='div--style div--hover--style rounded-md'
             onClick={() => {
-                handleOnClick(id);
+                handleOnClick(categoryId);
             }}
         >
-            <p>{name}</p>
+            <p>{categoryName}</p>
         </div>
     )
 }

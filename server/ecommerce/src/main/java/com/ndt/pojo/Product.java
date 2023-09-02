@@ -1,17 +1,20 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.ndt.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -19,208 +22,186 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author admin
+ * @author ASUS
  */
 @Entity
 @Table(name = "product")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
-    @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
-    @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
-    @NamedQuery(name = "Product.findByDescription", query = "SELECT p FROM Product p WHERE p.description = :description"),
-    @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
-    @NamedQuery(name = "Product.findByManufacturer", query = "SELECT p FROM Product p WHERE p.manufacturer = :manufacturer"),
-    @NamedQuery(name = "Product.findByImage", query = "SELECT p FROM Product p WHERE p.image = :image"),
-    @NamedQuery(name = "Product.findByCreatedDate", query = "SELECT p FROM Product p WHERE p.createdDate = :createdDate"),
-    @NamedQuery(name = "Product.findByActive", query = "SELECT p FROM Product p WHERE p.active = :active")})
+	@NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+	@NamedQuery(name = "Product.findByProductId", query = "SELECT p FROM Product p WHERE p.productId = :productId"),
+	@NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
+	@NamedQuery(name = "Product.findByImageUrl", query = "SELECT p FROM Product p WHERE p.imageUrl = :imageUrl"),
+	@NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
+	@NamedQuery(name = "Product.findByStockQuantity", query = "SELECT p FROM Product p WHERE p.stockQuantity = :stockQuantity"),
+	@NamedQuery(name = "Product.findByCreatedAt", query = "SELECT p FROM Product p WHERE p.createdAt = :createdAt")})
 public class Product implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private static final long serialVersionUID = 1L;
+	@Id
     @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    @Basic(optional = false)
-    @NotNull(message = "{product.name.notNull}")
-    @Size(min = 5, max = 50, message = "{product.name.lenErr}")
+    @NotNull
+    @Size(min = 1, max = 40)
+    @Column(name = "product_id")
+	private String productId;
+	@Size(max = 255)
     @Column(name = "name")
-    private String name;
-    @Size(min = 10, max = 255, message = "{product.desc.lenErr}")
+	private String name;
+	@Lob
+    @Size(max = 65535)
     @Column(name = "description")
-    private String description;
-    @Column(name = "price")
-    private Long price;
-    @Size(max = 50)
-    @Column(name = "manufacturer")
-    private String manufacturer;
-    @Size(max = 200)
-    @Column(name = "image")
-    private String image;
-    @Column(name = "created_date")
+	private String description;
+	@Size(max = 255)
+    @Column(name = "image_url")
+	private String imageUrl;
+	// @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+	@Column(name = "price")
+	private BigDecimal price;
+	@Column(name = "stock_quantity")
+	private Integer stockQuantity;
+	@Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
-    @Column(name = "active")
-    private Boolean active;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
-	@JsonIgnore
-    private Set<ProdTag> prodTagSet;
-    @JoinColumn(name = "category_id", referencedColumnName = "id")
+	private Date createdAt;
+	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
     @ManyToOne(optional = false)
-    private Category categoryId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+	private Category categoryId;
+	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @ManyToOne
+	private User userId;
+	@OneToMany(mappedBy = "productId")
 	@JsonIgnore
-    private Set<OrderDetail> orderDetailSet;
-    
-    @Transient
-    private MultipartFile file;
+	private Set<ProductReview> productReviewSet;
+	@OneToMany(mappedBy = "productId")
+	@JsonIgnore
+	private Set<CartItem> cartItemSet;
 
-    public Product() {
-    }
+	public Product() {
+	}
 
-    public Product(Integer id) {
-        this.id = id;
-    }
+	public Product(String productId) {
+		this.productId = productId;
+	}
 
-    public Product(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+	public String getProductId() {
+		return productId;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public String getImageUrl() {
+		return imageUrl;
+	}
 
-    public Long getPrice() {
-        return price;
-    }
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 
-    public void setPrice(Long price) {
-        this.price = price;
-    }
+	public BigDecimal getPrice() {
+		return price;
+	}
 
-    public String getManufacturer() {
-        return manufacturer;
-    }
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
+	public Integer getStockQuantity() {
+		return stockQuantity;
+	}
 
-    public String getImage() {
-        return image;
-    }
+	public void setStockQuantity(Integer stockQuantity) {
+		this.stockQuantity = stockQuantity;
+	}
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+	public Date getCreatedAt() {
+		return createdAt;
+	}
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
+	public Category getCategoryId() {
+		return categoryId;
+	}
 
-    public Boolean getActive() {
-        return active;
-    }
+	public void setCategoryId(Category categoryId) {
+		this.categoryId = categoryId;
+	}
 
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
+	public User getUserId() {
+		return this.userId;
+	}
 
-    @XmlTransient
-    public Set<ProdTag> getProdTagSet() {
-        return prodTagSet;
-    }
+	public void setUserId(User userId) {
+		this.userId = userId;
+	}
 
-    public void setProdTagSet(Set<ProdTag> prodTagSet) {
-        this.prodTagSet = prodTagSet;
-    }
+	@XmlTransient
+	public Set<ProductReview> getProductReviewSet() {
+		return productReviewSet;
+	}
 
-    public Category getCategoryId() {
-        return categoryId;
-    }
+	public void setProductReviewSet(Set<ProductReview> productReviewSet) {
+		this.productReviewSet = productReviewSet;
+	}
 
-    public void setCategoryId(Category categoryId) {
-        this.categoryId = categoryId;
-    }
+	@XmlTransient
+	public Set<CartItem> getCartItemSet() {
+		return cartItemSet;
+	}
 
-    @XmlTransient
-    public Set<OrderDetail> getOrderDetailSet() {
-        return orderDetailSet;
-    }
+	public void setCartItemSet(Set<CartItem> cartItemSet) {
+		this.cartItemSet = cartItemSet;
+	}
 
-    public void setOrderDetailSet(Set<OrderDetail> orderDetailSet) {
-        this.orderDetailSet = orderDetailSet;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (productId != null ? productId.hashCode() : 0);
+		return hash;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
+	@Override
+	public boolean equals(Object object) {
+		// TODO: Warning - this method won't work in the case the id fields are not set
+		if (!(object instanceof Product)) {
+			return false;
+		}
+		Product other = (Product) object;
+		if ((this.productId == null && other.productId != null) || (this.productId != null && !this.productId.equals(other.productId))) {
+			return false;
+		}
+		return true;
+	}
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Product)) {
-            return false;
-        }
-        Product other = (Product) object;
-        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
-    }
-
-    @Override
-    public String toString() {
-        return "com.dht.pojo.Product[ id=" + id + " ]";
-    }
-
-    /**
-     * @return the file
-     */
-    public MultipartFile getFile() {
-        return file;
-    }
-
-    /**
-     * @param file the file to set
-     */
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
-    
+	@Override
+	public String toString() {
+		return "com.ndt.pojo.Product[ productId=" + productId + " ]";
+	}
+	
 }

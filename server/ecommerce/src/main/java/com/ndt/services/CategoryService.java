@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
 
-    public List<Category> getCategories() {
-        return this.categoryRepository.getCategories();
-    }
+	@Autowired
+	private CategoryRepository categoryRepository;
+
+	public List<Category> getCategories() {
+		return this.categoryRepository.getCategories();
+	}
 }

@@ -7,6 +7,7 @@ import useCart from "../../hooks/useCart";
 
 const ProductInfo = () => {
     const { productId } = useParams();
+
     const [product, setProduct] = useState(null);
 
     const navigate = useNavigate();
@@ -35,8 +36,8 @@ const ProductInfo = () => {
     const handleAddToCart = () => {
         // handle add to cart (using localStorage)
         addToCart({
-            id: product.id,
-            image: product.image,
+            id: product.productId,
+            image: product.imageUrl,
             name: product.name,
             price: product.price
         });
@@ -44,13 +45,12 @@ const ProductInfo = () => {
 
     return (
         <>
-            <section className="w-[100%]">
-                <div className="flex flex-row mt-[5rem]">
+            <section className="w-[100%] p-8">
+                <div className="flex flex-row justify-between mt-[5rem]">
                     <div className="div--style p-5 ms-[1rem]">
-
                         <div className="flex justify-center gap-4">
                             <div className='flex--center w-[15rem] h-[15rem] border-black border-[3px] bg-center bg-cover overflow-hidden cursor-pointer'>
-                                <img className='w-[100%] h-auto' src={product?.image} />
+                                <img className='w-[100%] h-auto' src={product?.imageUrl} />
                             </div>
 
                             <div>

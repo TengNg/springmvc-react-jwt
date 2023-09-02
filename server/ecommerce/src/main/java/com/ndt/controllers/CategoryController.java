@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(
-		origins = { 
+		origins = {
 			"http://localhost:5173",
 			"http://localhost:5174",
-			"http://localhost:8080" 
+			"http://localhost:8080"
 		},
 		allowCredentials = "true",
 		maxAge = 3600,
@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 			RequestMethod.HEAD, RequestMethod.TRACE}
 )
 public class CategoryController {
+
 	@Autowired
 	private CategoryService categoryService;
 
@@ -42,4 +43,3 @@ public class CategoryController {
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 }
-

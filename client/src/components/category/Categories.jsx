@@ -4,8 +4,9 @@ const Categories = ({ categories, handleCategoryItemOnClick }) => {
     return <>
         {categories && categories.map(category => {
             return <CategoryItem
+                key={category.categoryId}
                 handleOnClick={handleCategoryItemOnClick}
-                key={category.id} category={category}
+                category={category}
             />
         })}
     </>

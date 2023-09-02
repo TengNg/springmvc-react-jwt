@@ -12,12 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public class CategoryRepository {
-    @Autowired
-    LocalSessionFactoryBean localSessionFactoryBean;
 
-    public List<Category> getCategories() {
-        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
-        Query q = s.createQuery("FROM Category");
-        return q.getResultList();
-    }
+	@Autowired
+	LocalSessionFactoryBean localSessionFactoryBean;
+
+	public List<Category> getCategories() {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("FROM Category");
+		return q.getResultList();
+	}
 }

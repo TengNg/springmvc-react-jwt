@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.ndt.pojo2;
+package com.ndt.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -27,14 +27,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ASUS
  */
 @Entity
-@Table(name = "shipping_processes")
+@Table(name = "shipping_process")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "ShippingProcesses.findAll", query = "SELECT s FROM ShippingProcesses s"),
-	@NamedQuery(name = "ShippingProcesses.findByProcessId", query = "SELECT s FROM ShippingProcesses s WHERE s.processId = :processId"),
-	@NamedQuery(name = "ShippingProcesses.findByShippingStatus", query = "SELECT s FROM ShippingProcesses s WHERE s.shippingStatus = :shippingStatus"),
-	@NamedQuery(name = "ShippingProcesses.findByShippingDate", query = "SELECT s FROM ShippingProcesses s WHERE s.shippingDate = :shippingDate")})
-public class ShippingProcesses implements Serializable {
+	@NamedQuery(name = "ShippingProcess.findAll", query = "SELECT s FROM ShippingProcess s"),
+	@NamedQuery(name = "ShippingProcess.findByProcessId", query = "SELECT s FROM ShippingProcess s WHERE s.processId = :processId"),
+	@NamedQuery(name = "ShippingProcess.findByShippingStatus", query = "SELECT s FROM ShippingProcess s WHERE s.shippingStatus = :shippingStatus"),
+	@NamedQuery(name = "ShippingProcess.findByShippingDate", query = "SELECT s FROM ShippingProcess s WHERE s.shippingDate = :shippingDate")})
+public class ShippingProcess implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -50,15 +50,15 @@ public class ShippingProcesses implements Serializable {
 	private Date shippingDate;
 	@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")
     @ManyToOne
-	private Carts cartId;
+	private Cart cartId;
 	@JoinColumn(name = "shipper_id", referencedColumnName = "shipper_id")
     @ManyToOne
-	private Shippers shipperId;
+	private Shipper shipperId;
 
-	public ShippingProcesses() {
+	public ShippingProcess() {
 	}
 
-	public ShippingProcesses(Integer processId) {
+	public ShippingProcess(Integer processId) {
 		this.processId = processId;
 	}
 
@@ -86,19 +86,19 @@ public class ShippingProcesses implements Serializable {
 		this.shippingDate = shippingDate;
 	}
 
-	public Carts getCartId() {
+	public Cart getCartId() {
 		return cartId;
 	}
 
-	public void setCartId(Carts cartId) {
+	public void setCartId(Cart cartId) {
 		this.cartId = cartId;
 	}
 
-	public Shippers getShipperId() {
+	public Shipper getShipperId() {
 		return shipperId;
 	}
 
-	public void setShipperId(Shippers shipperId) {
+	public void setShipperId(Shipper shipperId) {
 		this.shipperId = shipperId;
 	}
 
@@ -112,10 +112,10 @@ public class ShippingProcesses implements Serializable {
 	@Override
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof ShippingProcesses)) {
+		if (!(object instanceof ShippingProcess)) {
 			return false;
 		}
-		ShippingProcesses other = (ShippingProcesses) object;
+		ShippingProcess other = (ShippingProcess) object;
 		if ((this.processId == null && other.processId != null) || (this.processId != null && !this.processId.equals(other.processId))) {
 			return false;
 		}
@@ -124,7 +124,7 @@ public class ShippingProcesses implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ndt.pojo2.ShippingProcesses[ processId=" + processId + " ]";
+		return "com.ndt.pojo.ShippingProcess[ processId=" + processId + " ]";
 	}
 	
 }

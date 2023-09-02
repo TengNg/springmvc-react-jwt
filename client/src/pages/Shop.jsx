@@ -20,7 +20,8 @@ const Home = () => {
             setCategories(response2?.data?.categories);
         };
 
-        getProducts().catch(_ => {
+        getProducts().catch(err => {
+            console.log(err);
             setError(true);
         });
     }, []);

@@ -15,11 +15,11 @@ public class ProductService {
         return this.productRepo.getProducts();
     }
 
-    public Product getProductById(int id) {
+    public Product getProductById(String id) {
         return this.productRepo.getProductById(id);
     }
 
-	public void deleteProductById(int id) {
+	public void deleteProductById(String id) {
 		this.productRepo.deleteProductById(id);
 	}
 }

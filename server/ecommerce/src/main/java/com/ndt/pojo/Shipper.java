@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.ndt.pojo2;
+package com.ndt.pojo;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -24,13 +24,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ASUS
  */
 @Entity
-@Table(name = "shippers")
+@Table(name = "shipper")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Shippers.findAll", query = "SELECT s FROM Shippers s"),
-	@NamedQuery(name = "Shippers.findByShipperId", query = "SELECT s FROM Shippers s WHERE s.shipperId = :shipperId"),
-	@NamedQuery(name = "Shippers.findByShipperName", query = "SELECT s FROM Shippers s WHERE s.shipperName = :shipperName")})
-public class Shippers implements Serializable {
+	@NamedQuery(name = "Shipper.findAll", query = "SELECT s FROM Shipper s"),
+	@NamedQuery(name = "Shipper.findByShipperId", query = "SELECT s FROM Shipper s WHERE s.shipperId = :shipperId"),
+	@NamedQuery(name = "Shipper.findByShipperName", query = "SELECT s FROM Shipper s WHERE s.shipperName = :shipperName")})
+public class Shipper implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -42,12 +42,12 @@ public class Shippers implements Serializable {
     @Column(name = "shipper_name")
 	private String shipperName;
 	@OneToMany(mappedBy = "shipperId")
-	private Set<ShippingProcesses> shippingProcessesSet;
+	private Set<ShippingProcess> shippingProcessSet;
 
-	public Shippers() {
+	public Shipper() {
 	}
 
-	public Shippers(Integer shipperId) {
+	public Shipper(Integer shipperId) {
 		this.shipperId = shipperId;
 	}
 
@@ -68,12 +68,12 @@ public class Shippers implements Serializable {
 	}
 
 	@XmlTransient
-	public Set<ShippingProcesses> getShippingProcessesSet() {
-		return shippingProcessesSet;
+	public Set<ShippingProcess> getShippingProcessSet() {
+		return shippingProcessSet;
 	}
 
-	public void setShippingProcessesSet(Set<ShippingProcesses> shippingProcessesSet) {
-		this.shippingProcessesSet = shippingProcessesSet;
+	public void setShippingProcessSet(Set<ShippingProcess> shippingProcessSet) {
+		this.shippingProcessSet = shippingProcessSet;
 	}
 
 	@Override
@@ -86,10 +86,10 @@ public class Shippers implements Serializable {
 	@Override
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Shippers)) {
+		if (!(object instanceof Shipper)) {
 			return false;
 		}
-		Shippers other = (Shippers) object;
+		Shipper other = (Shipper) object;
 		if ((this.shipperId == null && other.shipperId != null) || (this.shipperId != null && !this.shipperId.equals(other.shipperId))) {
 			return false;
 		}
@@ -98,7 +98,7 @@ public class Shippers implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ndt.pojo2.Shippers[ shipperId=" + shipperId + " ]";
+		return "com.ndt.pojo.Shipper[ shipperId=" + shipperId + " ]";
 	}
 	
 }

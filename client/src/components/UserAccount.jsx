@@ -24,7 +24,7 @@ export default function UserAccount() {
             const response = await axiosWithInterceptors.get('/api/account');
             const { user, accessToken } = response.data;
             setAuth({ username: user.username, email: user.email, accessToken });
-            setProfileImage(user.profileImage);
+            setProfileImage(user.imageUrl);
         }
         getUserInformation().catch(err => {
             console.log(err);

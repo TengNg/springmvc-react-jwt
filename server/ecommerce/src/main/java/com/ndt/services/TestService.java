@@ -11,12 +11,4 @@ import org.springframework.stereotype.Service;
 public class TestService {
     @Autowired
     private TestRepository testRepo;
-
-    public List<SaleOrder> userSaleOrders(int id) {
-		return this.testRepo.getUserOrders(id);
-    }
-
-	public List<OrderDetail> orderDetails(int orderId) {
-		return this.testRepo.getOrderDetails(orderId);
-	}
 }

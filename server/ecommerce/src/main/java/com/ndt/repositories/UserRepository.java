@@ -2,6 +2,7 @@ package com.ndt.repositories;
 
 import com.ndt.pojo.User;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class UserRepository {
 
     public User getUserByRefreshToken(String refreshToken) {
 		Session s = this.factory.getObject().getCurrentSession();
-		Query q = s.createQuery("FROM User WHERE refreshToken=:refreshToken");
+		Query q = s.createQuery("FROM User WHERE refresh_token=:refreshToken");
 		q.setParameter("refreshToken", refreshToken);
 		List results = q.getResultList();
 		if (results.isEmpty()){
@@ -45,13 +46,14 @@ public class UserRepository {
 
 	public void updateRefreshToken(String username, String refreshToken) {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("UPDATE User u SET u.refreshToken = :refreshToken WHERE u.username = :username");
+        Query q = s.createQuery("UPDATE User u SET u.refresh_token = :refreshToken WHERE u.username = :username");
         q.setParameter("username", username);
 		q.executeUpdate();
 	}
 
     public User addUser(User u) {
         Session s = this.factory.getObject().getCurrentSession();
+		u.setUserId(UUID.randomUUID().toString());
         s.save(u);
         return u;
     }

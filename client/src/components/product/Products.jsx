@@ -6,7 +6,8 @@ const Products = ({ products, handleProductItemOnClick }) => {
             {products.map(product => {
                 return <ProductItem
                     handleOnClick={handleProductItemOnClick}
-                    key={product.id} product={product}
+                    key={product.productId}
+                    product={product}
                 />
             })}
         </>

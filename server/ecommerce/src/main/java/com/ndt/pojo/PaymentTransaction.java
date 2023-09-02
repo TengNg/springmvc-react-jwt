@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.ndt.pojo2;
+package com.ndt.pojo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -26,14 +26,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ASUS
  */
 @Entity
-@Table(name = "payment_transactions")
+@Table(name = "payment_transaction")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "PaymentTransactions.findAll", query = "SELECT p FROM PaymentTransactions p"),
-	@NamedQuery(name = "PaymentTransactions.findByTransactionId", query = "SELECT p FROM PaymentTransactions p WHERE p.transactionId = :transactionId"),
-	@NamedQuery(name = "PaymentTransactions.findByAmount", query = "SELECT p FROM PaymentTransactions p WHERE p.amount = :amount"),
-	@NamedQuery(name = "PaymentTransactions.findByTransactionDate", query = "SELECT p FROM PaymentTransactions p WHERE p.transactionDate = :transactionDate")})
-public class PaymentTransactions implements Serializable {
+	@NamedQuery(name = "PaymentTransaction.findAll", query = "SELECT p FROM PaymentTransaction p"),
+	@NamedQuery(name = "PaymentTransaction.findByTransactionId", query = "SELECT p FROM PaymentTransaction p WHERE p.transactionId = :transactionId"),
+	@NamedQuery(name = "PaymentTransaction.findByMethodId", query = "SELECT p FROM PaymentTransaction p WHERE p.methodId = :methodId"),
+	@NamedQuery(name = "PaymentTransaction.findByAmount", query = "SELECT p FROM PaymentTransaction p WHERE p.amount = :amount"),
+	@NamedQuery(name = "PaymentTransaction.findByTransactionDate", query = "SELECT p FROM PaymentTransaction p WHERE p.transactionDate = :transactionDate")})
+public class PaymentTransaction implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -41,6 +42,8 @@ public class PaymentTransactions implements Serializable {
     @NotNull
     @Column(name = "transaction_id")
 	private Integer transactionId;
+	@Column(name = "method_id")
+	private Integer methodId;
 	// @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
 	@Column(name = "amount")
 	private BigDecimal amount;
@@ -49,18 +52,15 @@ public class PaymentTransactions implements Serializable {
 	private Date transactionDate;
 	@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")
     @ManyToOne
-	private Carts cartId;
-	@JoinColumn(name = "method_id", referencedColumnName = "method_id")
-    @ManyToOne
-	private PaymentMethods methodId;
+	private Cart cartId;
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
-	private Users userId;
+	private User userId;
 
-	public PaymentTransactions() {
+	public PaymentTransaction() {
 	}
 
-	public PaymentTransactions(Integer transactionId) {
+	public PaymentTransaction(Integer transactionId) {
 		this.transactionId = transactionId;
 	}
 
@@ -70,6 +70,14 @@ public class PaymentTransactions implements Serializable {
 
 	public void setTransactionId(Integer transactionId) {
 		this.transactionId = transactionId;
+	}
+
+	public Integer getMethodId() {
+		return methodId;
+	}
+
+	public void setMethodId(Integer methodId) {
+		this.methodId = methodId;
 	}
 
 	public BigDecimal getAmount() {
@@ -88,27 +96,19 @@ public class PaymentTransactions implements Serializable {
 		this.transactionDate = transactionDate;
 	}
 
-	public Carts getCartId() {
+	public Cart getCartId() {
 		return cartId;
 	}
 
-	public void setCartId(Carts cartId) {
+	public void setCartId(Cart cartId) {
 		this.cartId = cartId;
 	}
 
-	public PaymentMethods getMethodId() {
-		return methodId;
-	}
-
-	public void setMethodId(PaymentMethods methodId) {
-		this.methodId = methodId;
-	}
-
-	public Users getUserId() {
+	public User getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Users userId) {
+	public void setUserId(User userId) {
 		this.userId = userId;
 	}
 
@@ -122,10 +122,10 @@ public class PaymentTransactions implements Serializable {
 	@Override
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof PaymentTransactions)) {
+		if (!(object instanceof PaymentTransaction)) {
 			return false;
 		}
-		PaymentTransactions other = (PaymentTransactions) object;
+		PaymentTransaction other = (PaymentTransaction) object;
 		if ((this.transactionId == null && other.transactionId != null) || (this.transactionId != null && !this.transactionId.equals(other.transactionId))) {
 			return false;
 		}
@@ -134,7 +134,7 @@ public class PaymentTransactions implements Serializable {
 
 	@Override
 	public String toString() {
-		return "com.ndt.pojo2.PaymentTransactions[ transactionId=" + transactionId + " ]";
+		return "com.ndt.pojo.PaymentTransaction[ transactionId=" + transactionId + " ]";
 	}
 	
 }

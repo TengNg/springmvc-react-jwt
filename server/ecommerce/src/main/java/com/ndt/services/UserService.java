@@ -50,7 +50,7 @@ public class UserService {
 		if (!image.isEmpty()) {
 			try {
 				Map res = this.cloudinary.uploader().upload(image.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
-				u.setProfileImage(res.get("secure_url").toString());
+				u.setImageUrl(res.get("secure_url").toString());
 			} catch (IOException ex) {
 				return null;
 			}
