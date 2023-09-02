@@ -45,13 +45,6 @@ const ProductInfo = () => {
     return (
         <>
             <section className="w-[100%]">
-                <div className='w-[100px] h-[3rem] absolute left-[1rem] top-[0.75rem]'>
-                    <button
-                        className='button--style button--hover'
-                        onClick={() => navigate(-1)}
-                    >Back</button>
-                </div>
-
                 <div className="flex flex-row mt-[5rem]">
                     <div className="div--style p-5 ms-[1rem]">
 

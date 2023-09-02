@@ -58,7 +58,7 @@ const Home = () => {
                     <h1 className="text-[2rem] text-gray-700 relative text-center font-bold underline--style--2 underline--hover--2 transition all hover:text-gray-500"
                     >Products</h1>
                 </div>
-                <div className="div--style flex flex-wrap flex--center">
+                <div className="div--style flex flex-wrap flex--center gap-6">
                     <Products
                         products={products}
                         handleProductItemOnClick={handleProductItemOnClick}

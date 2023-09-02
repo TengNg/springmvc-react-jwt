@@ -1,14 +1,42 @@
+import { useRef, useEffect, useState } from 'react'
 import useCart from '../../hooks/useCart.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCirclePlus, faCircleMinus } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlus, faCircleMinus, faX } from '@fortawesome/free-solid-svg-icons';
 import { formatCurrencyVND } from '../../utils/currencyFormatter.js';
 
-const CartItem = ({ id, image, name, price, quantity }) => {
+const CartItem = ({ id, image, name, price, quantity, setIsQtyChanged }) => {
     const { increaseItemCount, decreaseItemCount, removeItem } = useCart();
+
+    const inputQtyRef = useRef(null);
+    const initialQtyValueRef = useRef(quantity);
+
+    useEffect(() => {
+        if (inputQtyRef.current) {
+            inputQtyRef.current.value = quantity;
+        }
+    }, [quantity]);
+
+    useEffect(() => {
+        const inputElement = inputQtyRef.current;
+
+        const handleInputChange = () => {
+            if (inputElement.value !== initialQtyValueRef.current) {
+                setIsQtyChanged(true);
+            } else {
+                setIsQtyChanged(false);
+            }
+        };
+
+        inputElement.addEventListener('input', handleInputChange);
+
+        return () => {
+            inputElement.removeEventListener('input', handleInputChange);
+        };
+    }, []);
 
     return (
         <>
-            <div className='flex flex-row justify-between gap-5 div--style w-auto h-auto'>
+            <div className='flex flex-row justify-between gap-5 div--style w-[100%] h-auto relative'>
 
                 <div className='flex gap-2'>
                     <div className='flex--center w-[5rem] h-[5rem] border-black border-[3px] bg-center bg-cover overflow-hidden cursor-pointer'>
@@ -21,22 +49,29 @@ const CartItem = ({ id, image, name, price, quantity }) => {
                     </div>
                 </div>
 
-                <div className="flex--center flex-col">
-                    <div className='flex--center flex-row gap-5'>
+                <div className="flex flex-col justify-end">
+                    <div className='flex--center flex-row'>
                         <button className="flex--center w-[1rem] h-[1rem]" onClick={() => decreaseItemCount(id)}>
                             <FontAwesomeIcon className="w-[100%] h-[100%]" icon={faCircleMinus} />
                         </button>
-                        <p>{quantity}</p>
+
+                        <input
+                            type="number"
+                            ref={inputQtyRef}
+                            defaultValue={quantity}
+                            className="w-[3rem] text-center" />
+
                         <button className="flex--center w-[1rem] h-[1rem]" onClick={() => increaseItemCount(id)}>
                             <FontAwesomeIcon className="w-[100%] h-[100%]" icon={faCirclePlus} />
                         </button>
                     </div>
-                    <div className="w-[6rem] h-[3rem]">
-                        <button
-                            className="button--style button--hover"
-                            onClick={() => removeItem(id)}>Remove</button>
-                    </div>
                 </div>
+
+                <button
+                    className="absolute top-2 right-3"
+                    onClick={() => removeItem(id)}>
+                    <FontAwesomeIcon icon={faX} />
+                </button>
             </div>
         </>
     );

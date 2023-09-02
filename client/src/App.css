@@ -4,7 +4,7 @@
 
 @layer components {
     .div--style {
-        @apply border-black border-[3px] m-3 p-3 w-fit shadow-[4px_5px_0_0_black] select-none font-bold bg-white
+        @apply border-black border-[3px] p-3 w-fit shadow-[4px_5px_0_0_black] select-none font-bold bg-white
     }
 
     .div--hover--style {
@@ -56,11 +56,11 @@
     }
 
     .underline--style--2 {
-        @apply before:content-[''] before:absolute before:w-[50%] before:h-[0.25rem] before:bg-black before:bottom-[-0.25rem] before:left-[0.15rem] before:right-0 before:transition-all before:duration-500
+        @apply before:content-[''] before:absolute before:w-[50%] before:h-[0.25rem] before:bg-black before:bottom-[-0.25rem] before:left-0 before:right-0 before:transition-all before:duration-500
     }
 
     .underline--hover--2 {
-        @apply before:hover:w-[95%] before:hover:bg-gray-500
+        @apply before:hover:w-[100%] before:hover:bg-gray-500
     }
 
     .anchor--style {
@@ -103,3 +103,12 @@ h1 {
     font-size: 3.5em;
 }
 
+input[type=number]{
+    -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

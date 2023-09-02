@@ -9,6 +9,7 @@ import NavBar from './components/Navbar'
 import NotFound from './pages/NotFound'
 import { useLocation } from 'react-router-dom'
 import UserShoppingCart from './pages/UserShoppingCart'
+import Checkout from './pages/Checkout'
 
 const noNavPaths = ["/login", "/register", "/notfound"];
 
@@ -29,6 +30,7 @@ function App() {
                 <Route path={"/shop"} element={<Shop />} />
                 <Route path={"/shop/products/:productId"} element={<ProductInfo />} />
                 <Route path={"/cart"} element={<UserShoppingCart />} />
+                <Route path={"/checkout"} element={<Checkout />} />
                 {/* <Route path={"/notfound"} element={<NotFound />} /> */}
                 <Route path={"*"} element={<NotFound />} />
             </Routes>

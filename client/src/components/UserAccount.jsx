@@ -6,11 +6,14 @@ import useAuth from '../hooks/useAuth';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareMinus, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
+import useCart from '../hooks/useCart';
 
 export default function UserAccount() {
     const { auth, setAuth } = useAuth();
     const [profileImage, setProfileImage] = useState(null);
     const [show, setShow] = useState(false);
+
+    const { cart } = useCart();
 
     const navigate = useNavigate();
 
@@ -39,12 +42,14 @@ export default function UserAccount() {
     };
 
     const handleOpenUserCart = () => {
+        setShow(false);
+        navigate("/cart");
     };
 
     return (
         <>
             {Object.keys(auth).length === 0 || !auth?.accessToken ? (
-                <div className='absolute w-[8rem] h-[3rem] top-[0.75rem] right-[1rem]'>
+                <div className='absolute w-[8rem] h-[3rem] top-[1rem] right-[1rem]'>
                     <button
                         onClick={() => navigate("/login")}
                         className='button--style button--hover'
@@ -52,7 +57,7 @@ export default function UserAccount() {
                 </div>
             ) : (
                 <>
-                    <div className="absolute top-[0.75rem] right-[1rem] flex flex-row gap-2 w-fit h-fit z-50">
+                    <div className="absolute top-[1rem] right-[1rem] flex flex-row gap-2 w-fit h-fit z-50">
                         {!show ? (
                             <>
                                 {/* not full show */}
@@ -81,8 +86,16 @@ export default function UserAccount() {
                                     </div>
                                 </div>
                             </div>
-                            <div className='w-[95%] h-[3rem]'><button onClick={handleOpenUserCart} className='button--style button--hover'>Cart</button></div>
-                            <div className='w-[95%] h-[3rem]'><button onClick={handleLogout} className='button--style button--hover'>Logout</button></div>
+                            <div className='w-[95%] h-[3rem]'>
+                                <button onClick={handleOpenUserCart} className='button--style button--hover'>
+                                    Cart ({cart.length})
+                                </button>
+                            </div>
+                            <div className='w-[95%] h-[3rem]'>
+                                <button onClick={handleLogout} className='button--style button--hover'>
+                                    Logout
+                                </button>
+                            </div>
                         </div>)}
 
                         <button
