@@ -20,7 +20,7 @@ export default function Login() {
 
     useEffect(() => {
         const isLoggedIn = async () => {
-            const response = await axiosPrivate.get('/check-cookies/');
+            const response = await axiosPrivate.get('/api/check-cookies/');
             if (response.status === 200) {
                 navigate('/');
             }
@@ -34,7 +34,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axiosPrivate.post('/login', { username: username.trim(), password });
+            const response = await axiosPrivate.post('/api/login/', { username: username.trim(), password });
             const accessToken = response?.data?.accessToken;
             setAuth({ username, accessToken });
             setUsername('');

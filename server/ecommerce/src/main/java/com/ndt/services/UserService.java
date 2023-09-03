@@ -11,11 +11,14 @@ import com.ndt.repositories.UserRepository;
 import java.io.IOException;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     @Autowired
     private Cloudinary cloudinary;
 
@@ -64,5 +67,10 @@ public class UserService {
 	public void updateRefreshToken(User user, String refreshToken) {
 		user.setRefreshToken(refreshToken);
 		userRepo.update(user);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
+		throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
 	}
 }

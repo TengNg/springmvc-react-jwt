@@ -23,7 +23,7 @@ const NavBar = () => {
                     </li>
                     <li className="relative">
                         {cart.length > 0 && (
-                            <span class="flex--center w-[1rem] h-[1rem] bg-red-500 text-white text-[0.55rem] rounded-full absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/4">
+                            <span className="flex--center w-[1rem] h-[1rem] bg-red-500 text-white text-[0.55rem] rounded-full absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/4">
                                 {cart.length}
                             </span>
                         )}

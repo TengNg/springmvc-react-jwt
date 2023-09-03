@@ -1,38 +1,10 @@
-import { useRef, useEffect, useState } from 'react'
 import useCart from '../../hooks/useCart.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faCircleMinus, faX } from '@fortawesome/free-solid-svg-icons';
 import { formatCurrencyVND } from '../../utils/currencyFormatter.js';
 
-const CartItem = ({ id, image, name, price, quantity, setIsQtyChanged }) => {
+const CartItem = ({ id, image, name, price, quantity, isCheckout }) => {
     const { increaseItemCount, decreaseItemCount, removeItem } = useCart();
-
-    const inputQtyRef = useRef(null);
-    const initialQtyValueRef = useRef(quantity);
-
-    useEffect(() => {
-        if (inputQtyRef.current) {
-            inputQtyRef.current.value = quantity;
-        }
-    }, [quantity]);
-
-    useEffect(() => {
-        const inputElement = inputQtyRef.current;
-
-        const handleInputChange = () => {
-            if (inputElement.value !== initialQtyValueRef.current) {
-                setIsQtyChanged(true);
-            } else {
-                setIsQtyChanged(false);
-            }
-        };
-
-        inputElement.addEventListener('input', handleInputChange);
-
-        return () => {
-            inputElement.removeEventListener('input', handleInputChange);
-        };
-    }, []);
 
     return (
         <>
@@ -49,29 +21,36 @@ const CartItem = ({ id, image, name, price, quantity, setIsQtyChanged }) => {
                     </div>
                 </div>
 
-                <div className="flex flex-col justify-end">
-                    <div className='flex--center flex-row'>
-                        <button className="flex--center w-[1rem] h-[1rem]" onClick={() => decreaseItemCount(id)}>
-                            <FontAwesomeIcon className="w-[100%] h-[100%]" icon={faCircleMinus} />
-                        </button>
+                {
+                    !isCheckout && (
+                        <>
+                            <div className="flex flex-col justify-end">
+                                <div className='flex--center flex-row'>
+                                    <button className="flex--center w-[1rem] h-[1rem]" onClick={() => decreaseItemCount(id)}>
+                                        <FontAwesomeIcon className="w-[100%] h-[100%]" icon={faCircleMinus} />
+                                    </button>
 
-                        <input
-                            type="number"
-                            ref={inputQtyRef}
-                            defaultValue={quantity}
-                            className="w-[3rem] text-center" />
+                                    <input
+                                        type="number"
+                                        value={quantity}
+                                        className="w-[3rem] text-center" />
 
-                        <button className="flex--center w-[1rem] h-[1rem]" onClick={() => increaseItemCount(id)}>
-                            <FontAwesomeIcon className="w-[100%] h-[100%]" icon={faCirclePlus} />
-                        </button>
-                    </div>
-                </div>
+                                    <button className="flex--center w-[1rem] h-[1rem]" onClick={() => increaseItemCount(id)}>
+                                        <FontAwesomeIcon className="w-[100%] h-[100%]" icon={faCirclePlus} />
+                                    </button>
+                                </div>
+                            </div>
 
-                <button
-                    className="absolute top-2 right-3"
-                    onClick={() => removeItem(id)}>
-                    <FontAwesomeIcon icon={faX} />
-                </button>
+                            <button
+                                className="absolute top-2 right-3"
+                                onClick={() => removeItem(id)}>
+                                <FontAwesomeIcon icon={faX} />
+                            </button>
+                        </>
+                    )
+                }
+
+
             </div>
         </>
     );

@@ -5,7 +5,7 @@ const useRefreshToken = () => {
     const { setAuth } = useAuth();
 
     const refresh = async () => {
-        const response = await axiosPrivate.get('/api/refresh');
+        const response = await axiosPrivate.get('/api/refresh/');
         setAuth(prev => {
             return { ...prev, accessToken: response.data.accessToken }
         });

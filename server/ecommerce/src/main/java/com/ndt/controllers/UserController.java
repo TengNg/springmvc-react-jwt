@@ -45,7 +45,7 @@ public class UserController {
 
     @GetMapping("/account")
     public ResponseEntity<Map<String, Object>> products(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
-		if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+	if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
 			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 		}
 		String token = authorizationHeader.substring(7);

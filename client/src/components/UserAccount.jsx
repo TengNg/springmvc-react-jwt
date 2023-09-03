@@ -7,13 +7,14 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareMinus, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 import useCart from '../hooks/useCart';
+import LOCAL_STORAGE_KEY from '../data/localStorageKey';
 
 export default function UserAccount() {
     const { auth, setAuth } = useAuth();
     const [profileImage, setProfileImage] = useState(null);
     const [show, setShow] = useState(false);
 
-    const { cart } = useCart();
+    const { cart, setCart } = useCart();
 
     const navigate = useNavigate();
 
@@ -21,7 +22,7 @@ export default function UserAccount() {
 
     useEffect(() => {
         const getUserInformation = async () => {
-            const response = await axiosWithInterceptors.get('/api/account');
+            const response = await axiosWithInterceptors.get('/api/account/');
             const { user, accessToken } = response.data;
             setAuth({ username: user.username, email: user.email, accessToken });
             setProfileImage(user.imageUrl);
@@ -33,8 +34,10 @@ export default function UserAccount() {
 
     const handleLogout = async () => {
         try {
-            await axiosPrivate.get('/logout');
+            await axiosPrivate.get('/logout/');
             setAuth({});
+            setCart([]);
+            localStorage.removeItem(LOCAL_STORAGE_KEY);
         } catch (err) {
             setAuth({});
             navigate('/');
