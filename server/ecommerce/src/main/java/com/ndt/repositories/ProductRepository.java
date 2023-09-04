@@ -1,7 +1,9 @@
 package com.ndt.repositories;
 
 import com.ndt.pojo.Product;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +39,13 @@ public class ProductRepository {
 		Query q = s.createQuery("DELETE FROM Product WHERE product_id=:id");
 		q.setParameter("id", id);
 		q.executeUpdate();
+	}
+
+	public Product addProduct(Product product) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		product.setProductId(UUID.randomUUID().toString());
+		product.setCreatedAt(new Date());
+        s.save(product);
+        return product;
 	}
 }

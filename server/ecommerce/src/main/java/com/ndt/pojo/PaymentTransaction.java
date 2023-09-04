@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
 	@NamedQuery(name = "PaymentTransaction.findAll", query = "SELECT p FROM PaymentTransaction p"),
 	@NamedQuery(name = "PaymentTransaction.findByTransactionId", query = "SELECT p FROM PaymentTransaction p WHERE p.transactionId = :transactionId"),
-	@NamedQuery(name = "PaymentTransaction.findByMethodId", query = "SELECT p FROM PaymentTransaction p WHERE p.methodId = :methodId"),
+	@NamedQuery(name = "PaymentTransaction.findByMethod", query = "SELECT p FROM PaymentTransaction p WHERE p.method = :method"),
 	@NamedQuery(name = "PaymentTransaction.findByAmount", query = "SELECT p FROM PaymentTransaction p WHERE p.amount = :amount"),
 	@NamedQuery(name = "PaymentTransaction.findByTransactionDate", query = "SELECT p FROM PaymentTransaction p WHERE p.transactionDate = :transactionDate")})
 public class PaymentTransaction implements Serializable {
@@ -39,11 +41,12 @@ public class PaymentTransaction implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
     @Basic(optional = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     @Column(name = "transaction_id")
 	private Integer transactionId;
-	@Column(name = "method_id")
-	private Integer methodId;
+	@Column(name = "method")
+	private String method;
 	// @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
 	@Column(name = "amount")
 	private BigDecimal amount;
@@ -72,12 +75,12 @@ public class PaymentTransaction implements Serializable {
 		this.transactionId = transactionId;
 	}
 
-	public Integer getMethodId() {
-		return methodId;
+	public String getMethod() {
+		return method;
 	}
 
-	public void setMethodId(Integer methodId) {
-		this.methodId = methodId;
+	public void setMethod(String method) {
+		this.method = method;
 	}
 
 	public BigDecimal getAmount() {

@@ -10,8 +10,9 @@ import NotFound from './pages/NotFound'
 import { useLocation } from 'react-router-dom'
 import UserShoppingCart from './pages/UserShoppingCart'
 import Checkout from './pages/Checkout'
+import ForSellersRegister from './pages/ForSellersRegister'
 
-const noNavPaths = ["/login", "/register", "/notfound"];
+const noNavPaths = ["/login", "/register", "/notfound", "/seller", "/seller/register"];
 
 function App() {
     const { pathname } = useLocation();
@@ -31,6 +32,10 @@ function App() {
                 <Route path={"/shop/products/:productId"} element={<ProductInfo />} />
                 <Route path={"/cart"} element={<UserShoppingCart />} />
                 <Route path={"/checkout"} element={<Checkout />} />
+
+                <Route path={"/for-sellers/"} element={<ForSellersRegister />} />
+                <Route path={"/for-sellers/register"} element={<ForSellersRegister />} />
+
                 {/* <Route path={"/notfound"} element={<NotFound />} /> */}
                 <Route path={"*"} element={<NotFound />} />
             </Routes>

@@ -24,7 +24,7 @@ export default function UserAccount() {
         const getUserInformation = async () => {
             const response = await axiosWithInterceptors.get('/api/account/');
             const { user, accessToken } = response.data;
-            setAuth({ username: user.username, email: user.email, accessToken });
+            setAuth({ username: user.username, userProfileImage: user.imageUrl, email: user.email, accessToken });
             setProfileImage(user.imageUrl);
         }
         getUserInformation().catch(err => {
@@ -52,11 +52,15 @@ export default function UserAccount() {
     return (
         <>
             {Object.keys(auth).length === 0 || !auth?.accessToken ? (
-                <div className='absolute w-[8rem] h-[3rem] top-[1rem] right-[1rem]'>
+                <div className='flex absolute top-[1rem] right-[1rem] gap-4'>
                     <button
                         onClick={() => navigate("/login")}
-                        className='button--style button--hover'
+                        className="text-sm button--style--2 bg-gray-700 border-gray-700 text-white"
                     >Login</button>
+                    <button
+                        onClick={() => navigate("/for-sellers")}
+                        className='text-sm font-normal button--style--2 flex--center bg-gray-300 border-[2px]'
+                    >For Business</button>
                 </div>
             ) : (
                 <>
@@ -66,7 +70,7 @@ export default function UserAccount() {
                                 {/* not full show */}
                                 <div onClick={() => setShow(show => !show)} className='section--style--3 bg-gray-50 flex flex-row p-2 gap-2' >
                                     <div className='w-[30px] h-[30px] rounded-full border-black border-[3px] bg-center bg-cover overflow-hidden cursor-pointer'>
-                                        <img className="flex--center" src={profileImage} />
+                                        <img className="flex--center w-[100%] h-[100%]" src={profileImage} />
                                     </div>
                                     <div className='flex--center w-[100px] select-none cursor-pointer'>
                                         <div className='text-[0.75rem] font-bold w-[100%] min-w-0 overflow-hidden whitespace-nowrap text-ellipsis'>
@@ -75,10 +79,10 @@ export default function UserAccount() {
                                     </div>
                                 </div>
                             </>
-                        ) : (<div className='section--style--2 flex--center flex-col p-3 w-fit gap-3 bg-gray-50 rounded-md'>
+                        ) : (<div className='div--style flex--center flex-col p-2 w-fit gap-3 bg-gray-50'>
                             <div className='flex flex-row flex--center gap-4 p-2'>
                                 <div className='flex--center w-[50px] h-[50px] rounded-full border-black border-[3px] bg-center bg-cover overflow-hidden cursor-pointer'>
-                                    <img className="h-auto w-[100%]" src={profileImage} />
+                                    <img className="flex--center h-[100%] w-[100%]" src={profileImage} />
                                 </div>
                                 <div className='flex flex-col'>
                                     <div className='select-none text-[1rem] font-bold w-[100px] overflow-hidden whitespace-nowrap text-ellipsis'>
@@ -89,16 +93,12 @@ export default function UserAccount() {
                                     </div>
                                 </div>
                             </div>
-                            <div className='w-[95%] h-[3rem]'>
-                                <button onClick={handleOpenUserCart} className='button--style button--hover'>
-                                    Cart ({cart.length})
-                                </button>
-                            </div>
-                            <div className='w-[95%] h-[3rem]'>
-                                <button onClick={handleLogout} className='button--style button--hover'>
-                                    Logout
-                                </button>
-                            </div>
+                            <button onClick={handleOpenUserCart} className='text-sm w-[90%] button--style--2'>
+                                Cart ({cart.length})
+                            </button>
+                            <button onClick={handleLogout} className='text-sm w-[90%] button--style--2'>
+                                Logout
+                            </button>
                         </div>)}
 
                         <button

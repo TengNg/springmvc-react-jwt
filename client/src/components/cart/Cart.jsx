@@ -5,15 +5,21 @@ import { formatCurrencyVND } from '../../utils/currencyFormatter.js';
 import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-    const { cart, setCart } = useCart();
+    const { cart } = useCart();
     const navigate = useNavigate();
 
     const handleProceedCart = () => {
         navigate("/checkout");
     };
 
-    const handleUpdateCart = () => {
-    };
+    if (!cart.length) {
+        return <div className='w-[100%] flex flex--center select-none mx-auto  mt-[4rem]'>
+            <button
+                className="bg-gray-700 text-white px-5 py-3 font-normal"
+                onClick={() => navigate("/shop")}
+            >Return to shop</button>
+        </div>
+    }
 
     return (
         <>
@@ -34,7 +40,7 @@ const Cart = () => {
                         })}
                     </div>
 
-                    <hr className="border-black"/>
+                    <hr className="border-black" />
 
                     <div className="w-[100%] h-auto flex--center gap-2">
                         <button
@@ -48,21 +54,17 @@ const Cart = () => {
 
                 </div>
 
-
-                {cart.length == 0 && (
-                    <h2>No items :(</h2>
-                )}
-
-                {cart.length > 0 && (
-                    <div className='div--style w-[20%] h-[100%] p-5'>
-                        <p>Total: ${formatCurrencyVND(cart.reduce((total, item) => total + +item.price * +item.quantity, 0))}</p>
-                        <div className="flex--center flex-col gap-3 h-[80%] mt-8 mx-auto">
-                            <div className='h-[4rem]'>
-                                <button onClick={() => handleProceedCart()} className='text-sm button--style button--hover p-4'>Proceed to checkout</button>
-                            </div>
+                <div className='div--style w-[20%] h-[100%] p-5'>
+                    <p>Total: ${formatCurrencyVND(cart.reduce((total, item) => total + +item.price * +item.quantity, 0))}</p>
+                    <div className="flex--center flex-col gap-3 h-[80%] mt-8 mx-auto">
+                        <div className='h-[4rem]'>
+                            <button
+                                onClick={() => handleProceedCart()}
+                                className='text-sm button--style button--hover p-4'
+                            >Proceed to checkout</button>
                         </div>
                     </div>
-                )}
+                </div>
 
             </div>
         </>

@@ -47,7 +47,6 @@ export default function Login() {
             } else if (err.response?.status === 401 || err.response?.status === 400) {
                 setErrMsg('Username or Password is incorrect');
             } else {
-                console.log(err);
                 setErrMsg('Failed to Login');
             }
 

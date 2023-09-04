@@ -4,7 +4,7 @@ import { faCirclePlus, faCircleMinus, faX } from '@fortawesome/free-solid-svg-ic
 import { formatCurrencyVND } from '../../utils/currencyFormatter.js';
 
 const CartItem = ({ id, image, name, price, quantity, isCheckout }) => {
-    const { increaseItemCount, decreaseItemCount, removeItem } = useCart();
+    const { increaseItemCount, decreaseItemCount, removeItem, updateItemCount } = useCart();
 
     return (
         <>
@@ -33,6 +33,7 @@ const CartItem = ({ id, image, name, price, quantity, isCheckout }) => {
                                     <input
                                         type="number"
                                         value={quantity}
+                                        onChange={(e) => updateItemCount(id, +e.target.value)}
                                         className="w-[3rem] text-center" />
 
                                     <button className="flex--center w-[1rem] h-[1rem]" onClick={() => increaseItemCount(id)}>

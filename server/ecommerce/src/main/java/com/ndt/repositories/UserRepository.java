@@ -1,6 +1,7 @@
 package com.ndt.repositories;
 
 import com.ndt.pojo.User;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import javax.persistence.Query;
@@ -54,6 +55,7 @@ public class UserRepository {
     public User addUser(User u) {
         Session s = this.factory.getObject().getCurrentSession();
 		u.setUserId(UUID.randomUUID().toString());
+		u.setCreatedAt(new Date());
         s.save(u);
         return u;
     }

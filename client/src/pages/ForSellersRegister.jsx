@@ -9,7 +9,7 @@ import USER_ROLES from '../data/userRoles';
 // const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 // const PWD_REGEX = /^.{8,24}$/;
 
-export default function Register() {
+export default function ForSellersRegister() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmedPassword, setConfirmedPassword] = useState("");
@@ -75,7 +75,7 @@ export default function Register() {
         formData.append('image', image);
         formData.append('username', username);
         formData.append('password', password);
-        formData.append('role', USER_ROLES.user);
+        formData.append('role', USER_ROLES.seller);
 
         try {
             await axiosPrivate.post('/api/register/', formData);
@@ -101,6 +101,9 @@ export default function Register() {
         <>
             <BasicLayout styles={'relative w-[100%] h-[100vh] flex flex-col items-center p-5 gap-2 bg-gray-300'}>
                 <Title titleName={"Register"} />
+
+                <p className="font-bold">For Sellers</p>
+
                 <form onSubmit={handleSubmit} className='flex flex-row section--style p-4'>
                     <div
                         className="div--style shadow-none w-[80px] h-[80px] rounded-full me-6 bg-cover bg-center"
@@ -157,15 +160,6 @@ export default function Register() {
 
                     </div>
                 </form>
-
-                <div className='items-start w-[300px] p-4 font-bold select-none'>
-                    Already have an Account?
-                    <div className='w-[150px] h-[3rem]'>
-                        <Link className='text-black hover:text-black' to="/login">
-                            <button className='button--style button--hover'>Log in</button>
-                        </Link>
-                    </div>
-                </div>
 
             </BasicLayout>
         </>

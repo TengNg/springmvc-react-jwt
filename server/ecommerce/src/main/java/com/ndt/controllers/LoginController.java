@@ -65,8 +65,10 @@ public class LoginController {
 			return ResponseEntity.status(401).body(data);
 		}
 
+		User user = this.userService.getUserByRefreshToken(refreshTokenCookie.getValue());
 		Map<String, Object> data = new HashMap<>();
 		data.put("msg", "user is already logged in");
+		data.put("user", user);
 		return ResponseEntity.status(200).body(data);
 	}
     
@@ -97,6 +99,7 @@ public class LoginController {
 			Map<String, String> data = new HashMap<>();
 			data.put("accessToken", accessToken);
 			data.put("refreshToken", refreshToken);
+			data.put("role", currentUser.getUserRole());
 
 			return ResponseEntity.ok()
 					.header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())

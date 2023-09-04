@@ -15,6 +15,10 @@
         @apply border-black border-[4px] w-[100%] h-[100%] shadow-[4px_5px_0_0_black] select-none transition-all font-bold bg-white
     }
 
+    .button--style--2 {
+        @apply border-black border-[3px] p-4 py-2
+    }
+
     .button--hover {
         @apply hover:shadow-none hover:m-[2px_0_0_4px] hover:shadow-gray-600 hover:text-gray-600 hover:border-gray-600
     }

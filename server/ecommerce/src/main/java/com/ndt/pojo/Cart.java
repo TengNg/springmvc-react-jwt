@@ -4,11 +4,14 @@
  */
 package com.ndt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
 	@NamedQuery(name = "Cart.findAll", query = "SELECT c FROM Cart c"),
 	@NamedQuery(name = "Cart.findByCartId", query = "SELECT c FROM Cart c WHERE c.cartId = :cartId"),
-	@NamedQuery(name = "Cart.findByPaymentMethodId", query = "SELECT c FROM Cart c WHERE c.paymentMethodId = :paymentMethodId")})
+	@NamedQuery(name = "Cart.findByPaymentMethod", query = "SELECT c FROM Cart c WHERE c.paymentMethod = :paymentMethod")})
 public class Cart implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -41,9 +44,10 @@ public class Cart implements Serializable {
     @Size(min = 1, max = 40)
     @Column(name = "cart_id")
 	private String cartId;
-	@Column(name = "payment_method_id")
-	private Integer paymentMethodId;
+	@Column(name = "payment_method")
+	private String paymentMethod;
 	@OneToMany(mappedBy = "cartId")
+	@JsonIgnore
 	private Set<ShippingProcess> shippingProcessSet;
 	@OneToMany(mappedBy = "cartId")
 	private Set<PaymentTransaction> paymentTransactionSet;
@@ -68,12 +72,12 @@ public class Cart implements Serializable {
 		this.cartId = cartId;
 	}
 
-	public Integer getPaymentMethodId() {
-		return paymentMethodId;
+	public String getPaymentMethod() {
+		return paymentMethod;
 	}
 
-	public void setPaymentMethodId(Integer paymentMethodId) {
-		this.paymentMethodId = paymentMethodId;
+	public void setPaymentMethod(String paymentMethodId) {
+		this.paymentMethod = paymentMethodId;
 	}
 
 	@XmlTransient

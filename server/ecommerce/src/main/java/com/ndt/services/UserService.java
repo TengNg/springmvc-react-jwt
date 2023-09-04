@@ -9,8 +9,12 @@ import com.cloudinary.utils.ObjectUtils;
 import com.ndt.pojo.User;
 import com.ndt.repositories.UserRepository;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,7 +53,7 @@ public class UserService implements UserDetailsService {
 		User u = new User();
 		u.setUsername(params.get("username"));
 		u.setPassword(params.get("password"));
-		u.setUserRole("ROLE_USER");
+		u.setUserRole(params.get("role"));
 		if (!image.isEmpty()) {
 			try {
 				Map res = this.cloudinary.uploader().upload(image.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
@@ -70,7 +74,13 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
-		throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User u = this.userRepo.getUserByUsername(username);
+		if (u == null) {
+			throw new UsernameNotFoundException("Invalid");
+		}
+		Set<GrantedAuthority> authorities = new HashSet<>();
+		authorities.add(new SimpleGrantedAuthority(u.getUserRole()));
+		return new org.springframework.security.core.userdetails.User(u.getUsername(), u.getPassword(), authorities);
 	}
 }
