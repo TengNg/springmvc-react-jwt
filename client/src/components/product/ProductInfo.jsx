@@ -9,7 +9,6 @@ import Review from "../comment/Review";
 
 const ProductInfo = () => {
     const { productId } = useParams();
-    console.log(productId);
 
     const [product, setProduct] = useState(null);
     const [reviews, setReviews] = useState([]);
@@ -32,8 +31,6 @@ const ProductInfo = () => {
         });
     }, []);
 
-
-
     const handleBuyNow = () => {
         if (!auth?.accessToken) {
             navigate("/login");
@@ -52,7 +49,7 @@ const ProductInfo = () => {
         });
     };
 
-    const handlePostComment = async (text, rating) => {
+    const handlePostReview = async (text, rating) => {
         const { username } = auth;
 
         const response = await axios.post("/api/reviews/post", {
@@ -64,6 +61,27 @@ const ProductInfo = () => {
 
         const review = response?.data?.review;
         const newReviews = [review, ...reviews];
+        setReviews(newReviews);
+    };
+
+    const handlePostReply = async (reviewId, text) => {
+        const { username } = auth;
+
+        const response = await axios.post("/api/replies/post", {
+            username,
+            reviewId,
+            responseText: text,
+        });
+
+        const reply = response?.data?.reply;
+
+        const newReviews = reviews.map((review) => {
+            if (review.reviewId === reviewId) {
+                return { ...review, replies: [...review.replies, reply] };
+            }
+            return review;
+        });
+
         setReviews(newReviews);
     };
 
@@ -116,13 +134,17 @@ const ProductInfo = () => {
 
                 <div className="w-[100%] flex flex-row justify-between mt-3 gap-10">
                     <ReviewForm
-                        handlePostComment={handlePostComment}
+                        handlePostComment={handlePostReview}
                     />
 
                     <div className="div--style flex-grow">
                         {reviews &&
                             reviews.map((review, index) => {
-                                return <Review key={index} review={review} />
+                                return <Review
+                                    handlePostReply={handlePostReply}
+                                    key={index}
+                                    review={review}
+                                />
                             })
                         }
                     </div>

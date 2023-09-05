@@ -40,9 +40,10 @@ export default function ReviewForm({ handlePostComment }) {
                     <div className="flex flex-wrap">
                         <div className="w-full">
                             <textarea
-                                className="text-sm bg-gray-100 rounded border border-gray-400 leading-normal overflow-y-hidden resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-500 focus:outline-none focus:bg-white"
+                                className="text-sm bg-gray-100 border border-gray-400 leading-normal overflow-y-hidden resize-none w-full py-2 px-3 font-medium placeholder-gray-500 focus:outline-none focus:bg-white"
                                 placeholder='Type Your Comment'
                                 onChange={handleTextareaChange}
+                                value={text}
                                 required>
                             </textarea>
                         </div>

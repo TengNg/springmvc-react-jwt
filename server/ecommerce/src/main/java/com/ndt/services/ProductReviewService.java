@@ -2,10 +2,12 @@ package com.ndt.services;
 
 import com.ndt.pojo.Product;
 import com.ndt.pojo.ProductReview;
+import com.ndt.pojo.Reply;
 import com.ndt.pojo.User;
 import com.ndt.repositories.ProductRepository;
 import com.ndt.repositories.ProductReviewRepository;
 import com.ndt.repositories.UserRepository;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,10 @@ public class ProductReviewService {
 		return this.reviewRepository.getReviews(productId);
 	}
 
+	public ProductReview getReviewById(String id) {
+		return this.reviewRepository.getProductReviewById(id);
+	}	
+
     public ProductReview postReview(Map<String, Object> params) {
 		String productId = (String) params.get("productId");
 		String username = (String) params.get("username");
@@ -49,5 +55,10 @@ public class ProductReviewService {
 		this.reviewRepository.postReview(productReview);
 		return productReview;
     }
+
+	public void updateReplies(ProductReview review, List<Reply> replies) {
+		review.setReplies(replies);
+		this.reviewRepository.update(review);
+	}
 }
 

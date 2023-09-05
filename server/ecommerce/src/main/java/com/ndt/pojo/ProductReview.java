@@ -5,9 +5,13 @@
 package com.ndt.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,6 +26,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -68,11 +73,23 @@ public class ProductReview implements Serializable {
     @ManyToOne
 	private User userId;
 
+	@Transient
+	@JsonProperty("replies")
+	private List<Reply> replies = new ArrayList<>();
+
 	public ProductReview() {
 	}
 
 	public ProductReview(String reviewId) {
 		this.reviewId = reviewId;
+	}
+
+	public List<Reply> getReplies() {
+		return this.replies;
+	}
+
+	public void setReplies(List<Reply> replies) {
+		this.replies = replies;
 	}
 
 	public String getReviewId() {

@@ -24,10 +24,26 @@ public class ProductReviewRepository {
 		return q.getResultList();
 	}
 
+	public ProductReview getProductReviewById(String id) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("FROM ProductReview WHERE review_id = :id");
+		q.setParameter("id", id);
+		List results = q.getResultList();
+		if (results.isEmpty()){
+			return null;
+		}	
+		return (ProductReview) results.get(0);
+	}
+
 	public ProductReview postReview(ProductReview productReview) {
 		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
 		s.save(productReview);
 		return productReview;
 	}
+
+    public void update(ProductReview productReview) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		s.update(productReview);
+    }
 }
 

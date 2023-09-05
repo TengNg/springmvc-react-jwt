@@ -4,6 +4,7 @@
  */
 package com.ndt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -43,7 +44,6 @@ public class Reply implements Serializable {
     @Column(name = "reply_id")
 	private String replyId;
 	@Basic(optional = false)
-    @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "response_text")
@@ -54,6 +54,10 @@ public class Reply implements Serializable {
 	@JoinColumn(name = "review_id", referencedColumnName = "review_id")
     @ManyToOne(optional = false)
 	private ProductReview reviewId;
+
+	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @ManyToOne(optional = false)
+	private User userId;
 
 	public Reply() {
 	}
@@ -89,6 +93,14 @@ public class Reply implements Serializable {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public User getUserId() {
+		return userId;
+	}
+
+	public void setUserId(User userId ) {
+		this.userId = userId;
 	}
 
 	public ProductReview getReviewId() {

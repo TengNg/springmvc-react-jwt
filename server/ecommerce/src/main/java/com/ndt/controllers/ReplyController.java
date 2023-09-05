@@ -1,9 +1,6 @@
 package com.ndt.controllers;
 
-import com.ndt.pojo.Category;
-import com.ndt.pojo.ProductReview;
 import com.ndt.pojo.Reply;
-import com.ndt.services.ProductReviewService;
 import com.ndt.services.ReplyService;
 import java.util.HashMap;
 import java.util.List;
@@ -37,47 +34,30 @@ import org.springframework.web.bind.annotation.RestController;
 			RequestMethod.PATCH, RequestMethod.OPTIONS,
 			RequestMethod.HEAD, RequestMethod.TRACE}
 )
-public class ProductReviewController {
-	@Autowired
-	private ProductReviewService productReviewService;
+public class ReplyController {
 	@Autowired
 	private ReplyService replyService;
 
-	@GetMapping("/reviews/{productId}")
-	public ResponseEntity<Map<String, Object>> reviews(@PathVariable String productId) {
-		List<ProductReview> reviews = this.productReviewService.getReviews(productId);
-
-		for (ProductReview review  : reviews) {
-			List<Reply> replies = this.replyService.getReplies(review.getReviewId());
-			review.setReplies(replies);
-		}
+	@GetMapping("/replies/{reviewId}")
+	public ResponseEntity<Map<String, Object>> replies(@PathVariable String reviewId) {
+		List<Reply> replies = this.replyService.getReplies(reviewId);
 
 		Map<String, Object> data = new HashMap<>();
-		data.put("reviews", reviews);
+		data.put("replies", replies(reviewId));
 
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 
-
-	@GetMapping("/reviews/review/{id}")
-	public ResponseEntity<Map<String, Object>> review(@PathVariable String id) {
-		ProductReview review = this.productReviewService.getReviewById(id);
-
-		Map<String, Object> data = new HashMap<>();
-		data.put("review", review);
-
-		return new ResponseEntity<>(data, HttpStatus.OK);
-	}
-
-	@PostMapping("/reviews/post")
+	@PostMapping("/replies/post")
 	public ResponseEntity<?> post(@RequestBody Map<String, Object> params) {
-		ProductReview review = this.productReviewService.postReview(params);
+		Reply reply = this.replyService.postReply(params);
 
 		Map<String, Object> data = new HashMap<>();
 		data.put("msg", "review is successfully posted");
-		data.put("review", review);
+		data.put("reply", reply);
 
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 }
+
 
