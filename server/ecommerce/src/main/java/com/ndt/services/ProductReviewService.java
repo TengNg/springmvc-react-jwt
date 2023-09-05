@@ -28,16 +28,17 @@ public class ProductReviewService {
 		return this.reviewRepository.getReviews(productId);
 	}
 
-    public ProductReview postReview(Map<String, String> params) {
-		String productId = params.get("productId");
-		String username = params.get("username");
-		String reviewText = params.get("reviewText");
-		// Integer rating = (Integer) params.get("rating");
+    public ProductReview postReview(Map<String, Object> params) {
+		String productId = (String) params.get("productId");
+		String username = (String) params.get("username");
+		String reviewText = (String) params.get("reviewText");
+		Integer rating = (Integer) params.get("rating");
 
 		ProductReview productReview = new ProductReview();
 		productReview.setReviewId(UUID.randomUUID().toString());
 		productReview.setReviewDate(new Date());
 		productReview.setReviewText(reviewText);
+		productReview.setRating(rating);
 
 		User u = this.userRepository.getUserByUsername(username);
 		productReview.setUserId(u);

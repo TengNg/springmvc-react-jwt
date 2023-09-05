@@ -19,7 +19,8 @@ public class ProductReviewRepository {
 
 	public List<ProductReview> getReviews(String productId) {
 		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
-		Query q = s.createQuery("FROM ProductReview ORDER BY review_date DESC");
+		Query q = s.createQuery("FROM ProductReview WHERE product_id = :productId ORDER BY review_date DESC");
+		q.setParameter("productId", productId);
 		return q.getResultList();
 	}
 

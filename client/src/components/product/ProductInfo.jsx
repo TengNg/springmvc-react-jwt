@@ -9,6 +9,7 @@ import Review from "../comment/Review";
 
 const ProductInfo = () => {
     const { productId } = useParams();
+    console.log(productId);
 
     const [product, setProduct] = useState(null);
     const [reviews, setReviews] = useState([]);
@@ -51,13 +52,14 @@ const ProductInfo = () => {
         });
     };
 
-    const handlePostComment = async (text) => {
+    const handlePostComment = async (text, rating) => {
         const { username } = auth;
 
         const response = await axios.post("/api/reviews/post", {
             username,
             productId,
-            reviewText: text
+            reviewText: text,
+            rating
         });
 
         const review = response?.data?.review;
@@ -118,20 +120,14 @@ const ProductInfo = () => {
                     />
 
                     <div className="div--style flex-grow">
-
                         {reviews &&
                             reviews.map((review, index) => {
-                                console.log(review);
                                 return <Review key={index} review={review} />
                             })
                         }
-
                     </div>
                 </div>
-
-
             </section>
-
         </>
     )
 }

@@ -22,14 +22,18 @@ function App() {
             {!noNavPaths.includes(pathname) && <NavBar />}
             <Routes>
                 {["/", "/home", "/index"].map((path, index) => {
-                    return (
-                        <Route key={index} path={path} element={<Home />} />
-                    )
+                    return <Route key={index} path={path} element={<Home />} />
                 })}
+
                 <Route path={"/login"} element={<Login />} />
                 <Route path={"/register"} element={<Register />} />
-                <Route path={"/shop"} element={<Shop />} />
+
                 <Route path={"/shop/products/:productId"} element={<ProductInfo />} />
+
+                {["/shop", "/shop/products"].map((path, index) => {
+                    return <Route key={index} path={path} element={<Shop />} />
+                })}
+
                 <Route path={"/cart"} element={<UserShoppingCart />} />
                 <Route path={"/checkout"} element={<Checkout />} />
 

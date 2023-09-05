@@ -8,6 +8,7 @@ import com.ndt.services.UserService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -43,10 +45,24 @@ public class ProductController {
 	private ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<Map<String, Object>> products() {
-		Map<String, Object> data = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> products(
+			@RequestParam(
+					name = "category",
+					required = false,
+					defaultValue = "All" 
+			) String category
+	) {
 		List<Product> products = this.productService.getProducts();
+
+		if (!"All".equalsIgnoreCase(category)) {
+			products = products.stream()
+					.filter(product -> product.getCategoryId().getCategoryName().equals(category))
+					.collect(Collectors.toList());
+		}
+
+		Map<String, Object> data = new HashMap<>();
 		data.put("products", products);
+
 		return new ResponseEntity<>(data, HttpStatus.OK);
     }
 

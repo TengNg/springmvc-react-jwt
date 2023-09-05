@@ -49,6 +49,7 @@ public class UserRepository {
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createQuery("UPDATE User u SET u.refresh_token = :refreshToken WHERE u.username = :username");
         q.setParameter("username", username);
+        q.setParameter("refreshToken", refreshToken);
 		q.executeUpdate();
 	}
 

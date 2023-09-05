@@ -4,9 +4,12 @@
  */
 package com.ndt.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,12 +18,14 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,6 +41,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 	@NamedQuery(name = "ProductReview.findByReviewDate", query = "SELECT p FROM ProductReview p WHERE p.reviewDate = :reviewDate")})
 public class ProductReview implements Serializable {
 
+	@Lob
+    @Size(max = 65535)
+    @Column(name = "review_text")
+	private String reviewText;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "reviewId")
+	@JsonIgnore
+	private Set<Reply> replySet;
+
 	private static final long serialVersionUID = 1L;
 	@Id
     @Basic(optional = false)
@@ -43,10 +56,6 @@ public class ProductReview implements Serializable {
     @Size(min = 1, max = 40)
     @Column(name = "review_id")
 	private String reviewId;
-	@Lob
-    @Size(max = 65535)
-    @Column(name = "review_text")
-	private String reviewText;
 	@Column(name = "rating")
 	private Integer rating;
 	@Column(name = "review_date")
@@ -137,6 +146,15 @@ public class ProductReview implements Serializable {
 	@Override
 	public String toString() {
 		return "com.ndt.pojo.ProductReview[ reviewId=" + reviewId + " ]";
+	}
+
+	@XmlTransient
+	public Set<Reply> getReplySet() {
+		return replySet;
+	}
+
+	public void setReplySet(Set<Reply> replySet) {
+		this.replySet = replySet;
 	}
 	
 }

@@ -19,11 +19,10 @@ const Checkout = () => {
 
     return (
         <>
-            <div className='w-[100%] flex select-none mx-auto ms-[8rem] mt-[4rem]'>
+            <div className='w-[100%] flex select-none mx-auto mt-[4rem] ps-[8rem]'>
                 <h1 className="text-[2rem] text-gray-700 relative font-bold underline--style--2 underline--hover--2 transition all hover:text-gray-500"
                 >Checkout</h1>
             </div>
-
 
             <div className='mx-auto div--style flex flex-row justify-between mt-7 w-[1300px] min-h-[200px] p-7 bg-gray-100'>
 

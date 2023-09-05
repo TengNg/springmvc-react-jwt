@@ -40,7 +40,7 @@ public class ProductReviewController {
 	private ProductReviewService productReviewService;
 
 	@GetMapping("/reviews/{productId}")
-	public ResponseEntity<Map<String, Object>> delete(@PathVariable String productId) {
+	public ResponseEntity<Map<String, Object>> review(@PathVariable String productId) {
 		List<ProductReview> reviews = this.productReviewService.getReviews(productId);
 
 		Map<String, Object> data = new HashMap<>();
@@ -50,7 +50,7 @@ public class ProductReviewController {
 	}
 
 	@PostMapping("/reviews/post")
-	public ResponseEntity<?> post(@RequestBody Map<String, String> params) {
+	public ResponseEntity<?> post(@RequestBody Map<String, Object> params) {
 		ProductReview review = this.productReviewService.postReview(params);
 
 		Map<String, Object> data = new HashMap<>();

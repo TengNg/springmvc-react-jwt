@@ -4,24 +4,26 @@ import { useNavigate } from 'react-router-dom';
 import Products from "../components/product/Products";
 import Categories from "../components/category/Categories";
 import SearchBar from "../components/SearchBar";
+import useQuery from "../hooks/useQuery";
 
 const Home = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState(false);
 
+    const query = useQuery();
     const navigate = useNavigate();
 
     useEffect(() => {
         const getProducts = async () => {
-            const response1 = await axios.get("/api/products/");
+            const productApiUrl = query.get('category') ? `/api/products?category=${query.get('category')}` : '/api/products';
+            const response1 = await axios.get(productApiUrl);
             const response2 = await axios.get("/api/categories/");
             setProducts(response1?.data?.products);
             setCategories(response2?.data?.categories);
         };
 
-        getProducts().catch(err => {
-            console.log(err);
+        getProducts().catch(_ => {
             setError(true);
         });
     }, []);
@@ -30,11 +32,9 @@ const Home = () => {
         navigate(`/shop/products/${id}`);
     };
 
-    // handle request params
-    const handleCategoryItemOnClick = (id) => {
-        console.log(id);
-        const requestParams = {};
-        // navigate(`/product/${null}`);
+    const handleCategoryItemOnClick = (categoryName) => {
+        const newProducts = products.filter(product => product.categoryId.categoryName === categoryName);
+        setProducts(newProducts);
     };
 
     if (error) {
@@ -47,7 +47,7 @@ const Home = () => {
         <section className="w-[100%] h-[100vh] flex flex-col items-center">
             <SearchBar />
 
-            <div className="flex flex-wrap justify-center items-center w-[80%]">
+            <div className="flex flex-wrap justify-center items-center w-[80%] gap-4">
                 <Categories
                     categories={categories}
                     handleCategoryItemOnClick={handleCategoryItemOnClick}
