@@ -9,6 +9,7 @@ const NavBar = () => {
 
     return (
         <>
+            <UserAccount />
             <nav className="div--style abolute w-[200px] h-[3rem] mt-[1rem] mx-auto">
                 <ul className="w-[100%] h-[100%] flex justify-around items-center">
                     <li>
@@ -33,7 +34,6 @@ const NavBar = () => {
                     </li>
                 </ul>
             </nav>
-            <UserAccount />
         </>
     )
 }

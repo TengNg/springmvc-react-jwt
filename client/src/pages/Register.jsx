@@ -4,6 +4,7 @@ import { axiosPrivate } from '../api/axios';
 import Title from '../components/Title';
 import BasicLayout from '../components/layout/BasicLayout';
 import USER_ROLES from '../data/userRoles';
+import Loading from '../components/common/Loading';
 
 // const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 // const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -15,6 +16,7 @@ export default function Register() {
     const [confirmedPassword, setConfirmedPassword] = useState("");
     const [image, setImage] = useState();
     const [previewImage, setPreviewImage] = useState();
+    const [loading, setLoading] = useState(false);
 
     const passwordInputEl = useRef(null);
     const usernameInputEl = useRef(null);
@@ -78,11 +80,13 @@ export default function Register() {
         formData.append('role', USER_ROLES.user);
 
         try {
+            setLoading(true);
             await axiosPrivate.post('/api/register/', formData);
             setSuccess(true);
             setUsername('');
             setPassword('');
             setConfirmedPassword('');
+            setLoading(false);
             navigate('/login');
         } catch (err) {
             if (!err?.response) {
@@ -99,6 +103,7 @@ export default function Register() {
 
     return (
         <>
+            <Loading loading={loading} />
             <BasicLayout styles={'relative w-[100%] h-[100vh] flex flex-col items-center p-5 gap-2 bg-gray-300'}>
                 <Title titleName={"Register"} />
                 <form onSubmit={handleSubmit} className='flex flex-row section--style p-4'>

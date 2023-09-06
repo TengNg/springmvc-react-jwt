@@ -34,6 +34,13 @@ public class ProductRepository {
 		return (Product) results.get(0);
     }
 
+	public List<Product> getProductsBySellerId(String sellerId) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        Query q = s.createQuery("FROM Product WHERE user_id = :sellerId");
+		q.setParameter("sellerId", sellerId);
+        return q.getResultList();
+	}	
+
 	public void deleteProductById(String id) {
 		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
 		Query q = s.createQuery("DELETE FROM Product WHERE product_id=:id");

@@ -1,4 +1,5 @@
 import './App.css'
+import { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -11,6 +12,8 @@ import { useLocation } from 'react-router-dom'
 import UserShoppingCart from './pages/UserShoppingCart'
 import Checkout from './pages/Checkout'
 import ForSellersRegister from './pages/ForSellersRegister'
+import ProductManagement from './pages/ProductManagement'
+import Auth from './components/auth/Auth'
 
 const noNavPaths = ["/login", "/register", "/notfound", "/seller", "/seller/register"];
 
@@ -37,10 +40,10 @@ function App() {
                 <Route path={"/cart"} element={<UserShoppingCart />} />
                 <Route path={"/checkout"} element={<Checkout />} />
 
-                <Route path={"/for-sellers/"} element={<ForSellersRegister />} />
+                <Route path={"/for-sellers"} element={<ProductManagement />} />
                 <Route path={"/for-sellers/register"} element={<ForSellersRegister />} />
 
-                {/* <Route path={"/notfound"} element={<NotFound />} /> */}
+                <Route path={"/notfound"} element={<NotFound />} />
                 <Route path={"*"} element={<NotFound />} />
             </Routes>
         </>

@@ -141,8 +141,8 @@ const ProductInfo = () => {
                         {reviews &&
                             reviews.map((review, index) => {
                                 return <Review
-                                    handlePostReply={handlePostReply}
                                     key={index}
+                                    handlePostReply={handlePostReply}
                                     review={review}
                                 />
                             })

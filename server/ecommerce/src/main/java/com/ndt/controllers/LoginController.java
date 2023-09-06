@@ -92,7 +92,7 @@ public class LoginController {
 
 			HttpCookie refreshTokenCookie = ResponseCookie.from("token", refreshToken)
 					.maxAge(60 * 60 * 24) 
-					.httpOnly(true)
+					// .httpOnly(true) // cannot use react-cookies .get(<token>) if enable this
 					.path("/")
 					.build();
 

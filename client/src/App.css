@@ -16,7 +16,7 @@
     }
 
     .button--style--2 {
-        @apply border-black border-[3px] p-4 py-2
+        @apply border-black border-[3px] p-3 py-2
     }
 
     .button--hover {

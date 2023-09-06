@@ -22,4 +22,8 @@ public class ProductService {
 	public void deleteProductById(String id) {
 		this.productRepo.deleteProductById(id);
 	}
+
+	public List<Product> getProductsBySellerId(String sellerId) {
+		return this.productRepo.getProductsBySellerId(sellerId);
+	}
 }

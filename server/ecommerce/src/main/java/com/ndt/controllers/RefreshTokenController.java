@@ -70,6 +70,7 @@ public class RefreshTokenController {
 			
 			Map<String, String> data = new HashMap<>();
 			data.put("accessToken", newAccessToken);
+			data.put("userRole", foundUser.getUserRole());
 			
 			return ResponseEntity.ok().body(data);
 			

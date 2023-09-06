@@ -11,21 +11,23 @@ import LOCAL_STORAGE_KEY from '../data/localStorageKey';
 
 export default function UserAccount() {
     const { auth, setAuth } = useAuth();
-    const [profileImage, setProfileImage] = useState(null);
-    const [show, setShow] = useState(false);
-
     const { cart, setCart } = useCart();
-
+    const [show, setShow] = useState(false);
     const navigate = useNavigate();
-
     const axiosWithInterceptors = useAxiosPrivate();
 
     useEffect(() => {
         const getUserInformation = async () => {
             const response = await axiosWithInterceptors.get('/api/account/');
             const { user, accessToken } = response.data;
-            setAuth({ username: user.username, userProfileImage: user.imageUrl, email: user.email, accessToken });
-            setProfileImage(user.imageUrl);
+            setAuth({
+                accessToken,
+                username: user.username,
+                userProfileImage: user.imageUrl,
+                email: user.email,
+                userRole: user.userRole,
+                sellerId: user.userId
+            });
         }
         getUserInformation().catch(err => {
             console.log(err);
@@ -38,6 +40,7 @@ export default function UserAccount() {
             setAuth({});
             setCart([]);
             localStorage.removeItem(LOCAL_STORAGE_KEY);
+            navigate("/");
         } catch (err) {
             setAuth({});
             navigate('/');
@@ -70,7 +73,7 @@ export default function UserAccount() {
                                 {/* not full show */}
                                 <div onClick={() => setShow(show => !show)} className='section--style--3 bg-gray-50 flex flex-row p-2 gap-2' >
                                     <div className='w-[30px] h-[30px] rounded-full border-black border-[3px] bg-center bg-cover overflow-hidden cursor-pointer'>
-                                        <img className="flex--center w-[100%] h-[100%]" src={profileImage} />
+                                        <img className="flex--center w-[100%] h-[100%]" src={auth?.userProfileImage} />
                                     </div>
                                     <div className='flex--center w-[100px] select-none cursor-pointer'>
                                         <div className='text-[0.75rem] font-bold w-[100%] min-w-0 overflow-hidden whitespace-nowrap text-ellipsis'>
@@ -79,13 +82,13 @@ export default function UserAccount() {
                                     </div>
                                 </div>
                             </>
-                        ) : (<div className='div--style flex--center flex-col p-2 w-fit gap-3 bg-gray-50'>
-                            <div className='flex flex-row flex--center gap-4 p-2'>
-                                <div className='flex--center w-[50px] h-[50px] rounded-full border-black border-[3px] bg-center bg-cover overflow-hidden cursor-pointer'>
-                                    <img className="flex--center h-[100%] w-[100%]" src={profileImage} />
+                        ) : (<div className='div--style flex--center flex-col w-fit gap-3 bg-gray-50'>
+                            <div className='flex flex-row flex--center gap-3 px-2'>
+                                <div className='flex--center w-[40px] h-[40px] rounded-full border-black border-[3px] bg-center bg-cover overflow-hidden cursor-pointer'>
+                                    <img className="flex--center h-[100%] w-[100%]" src={auth?.userProfileImage} />
                                 </div>
                                 <div className='flex flex-col'>
-                                    <div className='select-none text-[1rem] font-bold w-[100px] overflow-hidden whitespace-nowrap text-ellipsis'>
+                                    <div className='select-none text-[0.8rem] font-bold w-[100px] overflow-hidden whitespace-nowrap text-ellipsis'>
                                         {auth?.username}
                                     </div>
                                     <div className='select-none text-[0.75rem] w-[100px] overflow-hidden whitespace-nowrap'>
@@ -93,13 +96,21 @@ export default function UserAccount() {
                                     </div>
                                 </div>
                             </div>
-                            <button onClick={handleOpenUserCart} className='text-sm w-[90%] button--style--2'>
+
+                            {auth?.userRole === "ROLE_SELLER"
+                                && <button onClick={() => navigate('/for-sellers')} className='text-[0.75rem] w-[95%] button--style--2'>
+                                    Your Shop
+                                </button>
+                            }
+
+                            <button onClick={handleOpenUserCart} className='text-[0.75rem] w-[95%] button--style--2'>
                                 Cart ({cart.length})
                             </button>
-                            <button onClick={handleLogout} className='text-sm w-[90%] button--style--2'>
+                            <button onClick={handleLogout} className='text-[0.75rem] w-[95%] button--style--2'>
                                 Logout
                             </button>
-                        </div>)}
+                        </div>)
+                        }
 
                         <button
                             className='w-7 h-7'

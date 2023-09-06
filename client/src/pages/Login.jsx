@@ -36,7 +36,8 @@ export default function Login() {
         try {
             const response = await axiosPrivate.post('/api/login/', { username: username.trim(), password });
             const accessToken = response?.data?.accessToken;
-            setAuth({ username, accessToken });
+            const userRole = response?.data?.role;
+            setAuth({ username, accessToken, userRole });
             setUsername('');
             setPassword('');
             setSuccess(true);
