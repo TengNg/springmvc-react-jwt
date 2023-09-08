@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { formatCurrencyVND } from "../utils/currencyFormatter"
 import useCart from '../hooks/useCart.js';
 import CartItem from "../components/cart/CartItem";
@@ -20,61 +20,21 @@ const Checkout = () => {
 
     const navigate = useNavigate();
 
-    const firstNameInputRef = useRef();
-    const lastNameInputRef = useRef();
-    const addressInputRef = useRef();
-    const emailInputRef = useRef();
-    const phoneInputRef = useRef();
-
-    const axiosWithInterceptors = useAxiosPrivate();
-
     useEffect(() => {
-        const getUserInformation = async () => {
-            const response = await axiosWithInterceptors.get('/api/account/');
-            const { user, accessToken } = response.data;
-            setAuth({
-                accessToken,
-                username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                addresss: user.address,
-                phone: user.phone,
-                userProfileImage: user.imageUrl,
-                email: user.email,
-                userRole: user.userRole,
-                sellerId: user.userId
-            });
-
-            setFirstName(user?.firstName);
-            setLastName(user?.lastName);
-            setAddress(user?.address);
-            setEmail(user?.email);
-            setPhone(user?.phone);
+        if (Object.keys(auth).length > 0) {
+            setFirstName(auth?.firstName);
+            setLastName(auth?.lastName);
+            setAddress(auth?.address);
+            setEmail(auth?.email);
+            setPhone(auth?.phone);
         }
-        getUserInformation().catch(err => {
-            console.log(err);
-        });
-    }, []);
+    }, [auth]);
 
     const handleProceedCheckout = async (e) => {
         e.preventDefault();
-
-        if (!auth?.username) {
-            navigate('/login');
-        }
-
-        const data = {
-            firstName: firstNameInputRef.current.value,
-            lastName: lastNameInputRef.current.value,
-            email: emailInputRef.current.value,
-            address: addressInputRef.current.value,
-            phone: phoneInputRef.current.value
-        }
-
+        const data = { firstName, lastName, email, address, phone }
         const response = await axios.post("/api/checkout", { username: auth?.username, paymentMethod, items: cart });
         const response2 = await axios.put(`/api/account/edit/${auth.username}`, data);
-
         setCart([]);
         localStorage.removeItem(LOCAL_STORAGE_KEY);
         navigate("/shop");
@@ -97,30 +57,28 @@ const Checkout = () => {
             </div>
 
             <div className='mx-auto div--style flex flex-row justify-between mt-7 w-[1300px] min-h-[200px] p-7 bg-gray-100'>
-                <form id='userInfoForm' className='w-[65%] flex flex-col border-black border-[2px] px-6 py-3 h-fit'>
+                <form onSubmit={handleProceedCheckout} id='userInfoForm' className='w-[65%] flex flex-col border-black border-[2px] px-6 py-3 h-fit'>
                     <div className="flex justify-between gap-2">
                         <div className="flex flex-col w-[50%]">
-                            <label htmlFor="username" className='label--style'>First name:</label>
+                            <label htmlFor="firstName" className='label--style'>First name:</label>
                             <input
                                 className='border-[2px] border-black p-1 font-bold'
                                 type="text"
-                                id="username"
+                                id="firstName"
                                 autoComplete="off"
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
-                                ref={firstNameInputRef}
                                 required
                             />
                         </div>
                         <div className="flex flex-col w-[50%]">
-                            <label htmlFor="username" className='label--style'>Last name:</label>
+                            <label htmlFor="lastName" className='label--style'>Last name:</label>
                             <input
                                 className='border-[2px] border-black p-1 font-bold'
                                 type="text"
-                                id="username"
+                                id="lastName"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
-                                ref={lastNameInputRef}
                                 autoComplete="off"
                                 required
                             />
@@ -135,7 +93,6 @@ const Checkout = () => {
                         autoComplete="off"
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
-                        ref={addressInputRef}
                         required
                     />
 
@@ -147,10 +104,8 @@ const Checkout = () => {
                         autoComplete="off"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        ref={emailInputRef}
                         required
                     />
-
 
                     <label htmlFor="phoneNumber" className='label--style mt-2'>Phone number:</label>
                     <input
@@ -160,7 +115,6 @@ const Checkout = () => {
                         autoComplete="off"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        ref={phoneInputRef}
                         required
                     />
 
@@ -190,7 +144,6 @@ const Checkout = () => {
                         <button
                             type='submit'
                             form='userInfoForm'
-                            onClick={(e) => handleProceedCheckout(e)}
                             className='text-sm text-white p-3 bg-gray-700 hover:bg-gray-600 transition-all w-[100%]'
                         >Place order</button>
                     </div>

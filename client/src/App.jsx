@@ -7,6 +7,7 @@ import Shop from './pages/Shop'
 import ProductInfo from './components/product/ProductInfo'
 import NavBar from './components/Navbar'
 import NotFound from './pages/NotFound'
+import UserProfile from './pages/UserProfile'
 import { useLocation } from 'react-router-dom'
 import UserShoppingCart from './pages/UserShoppingCart'
 import Checkout from './pages/Checkout'
@@ -28,6 +29,8 @@ function App() {
 
                 <Route path={"/login"} element={<Login />} />
                 <Route path={"/register"} element={<Register />} />
+
+                <Route path={"/profile"} element={<UserProfile />} />
 
                 <Route path={"/shop/products/:productId"} element={<ProductInfo />} />
 

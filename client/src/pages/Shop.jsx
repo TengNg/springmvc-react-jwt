@@ -32,9 +32,9 @@ const Home = () => {
         navigate(`/shop/products/${id}`);
     };
 
-    const handleCategoryItemOnClick = (categoryName) => {
-        const newProducts = products.filter(product => product.categoryId.categoryName === categoryName);
-        setProducts(newProducts);
+    const handleCategoryItemOnClick = async (categoryName) => {
+        const response = await axios.get(`/api/products?category=${categoryName}`);
+        setProducts(response.data.products);
     };
 
     if (error) {
@@ -48,6 +48,9 @@ const Home = () => {
             <SearchBar />
 
             <div className="flex flex-wrap justify-center items-center w-[80%] gap-4">
+                <div
+                    onClick={() => handleCategoryItemOnClick("All")}
+                    className='div--style div--hover--style rounded-md w-[5rem] h-[3rem] flex--center' > All </div>
                 <Categories
                     categories={categories}
                     handleCategoryItemOnClick={handleCategoryItemOnClick}

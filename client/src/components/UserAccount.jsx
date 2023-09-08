@@ -27,7 +27,7 @@ export default function UserAccount() {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
-                addresss: user.address,
+                address: user.address,
                 phone: user.phone,
                 userProfileImage: user.imageUrl,
                 userRole: user.userRole,

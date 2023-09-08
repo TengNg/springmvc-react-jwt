@@ -1,13 +1,25 @@
 import { useState, useEffect, useRef } from 'react';
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { authAxios, axiosPrivate } from '../api/axios';
+import axios, { authAxios, axiosPrivate } from '../api/axios';
 import Products from '../components/product/Products';
+import Loading from '../components/common/Loading';
 
 const ProductManagement = () => {
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const [price, setPrice] = useState("");
+    const [categoryOption, setCategoryOption] = useState("");
+
     const [image, setImage] = useState();
     const [previewImage, setPreviewImage] = useState();
+
+    const [loading, setLoading] = useState(false);
+    const [msg, setMsg] = useState("");
+    const [error, setError] = useState(false);
+
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const { auth } = useAuth();
     const navigate = useNavigate();
     const imageInputRef = useRef();
@@ -29,13 +41,16 @@ const ProductManagement = () => {
 
             const getProducts = async () => {
                 const response = await authAxios.get(`/api/for-sellers/manage-products/${auth?.userId}/`);
+                const response2 = await axios.get("/api/categories/");
                 setProducts(response.data.products);
+                setCategories(response2.data.categories);
             }
 
             getProducts().catch(err => {
-                if (err?.response?.status === 401) {
-                    navigate("/");
-                }
+                console.log(err);
+                // if (err?.response?.status === 401) {
+                //     navigate("/");
+                // }
             });
         }
     }, [auth]);
@@ -53,9 +68,40 @@ const ProductManagement = () => {
         }
     };
 
+    const handleAddNewProduct = async (e) => {
+        e.preventDefault();
+
+        if (!categoryOption || categoryOption.length === 0) {
+            setError(true);
+            setMsg("Please choose category for this product");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', image);
+        formData.append('sellerName', auth.username);
+        formData.append('name', name);
+        formData.append('description', description);
+        formData.append('price', price);
+        formData.append('categoryId', categoryOption);
+
+        try {
+            setLoading(true);
+            await authAxios.post("/api/products/add/", formData);
+            setError(false);
+            setMsg("Product is successfully added");
+            setLoading(false);
+        } catch (err) {
+            setMsg("Can't add new product");
+            setError(true);
+        }
+    };
+
     return (
         <>
-            <section className="w-[100%] flex flex-col items-center gap-4">
+            <section className="relative w-[100%] flex flex-col items-center gap-4">
+                <Loading loading={loading}/>
+
                 <div className="w-[80%] mt-8">
                     <div className='flex select-none m-[0_0_2rem_0]'>
                         <h1 className="text-[2rem] text-gray-700 relative text-center font-bold underline--style--2 underline--hover--2 transition all hover:text-gray-500"
@@ -71,9 +117,9 @@ const ProductManagement = () => {
                     </div>
                 </div>
 
-                <div className='mx-auto div--style flex flex-row justify-between mt-7 w-[1300px] p-7 bg-gray-100'>
+                <div className='mx-auto div--style flex flex-row mt-7 p-7 w-[80%] bg-gray-100'>
                     <div
-                        className="div--style shadow-none flex-grow me-6 bg-cover bg-center"
+                        className="div--style shadow-none flex-grow me-6 bg-cover bg-center aspect-square"
                         style={{ backgroundImage: `url(${previewImage})` }}
                         onClick={() => imageInputRef.current.click()}
                     >
@@ -81,61 +127,61 @@ const ProductManagement = () => {
                         <input className="hidden" ref={imageInputRef} type="file" id="profileImage" accept="image/*" onChange={handleImageChange} />
                     </div>
 
-                    <form className='w-[65%] flex flex-col border-black border-[2px] px-6 py-3 h-fit'>
-                        <div className="flex justify-between gap-2">
-                            <div className="flex flex-col w-[50%]">
-                                <label htmlFor="username" className='label--style'>First name:</label>
-                                <input
-                                    className='border-[2px] border-black p-1 font-bold'
-                                    type="text"
-                                    id="username"
-                                    autoComplete="off"
-                                    required
-                                />
-                            </div>
-                            <div className="flex flex-col w-[50%]">
-                                <label htmlFor="username" className='label--style'>Last name:</label>
-                                <input
-                                    className='border-[2px] border-black p-1 font-bold'
-                                    type="text"
-                                    id="username"
-                                    autoComplete="off"
-                                    required
-                                />
-                            </div>
-                        </div>
+                    <form
+                        onSubmit={handleAddNewProduct}
+                        className='w-[65%] flex flex-col border-black border-[2px] px-6 py-3 h-fit'>
 
-                        <label htmlFor="address" className='label--style mt-2'>Address:</label>
+                        <p className={`font-normal ${error ? 'text-red-600' : 'text-green-500'}`}>{msg}</p>
+                        <label htmlFor="name" className='label--style mt-2'>Name:</label>
                         <input
                             className='border-[2px] border-black p-1 font-bold'
                             type="text"
-                            id="address"
+                            id="name"
                             autoComplete="off"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             required
                         />
 
-                        <label htmlFor="email" className='label--style mt-2'>Email address:</label>
+                        <label htmlFor="description" className='label--style mt-2'>Description:</label>
                         <input
                             className='border-[2px] border-black p-1 font-bold'
                             type="text"
-                            id="email"
+                            id="description"
                             autoComplete="off"
-                            required
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
                         />
 
-
-                        <label htmlFor="phoneNumber" className='label--style mt-2'>Phone number:</label>
+                        <label htmlFor="price" className='label--style mt-2'>Price:</label>
                         <input
                             className='border-[2px] border-black p-1 font-bold'
                             type="text"
-                            id="phoneNumber"
+                            id="price"
                             autoComplete="off"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
                             required
                         />
+
+                        <select className='mt-8'
+                            value={categoryOption}
+                            onChange={(e) => setCategoryOption(e.target.value)}>
+                            <option value="">Select an category</option>
+                            {
+                                categories.map((category, index) => {
+                                    const { categoryId, categoryName } = category;
+                                    return <option key={index} value={categoryId}>
+                                        {categoryName}
+                                    </option>
+                                })
+                            }
+                        </select>
 
                         <p className="mt-6 font-normal text-sm">Note: Please fill in all the required fields</p>
 
                         <button
+                            type='submit'
                             className='text-white p-3 bg-gray-700 hover:bg-gray-600 transition-all w-[100%]'
                         >Add new product</button>
 

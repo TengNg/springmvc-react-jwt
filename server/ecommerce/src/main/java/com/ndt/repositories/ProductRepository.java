@@ -50,8 +50,6 @@ public class ProductRepository {
 
 	public Product addProduct(Product product) {
         Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
-		product.setProductId(UUID.randomUUID().toString());
-		product.setCreatedAt(new Date());
         s.save(product);
         return product;
 	}
