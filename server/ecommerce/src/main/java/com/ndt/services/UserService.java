@@ -73,6 +73,25 @@ public class UserService implements UserDetailsService {
 		userRepo.update(user);
 	}
 
+	public User updateUserInfo(String username, Map<String, Object> params) {
+		User user = this.userRepo.getUserByUsername(username);
+
+		String firstName = (String) params.get("firstName");
+		String lastName = (String) params.get("lastName");
+		String address = (String) params.get("address");
+		String email = (String) params.get("email");
+		String phone = (String) params.get("phone");
+
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setAddress(address);
+		user.setEmail(email);
+		user.setPhone(phone);
+
+		this.userRepo.update(user);
+		return user;
+	}
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User u = this.userRepo.getUserByUsername(username);

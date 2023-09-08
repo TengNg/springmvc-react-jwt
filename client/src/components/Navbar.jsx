@@ -6,7 +6,6 @@ import { faHouse, faShop, faCartShopping } from '@fortawesome/free-solid-svg-ico
 
 const NavBar = () => {
     const { cart } = useCart();
-
     return (
         <>
             <UserAccount />

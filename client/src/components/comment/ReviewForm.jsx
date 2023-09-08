@@ -24,9 +24,9 @@ export default function ReviewForm({ handlePostComment }) {
             return;
         }
 
-        if (!text) {
-            return;
-        }
+        if (!text) return;
+
+        if (!text.trim()) return;
 
         handlePostComment(text, ratingValue);
         setText("");

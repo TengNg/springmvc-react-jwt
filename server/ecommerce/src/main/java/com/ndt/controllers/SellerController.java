@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +47,7 @@ public class SellerController {
 	private ProductService productService;
 
 	@GetMapping(value = "/manage-products/{sellerId}")
-	public ResponseEntity<Map<String, Object>> product(@PathVariable String sellerId) {
+	public ResponseEntity<Map<String, Object>> products(@PathVariable String sellerId) {
 		List<Product> products = this.productService.getProductsBySellerId(sellerId);
 
 		Map<String, Object> data = new HashMap<>();
@@ -54,5 +56,19 @@ public class SellerController {
 		return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
+	@PostMapping(value = "/manage-products/{sellerId}/add-product")
+	public ResponseEntity<Map<String, Object>> addProduct(@RequestBody Map<String, Object> request) {
+		return null;
+	}
+	
+	@PutMapping(value = "/manage-products/{sellerId}/edit-product")
+	public ResponseEntity<Map<String, Object>> editProduct(@RequestBody Map<String, Object> request) {
+		return null;
+	}
+
+	@DeleteMapping(value = "/manage-products/{sellerId}/edit-product")
+	public ResponseEntity<Map<String, Object>> deleteProduct(@RequestBody Map<String, Object> request) {
+		return null;
+	}
 }
 

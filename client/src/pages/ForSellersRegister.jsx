@@ -102,7 +102,7 @@ export default function ForSellersRegister() {
             <BasicLayout styles={'relative w-[100%] h-[100vh] flex flex-col items-center p-5 gap-2 bg-gray-300'}>
                 <Title titleName={"Register"} />
 
-                <p className="font-bold">For Sellers</p>
+                <p className="font-bold">For Sellers/Businesses</p>
 
                 <form onSubmit={handleSubmit} className='flex flex-row section--style p-4'>
                     <div
@@ -160,6 +160,12 @@ export default function ForSellersRegister() {
 
                     </div>
                 </form>
+
+                <p className="mt-6 font-normal text-sm">for <span>{" "}</span>
+                    <span className='font-bold'>Seller/Business account</span>
+                    <span>{" "}</span>
+                    you need to wait to be confirmed by system, so you can add your product for sell :)
+                </p>
 
             </BasicLayout>
         </>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { axiosPrivate } from '../api/axios';
 import Title from '../components/Title';
 import BasicLayout from '../components/layout/BasicLayout';

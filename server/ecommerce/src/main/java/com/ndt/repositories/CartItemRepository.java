@@ -21,6 +21,10 @@ public class CartItemRepository {
 		s.save(cartItem);
 	}
 
+	public List<CartItem> getItems(String cartId) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("FROM CartItem WHERE cart_id = :cartId");
+		q.setParameter("cartId", cartId);
+		return q.getResultList();
+	}
 }
-
-

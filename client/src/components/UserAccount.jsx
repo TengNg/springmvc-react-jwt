@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import { axiosPrivate } from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareMinus, faSquarePlus } from '@fortawesome/free-solid-svg-icons';
 import useCart from '../hooks/useCart';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import LOCAL_STORAGE_KEY from '../data/localStorageKey';
 
 export default function UserAccount() {
@@ -14,6 +13,7 @@ export default function UserAccount() {
     const { cart, setCart } = useCart();
     const [show, setShow] = useState(false);
     const navigate = useNavigate();
+
     const axiosWithInterceptors = useAxiosPrivate();
 
     useEffect(() => {
@@ -23,15 +23,18 @@ export default function UserAccount() {
             setAuth({
                 accessToken,
                 username: user.username,
-                userProfileImage: user.imageUrl,
+                userId: user.userId,
+                firstName: user.firstName,
+                lastName: user.lastName,
                 email: user.email,
+                addresss: user.address,
+                phone: user.phone,
+                userProfileImage: user.imageUrl,
                 userRole: user.userRole,
                 sellerId: user.userId
             });
         }
-        getUserInformation().catch(err => {
-            console.log(err);
-        });
+        getUserInformation();
     }, []);
 
     const handleLogout = async () => {
@@ -61,13 +64,13 @@ export default function UserAccount() {
                         className="text-sm button--style--2 bg-gray-700 border-gray-700 text-white"
                     >Login</button>
                     <button
-                        onClick={() => navigate("/for-sellers")}
+                        onClick={() => navigate("/register/for-sellers")}
                         className='text-sm font-normal button--style--2 flex--center bg-gray-300 border-[2px]'
                     >For Business</button>
                 </div>
             ) : (
                 <>
-                    <div className="absolute top-[1rem] right-[1rem] flex flex-row gap-2 w-fit h-fit z-50">
+                    <div className="absolute top-[1rem] right-[1rem] flex flex-row gap-2 w-fit h-fit z-30">
                         {!show ? (
                             <>
                                 {/* not full show */}
@@ -82,7 +85,7 @@ export default function UserAccount() {
                                     </div>
                                 </div>
                             </>
-                        ) : (<div className='div--style flex--center flex-col w-fit gap-3 bg-gray-50'>
+                        ) : (<div onClick={() => setShow(prev => !prev)} className='div--style flex--center flex-col w-fit gap-3 bg-gray-50'>
                             <div className='flex flex-row flex--center gap-3 px-2'>
                                 <div className='flex--center w-[40px] h-[40px] rounded-full border-black border-[3px] bg-center bg-cover overflow-hidden cursor-pointer'>
                                     <img className="flex--center h-[100%] w-[100%]" src={auth?.userProfileImage} />
@@ -91,7 +94,7 @@ export default function UserAccount() {
                                     <div className='select-none text-[0.8rem] font-bold w-[100px] overflow-hidden whitespace-nowrap text-ellipsis'>
                                         {auth?.username}
                                     </div>
-                                    <div className='select-none text-[0.75rem] w-[100px] overflow-hidden whitespace-nowrap'>
+                                    <div className='select-none text-[0.55rem] font-normal w-[100px] overflow-hidden whitespace-nowrap'>
                                         {auth?.email}
                                     </div>
                                 </div>
@@ -103,8 +106,12 @@ export default function UserAccount() {
                                 </button>
                             }
 
-                            <button onClick={handleOpenUserCart} className='text-[0.75rem] w-[95%] button--style--2'>
-                                Cart ({cart.length})
+                            <button onClick={handleOpenUserCart} className='text-[0.75rem] w-[95%] button--style--2 flex--center gap-1'>
+                                Cart {cart.length > 0 && (
+                                    <span className="flex--center w-[0.75rem] h-[0.75rem] bg-red-500 text-[0.5rem] text-white rounded-full p-1">
+                                        {cart.length}
+                                    </span>
+                                )}
                             </button>
                             <button onClick={handleLogout} className='text-[0.75rem] w-[95%] button--style--2'>
                                 Logout

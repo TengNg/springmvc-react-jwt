@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faCircleMinus, faX } from '@fortawesome/free-solid-svg-icons';
 import { formatCurrencyVND } from '../../utils/currencyFormatter.js';
 
-const CartItem = ({ id, image, name, price, quantity, isCheckout }) => {
+const CartItem = ({ itemId, id, image, name, price, quantity, isCheckout }) => {
     const { increaseItemCount, decreaseItemCount, removeItem, updateItemCount } = useCart();
 
     return (
@@ -21,22 +21,24 @@ const CartItem = ({ id, image, name, price, quantity, isCheckout }) => {
                     </div>
                 </div>
 
+                {isCheckout && <p className='font-normal text-sm mx-2'>Qty: {quantity}</p>}
+
                 {
                     !isCheckout && (
                         <>
                             <div className="flex flex-col justify-end">
                                 <div className='flex--center flex-row'>
-                                    <button className="flex--center w-[1rem] h-[1rem]" onClick={() => decreaseItemCount(id)}>
+                                    <button className="flex--center w-[1rem] h-[1rem]" onClick={() => decreaseItemCount(itemId)}>
                                         <FontAwesomeIcon className="w-[100%] h-[100%]" icon={faCircleMinus} />
                                     </button>
 
                                     <input
                                         type="number"
                                         value={quantity}
-                                        onChange={(e) => updateItemCount(id, +e.target.value)}
+                                        onChange={(e) => updateItemCount(itemId, +e.target.value)}
                                         className="w-[3rem] text-center" />
 
-                                    <button className="flex--center w-[1rem] h-[1rem]" onClick={() => increaseItemCount(id)}>
+                                    <button className="flex--center w-[1rem] h-[1rem]" onClick={() => increaseItemCount(itemId)}>
                                         <FontAwesomeIcon className="w-[100%] h-[100%]" icon={faCirclePlus} />
                                     </button>
                                 </div>
@@ -44,7 +46,7 @@ const CartItem = ({ id, image, name, price, quantity, isCheckout }) => {
 
                             <button
                                 className="absolute top-2 right-3"
-                                onClick={() => removeItem(id)}>
+                                onClick={() => removeItem(itemId)}>
                                 <FontAwesomeIcon icon={faX} />
                             </button>
                         </>

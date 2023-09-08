@@ -6,6 +6,7 @@ package com.ndt.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,6 +20,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -50,12 +53,17 @@ public class Cart implements Serializable {
 	@JsonIgnore
 	private Set<ShippingProcess> shippingProcessSet;
 	@OneToMany(mappedBy = "cartId")
+	@JsonIgnore
 	private Set<PaymentTransaction> paymentTransactionSet;
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
 	private User userId;
 	@OneToMany(mappedBy = "cartId")
+	@JsonIgnore
 	private Set<CartItem> cartItemSet;
+	@Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+	private Date createdAt;
 
 	public Cart() {
 	}
@@ -106,6 +114,15 @@ public class Cart implements Serializable {
 		this.userId = userId;
 	}
 
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+
 	@XmlTransient
 	public Set<CartItem> getCartItemSet() {
 		return cartItemSet;
@@ -139,5 +156,5 @@ public class Cart implements Serializable {
 	public String toString() {
 		return "com.ndt.pojo.Cart[ cartId=" + cartId + " ]";
 	}
-	
+
 }

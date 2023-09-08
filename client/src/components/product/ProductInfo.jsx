@@ -35,8 +35,6 @@ const ProductInfo = () => {
         if (!auth?.accessToken) {
             navigate("/login");
         }
-
-        console.log("proceed purchase");
     };
 
     const handleAddToCart = () => {

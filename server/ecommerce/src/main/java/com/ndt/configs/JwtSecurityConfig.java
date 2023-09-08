@@ -65,7 +65,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/login/").permitAll();
         http.authorizeRequests().antMatchers("/api/logout/").permitAll();
         http.authorizeRequests().antMatchers("/api/register/").permitAll();
-        http.authorizeRequests().antMatchers("/api/account/").permitAll();
+        http.authorizeRequests().antMatchers("/api/account/**").permitAll();
         http.authorizeRequests().antMatchers("/api/check-cookies/").permitAll();
         http.authorizeRequests().antMatchers("/api/refresh/").permitAll();
         http.authorizeRequests().antMatchers("/api/products/").permitAll();
@@ -73,6 +73,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/categories/").permitAll();
         http.authorizeRequests().antMatchers("/api/reviews/**").permitAll();
         http.authorizeRequests().antMatchers("/api/replies/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/checkout/**").permitAll();
         // http.authorizeRequests().antMatchers("/api/for-sellers/**/manage-products/**").permitAll();
 
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint())

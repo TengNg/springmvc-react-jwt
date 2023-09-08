@@ -31,6 +31,7 @@ const Review = ({ review, handlePostReply }) => {
 
     const postReply = () => {
         if (!text) return;
+        if (!text.trim()) return;
         handlePostReply(review.reviewId, text);
         setText("");
         setOpenReplyForm(false);

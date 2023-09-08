@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import useCart from '../../hooks/useCart.js';
 import CartItem from './CartItem.jsx';
 import { formatCurrencyVND } from '../../utils/currencyFormatter.js';
@@ -34,7 +33,7 @@ const Cart = () => {
                     <div className="w-[100%] flex flex-col gap-4">
                         {cart.map(item => {
                             return <CartItem
-                                key={item.id}
+                                key={item.itemId}
                                 {...item}
                             />
                         })}

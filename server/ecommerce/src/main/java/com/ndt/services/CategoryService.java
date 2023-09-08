@@ -15,4 +15,6 @@ public class CategoryService {
 	public List<Category> getCategories() {
 		return this.categoryRepository.getCategories();
 	}
+
+
 }

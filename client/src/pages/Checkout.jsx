@@ -1,11 +1,83 @@
+import { useRef, useState, useEffect } from 'react'
 import { formatCurrencyVND } from "../utils/currencyFormatter"
 import useCart from '../hooks/useCart.js';
 import CartItem from "../components/cart/CartItem";
+import axios from "../api/axios";
+import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import LOCAL_STORAGE_KEY from '../data/localStorageKey';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 const Checkout = () => {
-    const { cart } = useCart();
+    const { cart, setCart } = useCart();
+    const { auth, setAuth } = useAuth();
+    const [paymentMethod, setPaymentMethod] = useState("After shipment");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [address, setAddress] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
 
-    const handleProceedCheckout = () => {
+    const navigate = useNavigate();
+
+    const firstNameInputRef = useRef();
+    const lastNameInputRef = useRef();
+    const addressInputRef = useRef();
+    const emailInputRef = useRef();
+    const phoneInputRef = useRef();
+
+    const axiosWithInterceptors = useAxiosPrivate();
+
+    useEffect(() => {
+        const getUserInformation = async () => {
+            const response = await axiosWithInterceptors.get('/api/account/');
+            const { user, accessToken } = response.data;
+            setAuth({
+                accessToken,
+                username: user.username,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                addresss: user.address,
+                phone: user.phone,
+                userProfileImage: user.imageUrl,
+                email: user.email,
+                userRole: user.userRole,
+                sellerId: user.userId
+            });
+
+            setFirstName(user?.firstName);
+            setLastName(user?.lastName);
+            setAddress(user?.address);
+            setEmail(user?.email);
+            setPhone(user?.phone);
+        }
+        getUserInformation().catch(err => {
+            console.log(err);
+        });
+    }, []);
+
+    const handleProceedCheckout = async (e) => {
+        e.preventDefault();
+
+        if (!auth?.username) {
+            navigate('/login');
+        }
+
+        const data = {
+            firstName: firstNameInputRef.current.value,
+            lastName: lastNameInputRef.current.value,
+            email: emailInputRef.current.value,
+            address: addressInputRef.current.value,
+            phone: phoneInputRef.current.value
+        }
+
+        const response = await axios.post("/api/checkout", { username: auth?.username, paymentMethod, items: cart });
+        const response2 = await axios.put(`/api/account/edit/${auth.username}`, data);
+
+        setCart([]);
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+        navigate("/shop");
     };
 
     if (!cart.length) {
@@ -25,17 +97,79 @@ const Checkout = () => {
             </div>
 
             <div className='mx-auto div--style flex flex-row justify-between mt-7 w-[1300px] min-h-[200px] p-7 bg-gray-100'>
-
-                <div className='w-[40%] flex flex-col justify-between gap-7'>
-                    <div className="w-[100%] flex flex-col gap-4">
+                <form id='userInfoForm' className='w-[65%] flex flex-col border-black border-[2px] px-6 py-3 h-fit'>
+                    <div className="flex justify-between gap-2">
+                        <div className="flex flex-col w-[50%]">
+                            <label htmlFor="username" className='label--style'>First name:</label>
+                            <input
+                                className='border-[2px] border-black p-1 font-bold'
+                                type="text"
+                                id="username"
+                                autoComplete="off"
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                                ref={firstNameInputRef}
+                                required
+                            />
+                        </div>
+                        <div className="flex flex-col w-[50%]">
+                            <label htmlFor="username" className='label--style'>Last name:</label>
+                            <input
+                                className='border-[2px] border-black p-1 font-bold'
+                                type="text"
+                                id="username"
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                                ref={lastNameInputRef}
+                                autoComplete="off"
+                                required
+                            />
+                        </div>
                     </div>
 
-                    <hr className="border-black" />
+                    <label htmlFor="address" className='label--style mt-2'>Address:</label>
+                    <input
+                        className='border-[2px] border-black p-1 font-bold'
+                        type="text"
+                        id="address"
+                        autoComplete="off"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        ref={addressInputRef}
+                        required
+                    />
 
-                </div>
+                    <label htmlFor="email" className='label--style mt-2'>Email address:</label>
+                    <input
+                        className='border-[2px] border-black p-1 font-bold'
+                        type="text"
+                        id="email"
+                        autoComplete="off"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        ref={emailInputRef}
+                        required
+                    />
+
+
+                    <label htmlFor="phoneNumber" className='label--style mt-2'>Phone number:</label>
+                    <input
+                        className='border-[2px] border-black p-1 font-bold'
+                        type="text"
+                        id="phoneNumber"
+                        autoComplete="off"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        ref={phoneInputRef}
+                        required
+                    />
+
+                    <p className="mt-6 font-normal text-sm">Note: Please fill in all the required fields</p>
+
+                </form>
 
                 <div className='flex flex-col gap-4 div--style w-[30%] h-[100%] px-4'>
-                    <p>Your order:</p>
+                    <p className="text-xl text-gray-700">Your order:</p>
 
                     <div className="w-[100%] flex flex-col gap-4">
                         {cart.map(item => {
@@ -47,9 +181,16 @@ const Checkout = () => {
                         })}
                     </div>
 
-                    <div className="flex--center flex-col gap-3 w-[100%] h-[80%] mt-8 mx-auto">
+                    <div className="border-[1px] border-gray-500 font-normal text-xl text-gray-800 p-4 flex justify-between" >
+                        <span> Total </span>
+                        <span> ${formatCurrencyVND(cart.reduce((total, item) => total + +item.price * +item.quantity, 0))} </span>
+                    </div>
+
+                    <div className="flex--center flex-col gap-3 w-[100%] h-[80%] mx-auto">
                         <button
-                            onClick={() => handleProceedCheckout()}
+                            type='submit'
+                            form='userInfoForm'
+                            onClick={(e) => handleProceedCheckout(e)}
                             className='text-sm text-white p-3 bg-gray-700 hover:bg-gray-600 transition-all w-[100%]'
                         >Place order</button>
                     </div>

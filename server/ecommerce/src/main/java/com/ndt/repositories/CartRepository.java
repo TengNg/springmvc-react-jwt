@@ -18,9 +18,25 @@ public class CartRepository {
 
 	public void addCart(Cart cart) {
         Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
-		cart.setCartId(UUID.randomUUID().toString());
 		s.save(cart);
 	}
 
+	public Cart getCart(String id) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("FROM Cart WHERE cart_id = :id");
+		q.setParameter("id", id);
+		List results = q.getResultList();
+		if (results.isEmpty()){
+			return null;
+		}	
+		return (Cart) results.get(0);
+	}
+
+	public List<Cart> getCartsBydUserId(String userId) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("FROM Cart WHERE user_id = :userId");
+		q.setParameter("userId", userId);
+		return q.getResultList();
+	}
 }
 
