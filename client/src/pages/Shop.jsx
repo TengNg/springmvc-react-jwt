@@ -5,8 +5,11 @@ import Products from "../components/product/Products";
 import Categories from "../components/category/Categories";
 import SearchBar from "../components/SearchBar";
 import useQuery from "../hooks/useQuery";
+import useAuth from "../hooks/useAuth";
 
 const Home = () => {
+    const { auth } = useAuth();
+
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [error, setError] = useState(false);
@@ -28,7 +31,11 @@ const Home = () => {
         });
     }, []);
 
-    const handleProductItemOnClick = (id) => {
+    const handleProductItemOnClick = (id, sellerId) => {
+        if (auth?.userId === sellerId) {
+            navigate(`/for-sellers`);
+            return;
+        }
         navigate(`/shop/products/${id}`);
     };
 

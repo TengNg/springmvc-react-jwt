@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Shop from './pages/Shop'
 import ProductInfo from './components/product/ProductInfo'
+import TransactionDetails from './components/transaction/TransactionDetails'
 import NavBar from './components/Navbar'
 import NotFound from './pages/NotFound'
 import UserProfile from './pages/UserProfile'
@@ -13,6 +14,7 @@ import UserShoppingCart from './pages/UserShoppingCart'
 import Checkout from './pages/Checkout'
 import ForSellersRegister from './pages/ForSellersRegister'
 import ProductManagement from './pages/ProductManagement'
+import PurchaseHistory from './pages/PurchaseHistory'
 
 const noNavPaths = ["/login", "/register", "/register/for-sellers", "/notfound", "/seller"];
 
@@ -43,6 +45,9 @@ function App() {
 
                 <Route path={"/for-sellers"} element={<ProductManagement />} />
                 <Route path={"/register/for-sellers"} element={<ForSellersRegister />} />
+                <Route path={"/purchase-history"} element={<PurchaseHistory />} />
+                <Route path={"/purchase-history/transactions"} element={<PurchaseHistory />} />
+                <Route path={"/purchase-history/transactions/:cartId"} element={<TransactionDetails />} />
 
                 <Route path={"/notfound"} element={<NotFound />} />
                 <Route path={"*"} element={<NotFound />} />

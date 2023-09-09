@@ -20,7 +20,21 @@ public class PaymentTransactionRepository {
 		s.save(transaction);
 	}
 
+	public List<PaymentTransaction> getTransactionsByUserId(String userId) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("FROM PaymentTransaction WHERE user_id=:userId");
+		q.setParameter("userId", userId);
+		return q.getResultList();
+	}	
+
+	public PaymentTransaction getTransactionByCartId(String cartId) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("FROM PaymentTransaction WHERE cart_id=:cartId");
+		q.setParameter("cartId", cartId);
+		List results = q.getResultList();
+		if (results.isEmpty()){
+			return null;
+		}	
+		return (PaymentTransaction) results.get(0);
+	}	
 }
-
-
-

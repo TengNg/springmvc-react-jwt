@@ -2,17 +2,14 @@ package com.ndt.controllers;
 
 import com.ndt.pojo.Cart;
 import com.ndt.pojo.CartItem;
-import com.ndt.pojo.Category;
-import com.ndt.pojo.User;
+import com.ndt.pojo.PaymentTransaction;
 import com.ndt.services.CartItemService;
-import com.ndt.services.CategoryService;
 import com.ndt.services.CheckoutService;
 import com.ndt.services.UserService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +65,14 @@ public class CheckoutController {
 		data.put("cart", cart);
 		data.put("items", cartItems);
 
+		return new ResponseEntity<>(data, HttpStatus.OK);
+	}
+
+	@PostMapping("/save-transaction")
+	public ResponseEntity<?> saveTransaction(@RequestBody Map<String, Object> requestBody) {
+		PaymentTransaction transaction = this.checkoutService.saveTransaction(requestBody);
+		Map<String, Object> data = new HashMap<>();
+		data.put("transaction", transaction);
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 

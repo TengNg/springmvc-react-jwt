@@ -2,7 +2,7 @@ import useCart from '../hooks/useCart.js';
 import { NavLink } from "react-router-dom"
 import UserAccount from "./UserAccount"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faShop, faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faShop, faCartShopping, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 
 const NavBar = () => {
     const { cart } = useCart();
@@ -10,7 +10,7 @@ const NavBar = () => {
         <>
             <UserAccount />
             <nav className="div--style abolute w-[200px] h-[3rem] mt-[1rem] mx-auto">
-                <ul className="w-[100%] h-[100%] flex justify-around items-center">
+                <ul className="w-[100%] h-[100%] flex justify-around items-center gap-4">
                     <li>
                         <NavLink to="/" className={({ isActive }) => isActive ? 'anchor--style--selected' : 'anchor--style'} >
                             <FontAwesomeIcon icon={faHouse} />
@@ -29,6 +29,11 @@ const NavBar = () => {
                         )}
                         <NavLink to="/cart" className={({ isActive }) => isActive ? 'anchor--style--selected' : 'anchor--style'} >
                             <FontAwesomeIcon icon={faCartShopping} />
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/purchase-history" className={({ isActive }) => isActive ? 'anchor--style--selected' : 'anchor--style'} >
+                            <FontAwesomeIcon icon={faClockRotateLeft} />
                         </NavLink>
                     </li>
                 </ul>

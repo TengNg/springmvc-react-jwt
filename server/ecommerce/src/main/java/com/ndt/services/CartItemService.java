@@ -43,7 +43,7 @@ public class CartItemService {
 	}
 
     public List<CartItem> getCartItems(String cartId) {
-		return null;
+		return this.cartItemRepository.getItemsByCartId(cartId);
     }
 }
 

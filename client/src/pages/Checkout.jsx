@@ -6,11 +6,10 @@ import axios from "../api/axios";
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import LOCAL_STORAGE_KEY from '../data/localStorageKey';
-import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 const Checkout = () => {
     const { cart, setCart } = useCart();
-    const { auth, setAuth } = useAuth();
+    const { auth } = useAuth();
     const [paymentMethod, setPaymentMethod] = useState("After shipment");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -33,11 +32,21 @@ const Checkout = () => {
     const handleProceedCheckout = async (e) => {
         e.preventDefault();
         const data = { firstName, lastName, email, address, phone }
-        const response = await axios.post("/api/checkout", { username: auth?.username, paymentMethod, items: cart });
-        const response2 = await axios.put(`/api/account/edit/${auth.username}`, data);
+
+        const checkOutResponse = await axios.post("/api/checkout", { username: auth?.username, paymentMethod, items: cart });
+        await axios.put(`/api/account/edit/${auth.username}`, data);
+
+        const checkOutData = checkOutResponse.data;
+        await axios.post(`/api/save-transaction/`, {
+            username: auth?.username,
+            cartId: checkOutData.cart.cartId,
+            paymentMethod,
+            amount: cart.reduce((total, item) => total + +item.price * +item.quantity, 0).toString()
+        });
+
         setCart([]);
         localStorage.removeItem(LOCAL_STORAGE_KEY);
-        navigate("/shop");
+        navigate("/purchase-history");
     };
 
     if (!cart.length) {

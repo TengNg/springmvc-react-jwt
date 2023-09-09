@@ -42,7 +42,6 @@ public class PaymentTransaction implements Serializable {
 	@Id
     @Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     @Column(name = "transaction_id")
 	private Integer transactionId;
 	@Column(name = "method")
