@@ -35,6 +35,13 @@ const ProductInfo = () => {
         if (!auth?.accessToken) {
             navigate("/login");
         }
+        addToCart({
+            id: product.productId,
+            image: product.imageUrl,
+            name: product.name,
+            price: product.price
+        });
+        navigate('/checkout');
     };
 
     const handleAddToCart = () => {

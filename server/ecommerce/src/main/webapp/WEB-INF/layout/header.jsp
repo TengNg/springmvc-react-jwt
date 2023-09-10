@@ -19,7 +19,7 @@
                     <a class="nav-link" href="${action}">Home</a>
                 </li>
                 <li class="nav-item">
-					<a class="nav-link" href="<c:url value="/accounts" />">AccountManagement</a>
+					<a class="nav-link" href="<c:url value="/accounts" />">Account Management</a>
                 </li>
 				<c:choose>
 					<c:when test="${pageContext.request.userPrincipal.name != null}">
@@ -34,11 +34,6 @@
 					</c:otherwise>
 				</c:choose>
             </ul>
-
-            <form class="d-flex" action="${action}">
-                <input class="form-control me-2" type="text" name="kw" placeholder="Nhập từ khóa...">
-                <button class="btn btn-primary" type="submit">Tìm</button>
-            </form>
         </div>
     </div>
 </nav>

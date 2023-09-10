@@ -76,7 +76,7 @@ export default function UserAccount() {
                                 {/* not full show */}
                                 <div onClick={() => setShow(show => !show)} className='section--style--3 bg-gray-50 flex flex-row p-2 gap-2' >
                                     <div className='w-[30px] h-[30px] rounded-full border-black border-[3px] bg-center bg-cover overflow-hidden cursor-pointer'>
-                                        <img className="flex--center w-[100%] h-[100%]" src={auth?.userProfileImage} />
+                                        <img onClick={() => navigate('/profile')} className="flex--center w-[100%] h-[100%]" src={auth?.userProfileImage} />
                                     </div>
                                     <div className='flex--center w-[100px] select-none cursor-pointer'>
                                         <div className='text-[0.75rem] font-bold w-[100%] min-w-0 overflow-hidden whitespace-nowrap text-ellipsis'>
@@ -88,7 +88,7 @@ export default function UserAccount() {
                         ) : (<div onClick={() => setShow(prev => !prev)} className='div--style flex--center flex-col w-fit gap-3 bg-gray-50'>
                             <div className='flex flex-row flex--center gap-3 px-2'>
                                 <div className='flex--center w-[40px] h-[40px] rounded-full border-black border-[3px] bg-center bg-cover overflow-hidden cursor-pointer'>
-                                    <img className="flex--center h-[100%] w-[100%]" src={auth?.userProfileImage} />
+                                    <img onClick={() => navigate('/profile')} className="flex--center h-[100%] w-[100%]" src={auth?.userProfileImage} />
                                 </div>
                                 <div className='flex flex-col'>
                                     <div className='select-none text-[0.8rem] font-bold w-[100px] overflow-hidden whitespace-nowrap text-ellipsis'>

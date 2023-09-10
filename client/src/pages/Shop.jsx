@@ -50,7 +50,6 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        console.log(productApiUrl);
         const getData = async () => {
             const response = await axios.get(productApiUrl + `&page=${page - 1}&size=${PRODUCTS_PER_PAGE}` + `&category=${productCategory}` + `&${sortQuery}`);
             setTotalItems(response.data.totalItems);
@@ -117,15 +116,8 @@ const Home = () => {
                 />
             </div>
 
-            <div className="w-[80%] mt-8">
-                <div className='flex select-none'>
-                    <h1 className="text-[2rem] text-gray-700 relative text-center font-bold underline--style--2 underline--hover--2 transition all hover:text-gray-500"
-                    >Products [{productCategory}]
-                    </h1>
-
-                </div>
-
-                <div className='flex select-none gap-4 my-4'>
+            <div className="w-[80%] my-8">
+                <div className='flex select-none gap-4 my-2 mx-auto flex--center'>
                     {
                         [
                             { name: "Sort By Name (Desc)", query: "sort_by=desc(name)" },
@@ -136,12 +128,21 @@ const Home = () => {
                             return <div
                                 key={item.name}
                                 onClick={() => handleSortProducts(item.name, item.query)}
-                                className={`div--style text-sm div--hover--style rounded-md h-[3rem] flex--center ${sortOption === item.name ? 'bg-gray-700 text-white' : 'bg-white'}`}>
+                                className={`div--style div--hover--style text-[0.75rem] rounded-md h-[3rem] flex--center ${sortOption === item.name ? 'bg-gray-700 text-white' : 'bg-white'}`}>
                                 {item.name}
                             </div>
                         })
                     }
                 </div>
+
+                <Pagination
+                    totalItems={totalItems}
+                    itemsPerPage={PRODUCTS_PER_PAGE}
+                    currentPage={page}
+                    handlePaginate={handlePaginate}
+                />
+
+                <p className="font-bold">{totalItems} results</p>
 
                 <div className="div--style flex flex-wrap flex--center gap-6">
                     <Products
@@ -150,13 +151,6 @@ const Home = () => {
                     />
                 </div>
             </div>
-
-            <Pagination
-                totalItems={totalItems}
-                itemsPerPage={PRODUCTS_PER_PAGE}
-                currentPage={page}
-                handlePaginate={handlePaginate}
-            />
 
         </section>
     )

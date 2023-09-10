@@ -8,7 +8,7 @@ const Pagination = ({ totalItems, itemsPerPage, currentPage, handlePaginate }) =
     }
 
     return (
-        <nav className='div--style my-8'>
+        <nav className='div--style mt-8 mx-auto'>
             <ul className='flex gap-6 px-4'>
                 {pageNumbers.map(number => (
                     <li key={number}>

@@ -22,8 +22,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
 	"com.ndt.controllers",
-	"com.ndt.repository",
-	"com.ndt.service"
+	"com.ndt.repositories",
+	"com.ndt.services"
 })
 @Order(2)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -46,15 +46,22 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		// http.formLogin().loginPage("/login")
+		// 		.usernameParameter("username")
+		// 		.passwordParameter("password");
+        // 
+        // http.formLogin().defaultSuccessUrl("/")
+        //         .failureUrl("/login?error");
+        // 
+        // http.logout().logoutSuccessUrl("/login");
+        // http.exceptionHandling()
+        //         .accessDeniedPage("/login?accessDenied");
+
 		http.authorizeRequests()
 				.antMatchers("/")
 				.permitAll()
-				.antMatchers("/**/reviews/post")
-				.permitAll()
-				.antMatchers("/**/add")
-				.access("hasAnyRole('ROLE_SELLER', 'ROLE_ADMIN')")
-				.antMatchers("/**/pay")
-				.access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+				.antMatchers("/**/confirm")
+				.access("hasAnyRole('ROLE_ADMIN')");
 		http.csrf().disable();
 	}
 
