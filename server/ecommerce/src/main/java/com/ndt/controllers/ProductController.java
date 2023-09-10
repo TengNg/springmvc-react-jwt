@@ -6,6 +6,8 @@ import com.ndt.pojo.User;
 import com.ndt.services.ProductService;
 import com.ndt.services.UserService;
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,11 +53,12 @@ public class ProductController {
 
     @GetMapping("/products")
     public ResponseEntity<Map<String, Object>> products(
-			@RequestParam(
-					name = "category",
-					required = false,
-					defaultValue = "All" 
-			) String category
+			@RequestParam(name = "page", defaultValue = "0") int page,
+			@RequestParam(name = "size", defaultValue = "20") int size,
+			@RequestParam(name = "category", required = false, defaultValue = "All" ) String category,
+			@RequestParam(name = "name", required = false) String name,
+			@RequestParam(name = "seller", required = false) String seller,
+			@RequestParam(name = "sort_by", required = false) String sortBy
 	) {
 		List<Product> products = this.productService.getProducts();
 
@@ -65,8 +68,51 @@ public class ProductController {
 					.collect(Collectors.toList());
 		}
 
+		if (name != null && !name.isEmpty()) {
+			products = products.stream()
+					.filter(product -> product.getName().contains(name))
+					.collect(Collectors.toList());
+		}
+
+		if (seller != null && !seller.isEmpty()) {
+			products = products.stream()
+					.filter(product -> product.getUserId().getUsername().contains(seller))
+					.collect(Collectors.toList());
+		}
+
+		if (sortBy != null && !sortBy.isEmpty() && sortBy.matches("^(asc|desc)\\(\\w+\\)$")) {
+			String[] parts = sortBy.split("\\(");
+			String sortDirection = parts[0];
+			String fieldName = parts[1].substring(0, parts[1].length() - 1);
+			Comparator<Product> comparator = null;
+			switch (fieldName) {
+				case "name":
+					comparator = Comparator.comparing(Product::getName);
+					break;
+				case "price":
+					comparator = Comparator.comparing(Product::getPrice);
+					break;
+				default:
+					throw new IllegalArgumentException("Invalid field name: " + fieldName);
+			}
+			
+			if (sortDirection.equals("asc")) {
+				Collections.sort(products, comparator);
+			} else if (sortDirection.equals("desc")) {
+				Collections.sort(products, comparator.reversed());
+			} else {
+				throw new IllegalArgumentException("Invalid sort direction: " + sortDirection);
+			}
+		}
+
+		int totalItems = products.size();
+		int start = page * size;
+		int end = Math.min(start + size, totalItems);
+		products = products.subList(start, end);
+
 		Map<String, Object> data = new HashMap<>();
 		data.put("products", products);
+		data.put("totalItems", totalItems);
 
 		return new ResponseEntity<>(data, HttpStatus.OK);
     }
@@ -99,17 +145,6 @@ public class ProductController {
 		data.put("product", foundProduct);
 		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
-
-	@PostMapping(path = "/products/add", consumes = {
-		MediaType.MULTIPART_FORM_DATA_VALUE,
-		MediaType.APPLICATION_JSON_VALUE
-    })
-    public ResponseEntity<Map<String, Object>> add(@RequestParam Map<String, Object> params, @RequestPart MultipartFile[] file) {
-		Map<String, Object> data = new HashMap<>();
-		data.put("product", null);
-		return new ResponseEntity<>(data, HttpStatus.OK);
-    }
-
 
 	@PostMapping(
 			path = "/products/add",

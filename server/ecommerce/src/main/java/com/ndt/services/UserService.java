@@ -10,6 +10,7 @@ import com.ndt.pojo.User;
 import com.ndt.repositories.UserRepository;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,14 @@ public class UserService implements UserDetailsService {
     public User addUser(User user) {
 		return this.userRepo.addUser(user);
     }
+
+	public List<User> getAllUsers() {
+		return this.userRepo.getAllUsers();
+	}
+
+	public List<User> getAllSellerAccounts() {
+		return this.userRepo.getAllSellerAccounts();
+	}
 
     public User addUser(Map<String, String> params, MultipartFile image) {
 		User u = new User();
@@ -88,6 +97,16 @@ public class UserService implements UserDetailsService {
 		user.setEmail(email);
 		user.setPhone(phone);
 
+		this.userRepo.update(user);
+		return user;
+	}
+
+	public User confirmSellerAccount(String username) {
+		User user = this.userRepo.getUserByUsername(username);
+		if (user.getUserRole().equals("ROLE_USER")) {
+			return null;
+		}
+		user.setIsConfirmed(Boolean.TRUE);
 		this.userRepo.update(user);
 		return user;
 	}

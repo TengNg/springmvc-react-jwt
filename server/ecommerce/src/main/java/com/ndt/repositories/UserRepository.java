@@ -53,6 +53,18 @@ public class UserRepository {
 		q.executeUpdate();
 	}
 
+	public List<User> getAllUsers() {
+		Session s = this.factory.getObject().getCurrentSession();
+		Query q = s.createQuery("FROM User");
+		return q.getResultList();
+	}
+
+	public List<User> getAllSellerAccounts() {
+		Session s = this.factory.getObject().getCurrentSession();
+		Query q = s.createQuery("FROM User where user_role='ROLE_SELLER'");
+		return q.getResultList();
+	}
+
     public User addUser(User u) {
         Session s = this.factory.getObject().getCurrentSession();
 		u.setUserId(UUID.randomUUID().toString());

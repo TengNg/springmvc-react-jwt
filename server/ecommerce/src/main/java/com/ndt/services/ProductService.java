@@ -31,9 +31,17 @@ public class ProductService {
         return this.productRepo.getProducts();
     }
 
+    public List<Product> getProducts(int page, int size) {
+        return this.productRepo.getProducts(page, size);
+    }
+
     public Product getProductById(String id) {
         return this.productRepo.getProductById(id);
     }
+
+	public long getTotalPages(int size) {
+		return this.productRepo.getTotalPages(size);
+	}
 
 	public void deleteProductById(String id) {
 		this.productRepo.deleteProductById(id);

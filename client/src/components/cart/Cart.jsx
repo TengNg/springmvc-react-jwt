@@ -4,7 +4,7 @@ import { formatCurrencyVND } from '../../utils/currencyFormatter.js';
 import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-    const { cart } = useCart();
+    const { cart, setCart } = useCart();
     const navigate = useNavigate();
 
     const handleProceedCart = () => {
@@ -47,8 +47,9 @@ const Cart = () => {
                             onClick={() => navigate("/shop")}
                         >Continue Shopping</button>
                         <button
-                            className={`w-[100%] border-black border-[2px] p-2 font-normal cursor-not-allowed`}
-                        >Update Cart</button>
+                            onClick={() => setCart([])}
+                            className={`w-[100%] border-black border-[2px] p-2 font-normal`}
+                        >Clear cart</button>
                     </div>
 
                 </div>

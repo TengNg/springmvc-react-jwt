@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Pagination = ({ itemsPerPage, totalItems, paginate }) => {
+const Pagination = ({ totalItems, itemsPerPage, currentPage, handlePaginate }) => {
     const pageNumbers = [];
 
     for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
@@ -8,11 +8,15 @@ const Pagination = ({ itemsPerPage, totalItems, paginate }) => {
     }
 
     return (
-        <nav>
-            <ul className='pagination'>
+        <nav className='div--style my-8'>
+            <ul className='flex gap-6 px-4'>
                 {pageNumbers.map(number => (
-                    <li key={number} className='page-item'>
-                        <a onClick={() => paginate(number)} href='!#' className='page-link'>
+                    <li key={number}>
+                        <a
+                            className={`font-bold cursor-pointer ${currentPage === number ? 'text-blue-600' : 'text-gray-600'}`}
+                            onClick={() => {
+                                handlePaginate(number)
+                            }}>
                             {number}
                         </a>
                     </li>

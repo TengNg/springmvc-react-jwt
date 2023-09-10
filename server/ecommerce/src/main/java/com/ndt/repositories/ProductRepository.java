@@ -23,6 +23,24 @@ public class ProductRepository {
         return q.getResultList();
     }
 
+    public List<Product> getProducts(int page, int size) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		int offset = page * size;
+        Query q = s.createQuery("FROM Product ORDER BY created_at DESC")
+				.setFirstResult(offset)
+				.setMaxResults(size);
+        return q.getResultList();
+    }
+
+	public long getTotalPages(int size) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+        String countHql = "SELECT COUNT(*) FROM Product";
+        Query countQuery = s.createQuery(countHql, Long.class);
+        long totalCount = (long) countQuery.getSingleResult();
+        long totalPages = (totalCount + size - 1) / size; 
+        return totalPages;
+    }
+
     public Product getProductById(String id) {
 		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
 		Query q = s.createQuery("FROM Product WHERE product_id=:id");

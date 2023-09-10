@@ -1,17 +1,38 @@
-const SearchBar = () => {
+import { useState } from 'react';
+
+const SearchBar = ({ handleSearchProduct }) => {
+    const [searchOption, setSearchOption] = useState("name");
+    const [searchText, setSearchText] = useState("");
+
+    const handleSearch = () => {
+        handleSearchProduct(searchOption, searchText);
+    }
+
     return (
-        <div className="flex items-center my-8">
-            <div className="flex border border-purple-200">
-                <input
-                    type="text"
-                    className="block w-full px-4 py-2 text-purple-700 bg-white border focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                    placeholder="..."
-                />
-                <button className="px-4 text-white bg-purple-700 border-l">
-                    Search
-                </button>
+        <>
+            <div className="flex items-center my-8">
+                <select className='h-[2.5rem] outline-0 p-2'
+                    value={searchOption}
+                    onChange={(e) => setSearchOption(e.target.value)}
+                >
+                    <option value="name">Name</option>
+                    <option value="seller">Seller</option>
+                </select>
+
+                <div className="flex border border-purple-200">
+                    <input
+                        type="text"
+                        className="block w-full px-4 py-2 font-bold bg-white border"
+                        placeholder="..."
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                    />
+                    <button onClick={handleSearch} className="px-4 text-white bg-gray-600 border-l">
+                        Search
+                    </button>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 

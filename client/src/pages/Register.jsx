@@ -79,6 +79,8 @@ export default function Register() {
         formData.append('password', password);
         formData.append('role', USER_ROLES.user);
 
+        console.log(image);
+
         try {
             setLoading(true);
             await axiosPrivate.post('/api/register/', formData);

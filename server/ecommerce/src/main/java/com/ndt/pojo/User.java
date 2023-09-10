@@ -99,6 +99,8 @@ public class User implements Serializable {
 	@Size(max = 20)
     @Column(name = "user_role")
 	private String userRole;
+	@Column(name = "is_confirmed")
+	private Boolean isConfirmed;
 	@Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
@@ -121,6 +123,14 @@ public class User implements Serializable {
 
 	public void setFile(MultipartFile file) {
 		this.file = file;
+	}
+
+	public void setIsConfirmed(Boolean isConfirmed) {
+		this.isConfirmed = isConfirmed;
+	}
+
+	public Boolean getIsConfirmed() {
+		return this.isConfirmed;
 	}
 
 	public User() {
