@@ -21,6 +21,12 @@ public class CartItemRepository {
 		s.save(cartItem);
 	}
 
+	public List<CartItem> getItems() {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("FROM CartItem");
+		return q.getResultList();
+	}
+
 	public List<CartItem> getItemsByCartId(String cartId) {
 		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
 		Query q = s.createQuery("FROM CartItem WHERE cart_id = :cartId");

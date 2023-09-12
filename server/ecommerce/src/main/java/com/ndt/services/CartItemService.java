@@ -42,6 +42,10 @@ public class CartItemService {
 		return cartItem;
 	}
 
+    public List<CartItem> getCartItems() {
+		return this.cartItemRepository.getItems();
+    }
+
     public List<CartItem> getCartItems(String cartId) {
 		return this.cartItemRepository.getItemsByCartId(cartId);
     }

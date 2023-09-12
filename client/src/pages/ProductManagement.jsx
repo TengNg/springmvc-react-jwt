@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import axios, { authAxios, axiosPrivate } from '../api/axios';
+import { formatCurrencyVND } from '../utils/currencyFormatter';
 import Products from '../components/product/Products';
 import Loading from '../components/common/Loading';
 
@@ -11,6 +12,7 @@ const ProductManagement = () => {
     const [price, setPrice] = useState("");
     const [categoryOption, setCategoryOption] = useState("");
     const [showProducts, setShowProduct] = useState(false);
+    const [totalRevenue, setTotalRevenue] = useState(0);
 
     const [image, setImage] = useState();
     const [previewImage, setPreviewImage] = useState();
@@ -43,6 +45,8 @@ const ProductManagement = () => {
             const getProducts = async () => {
                 const response = await authAxios.get(`/api/for-sellers/manage-products/${auth?.userId}`);
                 const response2 = await axios.get("/api/categories/");
+                const response3 = await authAxios.get(`/api/for-sellers/statistics/${auth?.userId}/`);
+                setTotalRevenue(response3.data.totalRevenue);
                 setProducts(response.data.products);
                 setCategories(response2.data.categories);
             }
@@ -110,7 +114,9 @@ const ProductManagement = () => {
                     </div>
                 </div>
 
-                <div className='mx-auto div--style flex flex-row mt-7 p-7 w-[80%] bg-gray-100'>
+                <p>Total Revenue: {formatCurrencyVND(+totalRevenue)}</p>
+
+                <div className='mx-auto div--style flex flex-row p-7 w-[80%] bg-gray-100'>
                     <div
                         className="div--style shadow-none flex-grow me-6 bg-cover bg-center aspect-square"
                         style={{ backgroundImage: `url(${previewImage})` }}

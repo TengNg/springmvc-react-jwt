@@ -82,11 +82,11 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint())
 				.and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/api/products/add").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_SELLER')")
+                .antMatchers(HttpMethod.POST, "/api/products/update").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_SELLER')")
                 .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_SELLER')")
                 .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_SELLER')")
                 .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_SELLER')")
-                .antMatchers(HttpMethod.POST, "/api/products/add").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_SELLER')")
-                .antMatchers(HttpMethod.POST, "/api/products/update").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_SELLER')")
 				.and()
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());

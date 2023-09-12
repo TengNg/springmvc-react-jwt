@@ -33,16 +33,12 @@ const ProductItem = ({ product, handleOnClick }) => {
                 <p className="text-xs font-normal">Price: {formatCurrencyVND(+price)}</p>
             </div>
 
-            {
-                auth?.userRole != "ROLE_SELLER"
-                && <button
-                    className='absolute right-2 bottom-1 text-gray-600'
-                    onClick={() => addItem(product)}
-                >
-                    <FontAwesomeIcon icon={faCirclePlus} />
-                </button>
-            }
-
+            <button
+                className='absolute right-2 bottom-1 text-gray-600'
+                onClick={() => addItem(product)}
+            >
+                <FontAwesomeIcon icon={faCirclePlus} />
+            </button>
         </div>
     )
 }
