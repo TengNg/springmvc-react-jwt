@@ -37,4 +37,11 @@ public class PaymentTransactionRepository {
 		}	
 		return (PaymentTransaction) results.get(0);
 	}	
+
+	public void removePaymentTransactionByCartId(String cartId) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("DELETE FROM PaymentTransaction WHERE cart_id = :cartId");
+		q.setParameter("cartId", cartId);
+		q.executeUpdate();
+	}
 }

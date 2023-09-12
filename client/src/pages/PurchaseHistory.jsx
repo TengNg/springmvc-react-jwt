@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import axios from "../api/axios";
 import useAuth from "../hooks/useAuth"
-import dateFormatter from '../utils/dateFormatter';
 import { useNavigate } from 'react-router-dom';
 import TransactionItem from '../components/transaction/TransactionItem';
+import Loading from '../components/common/Loading';
 
 const PurchaseHistory = () => {
     const { auth } = useAuth();
     const [transactions, setTransactions] = useState([]);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,6 +27,12 @@ const PurchaseHistory = () => {
         navigate(`/purchase-history/transactions/${cartId}`);
     };
 
+    const handleCancelTransaction = async (cartId) => {
+        setLoading(true);
+        await axios.delete(`/api/purchase-history/transactions/${cartId}`);
+        setLoading(false);
+    };
+
     if (!auth.username) {
         return <div className='w-[100%] flex flex--center select-none mx-auto  mt-[4rem]'>
             <button
@@ -37,6 +44,9 @@ const PurchaseHistory = () => {
 
     return (
         <section className="relative w-[100%] flex flex-col items-center gap-4">
+
+            <Loading loading={loading} />
+
             <div className="w-[80%] mt-8">
                 <div className='flex select-none m-[0_0_2rem_0]'>
                     <h1 className="text-[2rem] text-gray-700 relative text-center font-bold underline--style--2 underline--hover--2 transition all hover:text-gray-500"
@@ -51,6 +61,7 @@ const PurchaseHistory = () => {
                             key={index}
                             transaction={transaction}
                             handleShowTransactionDetail={handleShowTransactionDetail}
+                            handleCancelTransaction={handleCancelTransaction}
                         />
 
                     })

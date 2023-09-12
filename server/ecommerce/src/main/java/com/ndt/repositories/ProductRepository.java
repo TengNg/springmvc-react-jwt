@@ -59,6 +59,11 @@ public class ProductRepository {
         return q.getResultList();
 	}	
 
+    public void update(Product p) {
+        Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		s.update(p);
+    }
+
 	public void deleteProductById(String id) {
 		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
 		Query q = s.createQuery("DELETE FROM Product WHERE product_id=:id");

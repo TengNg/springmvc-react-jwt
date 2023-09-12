@@ -38,5 +38,12 @@ public class CartRepository {
 		q.setParameter("userId", userId);
 		return q.getResultList();
 	}
+
+	public void delete(String cartId) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("DELETE FROM Cart WHERE cart_id = :cartId");
+		q.setParameter("cartId", cartId);
+		q.executeUpdate();
+	}
 }
 

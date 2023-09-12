@@ -4,7 +4,11 @@
  */
 package com.ndt.controllers;
 
+import com.ndt.pojo.User;
 import com.ndt.services.UserService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +26,17 @@ public class PageUserController {
     }
 
 	@PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-		boolean user = this.userService.authUser(username, password);
-		if (user == true) {
+    public String login(
+			@RequestParam String username, 
+			@RequestParam String password, 
+			HttpServletRequest request
+	) {
+		User user = this.userService.getUserByUsername(username);
+		boolean isValid = this.userService.authUser(user.getUsername(), password);
+		if (isValid == true) {
+			HttpSession session = request.getSession();
+	        session.setAttribute("username", user.getUsername());
+	        session.setAttribute("password", password);
 			return "redirect:/accounts";
 		}
 		return "login";

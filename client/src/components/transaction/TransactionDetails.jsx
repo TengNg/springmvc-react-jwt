@@ -36,7 +36,7 @@ const TransactionDetails = () => {
                         <div className="flex flex-col">
                             <p className="text-[1rem] font-bold">{item.productId.name}</p>
                             <p className="font-normal">Qty: {item.quantity}</p>
-                            <p className="font-normal">Price: {formatCurrencyVND(+item.productId.price)}</p>
+                            <p className="font-normal">Price: {formatCurrencyVND(+item.productId.price)} x {item.quantity}</p>
                         </div>
                     </div>
                 })}

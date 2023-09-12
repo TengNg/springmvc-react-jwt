@@ -51,12 +51,27 @@ public class ProductService {
 		return this.productRepo.getProductsBySellerId(sellerId);
 	}
 
+	public Product updateProduct(Map<String, Object> params) {
+		String productId = (String) params.get("productId");
+		String name = (String) params.get("name");
+		String description = (String) params.get("description");
+		BigDecimal price = new BigDecimal((String) params.get("price"));
+		Integer categoryId = Integer.valueOf((String) params.get("categoryId"));
+		Product p = this.productRepo.getProductById(productId);
+		p.setName(name);
+		p.setDescription(description);
+		p.setPrice(price);
+		p.setCategoryId(this.categoryRepo.getCategoryById(categoryId));
+		this.productRepo.update(p);
+		return p;
+	}
+
     public Product addProduct(Map<String, String> params, MultipartFile image) {
 		Product product = new Product();
 		String name = (String) params.get("name");
 		String description = (String) params.get("description");
 		BigDecimal price = new BigDecimal((String) params.get("price"));
-		Integer categoryId = Integer.parseInt(params.get("categoryId"));
+		Integer categoryId = Integer.valueOf(params.get("categoryId"));
 		String sellerName = params.get("sellerName");
 
 		product.setProductId(UUID.randomUUID().toString());

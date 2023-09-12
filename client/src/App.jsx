@@ -15,6 +15,8 @@ import Checkout from './pages/Checkout'
 import ForSellersRegister from './pages/ForSellersRegister'
 import ProductManagement from './pages/ProductManagement'
 import PurchaseHistory from './pages/PurchaseHistory'
+import ProductComparision from './pages/ProductComparision'
+import ProductEditor from './pages/ProductEditor'
 
 const noNavPaths = ["/login", "/register", "/register/for-sellers", "/notfound", "/seller"];
 
@@ -42,8 +44,12 @@ function App() {
 
                 <Route path={"/cart"} element={<UserShoppingCart />} />
                 <Route path={"/checkout"} element={<Checkout />} />
+                <Route path={"/product-comparision"} element={<ProductComparision />} />
 
                 <Route path={"/for-sellers"} element={<ProductManagement />} />
+                <Route path={"/for-sellers/products"} element={<ProductManagement />} />
+                <Route path={"/for-sellers/products/:productId"} element={<ProductEditor />} />
+
                 <Route path={"/register/for-sellers"} element={<ForSellersRegister />} />
                 <Route path={"/purchase-history"} element={<PurchaseHistory />} />
                 <Route path={"/purchase-history/transactions"} element={<PurchaseHistory />} />

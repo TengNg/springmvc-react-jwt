@@ -27,4 +27,11 @@ public class CartItemRepository {
 		q.setParameter("cartId", cartId);
 		return q.getResultList();
 	}
+
+	public void deleteCartItemsByCartId(String cartId) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("DELETE FROM CartItem WHERE cart_id = :cartId");
+		q.setParameter("cartId", cartId);
+		q.executeUpdate();
+	}
 }

@@ -1,7 +1,6 @@
 package com.ndt.repositories;
 
 import com.ndt.pojo.ShippingProcess;
-import java.util.List;
 import javax.persistence.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +14,18 @@ public class ShippingProcessRepository {
     @Autowired
     LocalSessionFactoryBean localSessionFactoryBean;
 
-	public void addCartItem(ShippingProcess shippingProcess) {
+	public void saveShippingProcess(ShippingProcess shippingProcess) {
         Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
 		s.save(shippingProcess);
 	}
 
-}
+	public void deleteShippingProcessByCartId(String cartId) {
+		Session s = this.localSessionFactoryBean.getObject().getCurrentSession();
+		Query q = s.createQuery("DELETE FROM ShippingProcess WHERE cart_id = :cartId");
+		q.setParameter("cartId", cartId);
+		q.executeUpdate();
+	}	
 
+}
 
 

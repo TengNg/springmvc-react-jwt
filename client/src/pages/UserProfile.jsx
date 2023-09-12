@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
-import axios from "../api/axios";
+import axios, { axiosPrivate } from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
     const [username, setUsername] = useState("");
@@ -14,25 +15,25 @@ const UserProfile = () => {
     const [error, setError] = useState(false);
 
     const { auth } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const isLoggedIn = async () => {
             await axiosPrivate.get('/api/check-cookies/');
         }
-        isLoggedIn().catch(_ => {
+        isLoggedIn().catch(err => {
+            console.log(err);
             navigate("/notfound");
         });
     }, []);
 
     useEffect(() => {
-        if (Object.keys(auth).length > 0) {
-            setUsername(auth?.username);
-            setFirstName(auth?.firstName);
-            setLastName(auth?.lastName);
-            setAddress(auth?.address);
-            setEmail(auth?.email);
-            setPhone(auth?.phone);
-        }
+        setUsername(auth?.username);
+        setFirstName(auth?.firstName);
+        setLastName(auth?.lastName);
+        setAddress(auth?.address);
+        setEmail(auth?.email);
+        setPhone(auth?.phone);
     }, [auth]);
 
     const handleChangePassword = (e) => {
@@ -52,14 +53,15 @@ const UserProfile = () => {
             await axios.put(`/api/account/edit/${auth.username}`, data);
             setMsg("Profile saved");
             setError(false);
-        } catch(err) {
+        } catch (err) {
             setMsg("Error!");
             setError(true);
         }
     };
 
     return (
-        <div className='mx-auto div--style flex flex-row justify-between mt-7 min-h-[200px] p-7 bg-gray-100 relative'>
+        <div className='mx-auto div--style flex flex-col justify-between mt-7 min-h-[200px] p-7 bg-gray-100 relative'>
+            {auth.userRole == "ROLE_SELLER" && <p className="mx-auto text-sm bg-green-800 w-fit text-white p-2">Verified Seller</p>}
             <form id='userInfoForm' className='w-[100%] flex flex-col px-6 py-3 h-fit gap-1'>
                 <p className={`absolute top-[1rem] right-[3rem] font-normal ${error ? 'text-red-600' : 'text-green-500'}`}>{msg}</p>
                 <label htmlFor="username" className='label--style'>Username:</label>
@@ -159,22 +161,24 @@ const UserProfile = () => {
                     </div>
                 }
 
-                <button
-                    type='submit'
-                    form='userInfoForm'
-                    onClick={() => false}
-                    className='text-sm my-4 text-white p-3 bg-gray-700 hover:bg-gray-600 transition-all w-[100%] pointer-events-none'
-                >
-                    {!changePassword ? 'Change your password' : 'Check password'}
-                </button>
+                <div className="flex flex-col gap-4 mt-4">
+                    <button
+                        type='submit'
+                        form='userInfoForm'
+                        onClick={() => false}
+                        className='text-sm text-white p-3 bg-gray-700 hover:bg-gray-600 transition-all w-[100%] pointer-events-none'
+                    >
+                        {!changePassword ? 'Change your password' : 'Check password'}
+                    </button>
 
-                <button
-                    type='submit'
-                    onClick={handleSaveUserInfo}
-                    className='text-sm text-white p-3 bg-gray-700 hover:bg-gray-600 transition-all w-[100%]'
-                >Save</button>
-
+                    <button
+                        type='submit'
+                        onClick={handleSaveUserInfo}
+                        className='text-sm text-white p-3 bg-gray-700 hover:bg-gray-600 transition-all w-[100%]'
+                    >Save</button>
+                </div>
             </form>
+
         </div>
     )
 }

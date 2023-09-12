@@ -33,7 +33,7 @@ const Cart = () => {
                     <div className="w-[100%] flex flex-col gap-4">
                         {cart.map(item => {
                             return <CartItem
-                                key={item.itemId}
+                                key={item.id}
                                 {...item}
                             />
                         })}

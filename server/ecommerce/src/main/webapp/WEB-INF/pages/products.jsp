@@ -58,13 +58,4 @@
         </c:if>
     </div>
 
-    <div class="form-floating mb-3 mt-3">
-        <button class="btn btn-info" type="submit">
-            <c:choose>
-                <c:when test="${product.productId == null}">Thêm sản phẩm</c:when>
-                <c:otherwise>Cập nhật sản phẩm</c:otherwise>
-            </c:choose>
-        </button>
-    </div>
-
 </form:form>

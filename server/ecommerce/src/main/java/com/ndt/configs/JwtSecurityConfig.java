@@ -75,6 +75,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/replies/**").permitAll();
         http.authorizeRequests().antMatchers("/api/checkout/**").permitAll();
         http.authorizeRequests().antMatchers("/api/save-transaction/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/save-shipping-process/**").permitAll();
         http.authorizeRequests().antMatchers("/api/purchase-history/**").permitAll();
         // http.authorizeRequests().antMatchers("/api/for-sellers/**/manage-products/**").permitAll();
 
@@ -84,6 +85,8 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_SELLER')")
                 .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_SELLER')")
                 .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_SELLER')")
+                .antMatchers(HttpMethod.POST, "/api/products/add").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_SELLER')")
+                .antMatchers(HttpMethod.POST, "/api/products/update").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_SELLER')")
 				.and()
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());

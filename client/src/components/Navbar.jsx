@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faShop, faCartShopping, faClockRotateLeft } from '@fortawesome/free-solid-svg-icons';
 
 const NavBar = () => {
-    const { cart } = useCart();
+    const { cart, getTotalItems } = useCart();
     return (
         <>
             <UserAccount />
@@ -24,7 +24,7 @@ const NavBar = () => {
                     <li className="relative">
                         {cart.length > 0 && (
                             <span className="flex--center w-[1rem] h-[1rem] bg-red-500 text-white text-[0.55rem] rounded-full absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/4">
-                                {cart.length}
+                                {getTotalItems()}
                             </span>
                         )}
                         <NavLink to="/cart" className={({ isActive }) => isActive ? 'anchor--style--selected' : 'anchor--style'} >

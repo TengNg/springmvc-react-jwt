@@ -3,7 +3,7 @@ const CategoryItem = ({ category, handleOnClick }) => {
 
     return (
         <div
-            className='div--style div--hover--style rounded-md w-[5rem] h-[3rem] flex--center'
+            className='div--style div--hover--style rounded-md w-[5rem] h-[3rem] flex--center cursor-pointer'
             onClick={() => {
                 handleOnClick(categoryName);
             }}

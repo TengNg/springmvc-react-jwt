@@ -30,13 +30,31 @@
                     <td>${account.userId}</td>
                     <td>${account.username}</td>
                     <td>${account.userRole}</td>
-					<td>${account.isConfirmed ? 'Yes' : 'No'}</td>
-					<td>
-						<form method="post" action="/ecommerce/confirm">
-							<input type="hidden" name="username" value="${account.username}">
-							<button type="submit" class="btn btn-danger btn-sm">Confirm</button>
-						</form>
-					</td>
+
+
+					<c:choose>
+						<c:when test="${account.userRole.equals('ROLE_SELLER')}">
+							<td>${account.isConfirmed ? 'Yes' : 'No'}</td>
+						</c:when>
+						<c:otherwise>
+							<td>Not a seller_role</td>
+						</c:otherwise>
+					</c:choose>
+
+					<c:choose>
+						<c:when test="${account.userRole.equals('ROLE_SELLER') && (account.isConfirmed == false || account.isConfirmed == null)}">
+							<td>
+								<form method="post" action="/ecommerce/confirm">
+									<input type="hidden" name="username" value="${account.username}">
+									<button type="submit" class="btn btn-danger btn-sm">Confirm</button>
+								</form>
+							</td>
+						</c:when>
+						<c:otherwise>
+							<td>No action</td>
+						</c:otherwise>
+					</c:choose>
+
                 </tr>
             </c:forEach>
         </tbody>

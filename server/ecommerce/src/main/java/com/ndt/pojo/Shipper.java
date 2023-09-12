@@ -51,6 +51,11 @@ public class Shipper implements Serializable {
 		this.shipperId = shipperId;
 	}
 
+	public Shipper(Integer shipperId, String shipperName) {
+		this.shipperId = shipperId;
+		this.shipperName = shipperName;
+	}
+
 	public Integer getShipperId() {
 		return shipperId;
 	}

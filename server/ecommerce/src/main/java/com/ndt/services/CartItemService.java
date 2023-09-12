@@ -45,5 +45,9 @@ public class CartItemService {
     public List<CartItem> getCartItems(String cartId) {
 		return this.cartItemRepository.getItemsByCartId(cartId);
     }
+
+	public void deleteCartItemsByCartId(String cartId) {
+		this.cartItemRepository.deleteCartItemsByCartId(cartId);
+	}
 }
 

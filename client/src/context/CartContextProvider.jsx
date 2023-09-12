@@ -8,8 +8,16 @@ export const CartContextProvider = ({ children }) => {
     const [cart, setCart] = useLocalStorage(LOCAL_STORAGE_KEY, []);
 
     const addToCart = ({ id, image, name, price }) => {
-        const newCart = [...cart, { itemId: new Date().getTime().toString(), id, name, image, price, quantity: 1 }];
-        setCart(newCart);
+        setCart(prev => {
+            if (prev.find(item => item.id == id)) {
+                return prev.map(item => item.id == id ? { ...item, quantity: item.quantity + 1 } : item);
+            } else {
+                return [...prev, { id, name, image, price, quantity: 1 }];
+            }
+        });
+
+        // const newCart = [...cart, { id, name, image, price, quantity: 1 }];
+        // setCart(newCart);
     };
 
     const decreaseItemCount = (id) => {
@@ -43,6 +51,10 @@ export const CartContextProvider = ({ children }) => {
         setCart(newCart);
     };
 
+    const getTotalItems = () => {
+        return  cart.reduce((total, item) => total + +item.quantity, 0);
+    };
+
     return (
         <CartContext.Provider value={{
             cart,
@@ -51,7 +63,8 @@ export const CartContextProvider = ({ children }) => {
             increaseItemCount,
             decreaseItemCount,
             updateItemCount,
-            removeItem
+            removeItem,
+            getTotalItems
         }}
         >
             {children}

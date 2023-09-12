@@ -33,24 +33,28 @@ const Checkout = () => {
         e.preventDefault();
         const data = { firstName, lastName, email, address, phone }
 
-        const checkOutResponse = await axios.post("/api/checkout", { username: auth?.username, paymentMethod, items: cart });
-        await axios.put(`/api/account/edit/${auth.username}`, data);
+        try {
+            const checkOutResponse = await axios.post("/api/checkout", { username: auth?.username, paymentMethod, items: cart });
+            await axios.put(`/api/account/edit/${auth.username}`, data);
 
-        const checkOutData = checkOutResponse.data;
-        await axios.post(`/api/save-transaction/`, {
-            username: auth?.username,
-            cartId: checkOutData.cart.cartId,
-            paymentMethod,
-            amount: cart.reduce((total, item) => total + +item.price * +item.quantity, 0).toString()
-        });
+            const checkOutData = checkOutResponse.data;
+            await axios.post(`/api/save-transaction/`, {
+                username: auth?.username,
+                cartId: checkOutData.cart.cartId,
+                paymentMethod,
+                amount: cart.reduce((total, item) => total + +item.price * +item.quantity, 0).toString()
+            });
 
-        setCart([]);
-        localStorage.removeItem(LOCAL_STORAGE_KEY);
-        navigate("/purchase-history");
+            setCart([]);
+            localStorage.removeItem(LOCAL_STORAGE_KEY);
+            navigate("/purchase-history");
+        } catch (err) {
+            navigate('/login');
+        }
     };
 
     if (!cart.length) {
-        return <div className='w-[100%] flex flex--center select-none mx-auto  mt-[4rem]'>
+        return <div className='w-[100%] h-full flex flex--center select-none mx-auto  mt-[4rem]'>
             <button
                 className="bg-gray-700 text-white px-5 py-3 font-normal"
                 onClick={() => navigate("/shop")}

@@ -1,17 +1,19 @@
 import axios from "../api/axios";
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Products from "../components/product/Products";
 import Categories from "../components/category/Categories";
 import SearchBar from "../components/SearchBar";
-import useQuery from "../hooks/useQuery";
 import useAuth from "../hooks/useAuth";
 import Pagination from "../components/Pagination";
+import ComparisionBar from "../components/comparison/ComparisionBar";
+import useComparision from "../hooks/useComparision";
 
 const PRODUCTS_PER_PAGE = 20;
 
-const Home = () => {
+const Shop = () => {
     const { auth } = useAuth();
+    const { comparedItems, setComparedItems } = useComparision();
 
     const [products, setProducts] = useState([]);
     const [totalItems, setTotalItems] = useState();
@@ -19,13 +21,14 @@ const Home = () => {
     const [error, setError] = useState(false);
     const [productCategory, setProductCategory] = useState("All")
     const [page, setPage] = useState(1);
+    const [showComparision, setShowComparision] = useState(false);
 
     const [productApiUrl, setProductApiUrl] = useState('/api/products?');
 
     const [sortOption, setSortOption] = useState("");
     const [sortQuery, setSortQuery] = useState("");
 
-    const query = useQuery();
+    // const query = useQuery();
     const navigate = useNavigate();
 
     // const categoryQry = !query.get('category') ? "" : `?category=${query.get('category')}`;
@@ -69,7 +72,6 @@ const Home = () => {
     const handleCategoryItemOnClick = (categoryName) => {
         setPage(1);
         setProductCategory(categoryName);
-        setSearchQuery({});
     };
 
     const handleSearchProduct = async (searchOption, value) => {
@@ -94,6 +96,11 @@ const Home = () => {
         setPage(page);
     };
 
+    const handleCloseComparisionBar = () => {
+        setComparedItems([]);
+        setShowComparision(false);
+    }
+
     if (error) {
         return <section className="w-[100%] grid place-items-center">
             <h1>Oops, server error :(</h1>
@@ -101,7 +108,7 @@ const Home = () => {
     }
 
     return (
-        <section className="w-[100%] flex flex-col items-center">
+        <section className="w-[100%] relative flex flex-col items-center">
             <SearchBar
                 handleSearchProduct={handleSearchProduct}
             />
@@ -142,7 +149,7 @@ const Home = () => {
                     handlePaginate={handlePaginate}
                 />
 
-                <p className="font-bold">{totalItems} results</p>
+                <p className="font-bold text-[0.75rem]">{totalItems} results [category={productCategory}]</p>
 
                 <div className="div--style flex flex-wrap flex--center gap-6">
                     <Products
@@ -152,8 +159,14 @@ const Home = () => {
                 </div>
             </div>
 
+            {(showComparision || comparedItems.length > 0) &&
+                <ComparisionBar
+                    handleClose={handleCloseComparisionBar}
+                />
+            }
+
         </section>
     )
 }
 
-export default Home
+export default Shop

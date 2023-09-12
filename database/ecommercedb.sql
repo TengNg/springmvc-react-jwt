@@ -1,6 +1,28 @@
-CREATE DATABASE ecommercedb;
 
-USE ecommercedb;
+CREATE TABLE `category` (
+  `category_id` int NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`category_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `user` (
+  `user_id` varchar(40) NOT NULL DEFAULT (uuid()),
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `address` text,
+  `image_url` varchar(255) DEFAULT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `refresh_token` varchar(255) DEFAULT NULL,
+  `user_role` varchar(20) DEFAULT NULL,
+  `is_confirmed` bit(1) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `cart` (
   `cart_id` varchar(40) NOT NULL DEFAULT (uuid()),
@@ -11,38 +33,6 @@ CREATE TABLE `cart` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `cart_item` (
-  `cart_item_id` int NOT NULL AUTO_INCREMENT,
-  `cart_id` varchar(40) DEFAULT NULL,
-  `product_id` varchar(40) DEFAULT NULL,
-  `quantity` int DEFAULT NULL,
-  PRIMARY KEY (`cart_item_id`),
-  KEY `cart_id` (`cart_id`),
-  KEY `product_id` (`product_id`),
-  CONSTRAINT `cart_item_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`),
-  CONSTRAINT `cart_item_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `category` (
-  `category_id` int NOT NULL AUTO_INCREMENT,
-  `category_name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `payment_transaction` (
-  `transaction_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(40) DEFAULT NULL,
-  `cart_id` varchar(40) DEFAULT NULL,
-  `method` varchar(40) DEFAULT NULL,
-  `amount` decimal(10,2) DEFAULT NULL,
-  `transaction_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`transaction_id`),
-  KEY `user_id` (`user_id`),
-  KEY `cart_id` (`cart_id`),
-  CONSTRAINT `payment_transaction_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-  CONSTRAINT `payment_transaction_ibfk_2` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `product` (
   `product_id` varchar(40) NOT NULL DEFAULT (uuid()),
@@ -60,6 +50,34 @@ CREATE TABLE `product` (
   CONSTRAINT `product_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `product_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `cart_item` (
+  `cart_item_id` int NOT NULL AUTO_INCREMENT,
+  `cart_id` varchar(40) DEFAULT NULL,
+  `product_id` varchar(40) DEFAULT NULL,
+  `quantity` int DEFAULT NULL,
+  PRIMARY KEY (`cart_item_id`),
+  KEY `cart_id` (`cart_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `cart_item_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`),
+  CONSTRAINT `cart_item_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `payment_transaction` (
+  `transaction_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(40) DEFAULT NULL,
+  `cart_id` varchar(40) DEFAULT NULL,
+  `method` varchar(40) DEFAULT NULL,
+  `amount` decimal(10,2) DEFAULT NULL,
+  `transaction_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`transaction_id`),
+  KEY `user_id` (`user_id`),
+  KEY `cart_id` (`cart_id`),
+  CONSTRAINT `payment_transaction_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `payment_transaction_ibfk_2` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
 
 CREATE TABLE `product_review` (
   `review_id` varchar(40) NOT NULL DEFAULT (uuid()),
@@ -107,22 +125,5 @@ CREATE TABLE `shipping_process` (
   CONSTRAINT `shipping_process_ibfk_2` FOREIGN KEY (`shipper_id`) REFERENCES `shipper` (`shipper_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `user` (
-  `user_id` varchar(40) NOT NULL DEFAULT (uuid()),
-  `first_name` varchar(50) DEFAULT NULL,
-  `last_name` varchar(50) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `address` text,
-  `image_url` varchar(255) DEFAULT NULL,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `refresh_token` varchar(255) DEFAULT NULL,
-  `user_role` varchar(20) DEFAULT NULL,
-  `is_confirmed` bit(1) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 

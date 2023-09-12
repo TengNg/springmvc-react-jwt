@@ -4,9 +4,9 @@ VALUES ('A'), ('B'), ('C'), ('D');
 
 -- insert users
 INSERT INTO user (user_id, first_name, last_name, email, phone, address, image_url, username, password, user_role, created_at)
-VALUES ('d254354d-4c9a-11ee-a6b3-50ebf64e9cd9', 'John', 'Doe', 'john@example.com', '123-456-7890', '123 Main St', 'https://res.cloudinary.com/dqqtxpboj/image/upload/v1694006201/ormczuzyhdt8owyt0ehr.png', 'johndoe', '1234', 'ROLE_USER', NOW()));
-INSERT INTO user (first_name, last_name, email, phone, address, image_url, username, password, user_role, created_at)
-VALUES ('c2191b64-4c9a-11ee-a6b3-50ebf64e9cd9', 'Jane', 'Smith', 'jane@example.com', '987-654-3210', '456 Elm St', 'https://res.cloudinary.com/dqqtxpboj/image/upload/v1694006201/ormczuzyhdt8owyt0ehr.png', 'janesmith', '1234', 'ROLE_SELLER', NOW()));
+VALUES ('d254354d-4c9a-11ee-a6b3-50ebf64e9cd9', 'John', 'Doe', 'john@example.com', '123-456-7890', '123 Main St', 'https://res.cloudinary.com/dqqtxpboj/image/upload/v1694006201/ormczuzyhdt8owyt0ehr.png', 'johndoe', '1234', 'ROLE_USER', NOW());
+INSERT INTO user (user_id, first_name, last_name, email, phone, address, image_url, username, password, user_role, created_at)
+VALUES ('c2191b64-4c9a-11ee-a6b3-50ebf64e9cd9', 'Jane', 'Smith', 'jane@example.com', '987-654-3210', '456 Elm St', 'https://res.cloudinary.com/dqqtxpboj/image/upload/v1694006201/ormczuzyhdt8owyt0ehr.png', 'janesmith', '1234', 'ROLE_SELLER', NOW());
 
 -- insert products
 INSERT INTO product (user_id, name, description, image_url, price, category_id, created_at) VALUES ('c2191b64-4c9a-11ee-a6b3-50ebf64e9cd9', 'Product 1 - : 4', 'Product 1 - category_id: 4', 'https://res.cloudinary.com/dxxwcby8l/image/upload/v1647248652/dkeolz3ghc0eino87iec.jpg', 600000, 4, NOW());

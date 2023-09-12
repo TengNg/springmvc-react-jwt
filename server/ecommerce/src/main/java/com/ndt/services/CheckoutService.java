@@ -3,10 +3,13 @@ package com.ndt.services;
 import com.ndt.pojo.Cart;
 import com.ndt.pojo.PaymentTransaction;
 import com.ndt.pojo.Product;
+import com.ndt.pojo.Shipper;
+import com.ndt.pojo.ShippingProcess;
 import com.ndt.pojo.User;
 import com.ndt.repositories.CartRepository;
 import com.ndt.repositories.PaymentTransactionRepository;
 import com.ndt.repositories.ProductRepository;
+import com.ndt.repositories.ShippingProcessRepository;
 import com.ndt.repositories.UserRepository;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -26,6 +29,8 @@ public class CheckoutService {
     private CartRepository cartRepository;
     @Autowired
     private PaymentTransactionRepository paymentTransactionRepo;
+    @Autowired
+    private ShippingProcessRepository shippingProcessRepository;
 
     public Cart proceedCheckout(Map<String, Object> params) {
 		// cart cartItems paymentTransaction shipppingProcess
@@ -67,6 +72,16 @@ public class CheckoutService {
 		this.paymentTransactionRepo.saveTransaction(transaction);
 		return transaction;
 	}
+
+	public ShippingProcess saveProcess(String cartId) {
+		ShippingProcess process = new ShippingProcess();
+		process.setCartId(this.cartRepository.getCart(cartId));
+		process.setShipperId(new Shipper(1, "ShipperA"));
+		process.setShippingStatus("PENDING");
+		process.setShippingDate(new Date());
+		this.shippingProcessRepository.saveShippingProcess(process);
+		return process;
+	}	
 
 	public List<PaymentTransaction> getTransactionsByUserId(String userId) {
 		return this.paymentTransactionRepo.getTransactionsByUserId(userId);

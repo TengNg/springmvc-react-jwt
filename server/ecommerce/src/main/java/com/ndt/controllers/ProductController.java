@@ -151,7 +151,7 @@ public class ProductController {
 			consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
 			produces = {MediaType.APPLICATION_JSON_VALUE}
 	)
-	public ResponseEntity<?> addUser(@RequestParam Map<String, String> params, @RequestPart MultipartFile image) {
+	public ResponseEntity<?> addProduct(@RequestParam Map<String, String> params, @RequestPart MultipartFile image) {
 		if (image == null) {
 			Map<String, Object> data = new HashMap<>();
 			data.put("msg", "missing profile image");
@@ -160,6 +160,14 @@ public class ProductController {
 		Product newProduct = this.productService.addProduct(params, image);
 		Map<String, Object> data = new HashMap<>();
 		data.put("new_product", newProduct);
+		return new ResponseEntity<>(data, HttpStatus.CREATED);
+	}
+
+	@PostMapping(path = "/products/update")
+	public ResponseEntity<?> updateProduct(@RequestParam Map<String, Object> params) {
+		Product newProduct = this.productService.updateProduct(params);
+		Map<String, Object> data = new HashMap<>();
+		data.put("updated_product", newProduct);
 		return new ResponseEntity<>(data, HttpStatus.CREATED);
 	}
 }

@@ -10,7 +10,7 @@ import LOCAL_STORAGE_KEY from '../data/localStorageKey';
 
 export default function UserAccount() {
     const { auth, setAuth } = useAuth();
-    const { cart, setCart } = useCart();
+    const { cart, setCart, getTotalItems } = useCart();
     const [show, setShow] = useState(false);
     const navigate = useNavigate();
 
@@ -31,7 +31,8 @@ export default function UserAccount() {
                 phone: user.phone,
                 userProfileImage: user.imageUrl,
                 userRole: user.userRole,
-                sellerId: user.userId
+                sellerId: user.userId,
+                isConfirmed: user.isConfirmed
             });
         }
         getUserInformation();
@@ -101,7 +102,12 @@ export default function UserAccount() {
                             </div>
 
                             {auth?.userRole === "ROLE_SELLER"
-                                && <button onClick={() => navigate('/for-sellers')} className='text-[0.75rem] w-[95%] button--style--2'>
+                                && <button
+                                    onClick={() => {
+                                        if (!auth?.isConfirmed) return false;
+                                        navigate('/for-sellers')
+                                    }}
+                                    className={`text-[0.75rem] w-[95%] button--style--2 ${!auth?.isConfirmed && 'cursor-not-allowed'}`}>
                                     Your Shop
                                 </button>
                             }
@@ -109,7 +115,7 @@ export default function UserAccount() {
                             <button onClick={handleOpenUserCart} className='text-[0.75rem] w-[95%] button--style--2 flex--center gap-1'>
                                 Cart {cart.length > 0 && (
                                     <span className="flex--center w-[0.75rem] h-[0.75rem] bg-red-500 text-[0.5rem] text-white rounded-full p-1">
-                                        {cart.length}
+                                        {getTotalItems()}
                                     </span>
                                 )}
                             </button>

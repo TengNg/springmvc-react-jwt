@@ -8,7 +8,7 @@
     }
 
     .div--hover--style {
-        @apply hover:border-gray-600 hover:shadow-gray-600 cursor-pointer
+        @apply hover:border-gray-600 hover:shadow-gray-600
     }
 
     .button--style {
@@ -105,6 +105,14 @@ body {
 
 h1 {
     font-size: 3.5em;
+}
+
+td {
+    text-align: center;
+}
+
+td > div {
+    margin: 0 auto;
 }
 
 input[type=number]{
