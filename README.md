@@ -27,7 +27,7 @@
 
 ![Checkout Page](./images/screenshot2.png)
 
-![Purchase History](./images/screenShot4.png)
+![Purchase History](./images/screenshot4.png)
 
 ---
 
